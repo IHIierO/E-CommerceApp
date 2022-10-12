@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  Person.swift
 //  E-commerceApp
 //
 //  Created by Artem Vorobev on 12.10.2022.
@@ -7,13 +7,12 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class Person: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        view.backgroundColor = .green
     }
 
 
 }
-
