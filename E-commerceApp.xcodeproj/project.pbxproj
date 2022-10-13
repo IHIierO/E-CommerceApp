@@ -23,6 +23,7 @@
 		399AAB5928F72B4B003B2037 /* SerchAndList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399AAB5828F72B4B003B2037 /* SerchAndList.swift */; };
 		399AAB5B28F72B93003B2037 /* ShoppingCart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399AAB5A28F72B93003B2037 /* ShoppingCart.swift */; };
 		399AAB5D28F72BCF003B2037 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399AAB5C28F72BCF003B2037 /* Person.swift */; };
+		399AAB5F28F84477003B2037 /* Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399AAB5E28F84477003B2037 /* Header.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		399AAB5828F72B4B003B2037 /* SerchAndList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SerchAndList.swift; sourceTree = "<group>"; };
 		399AAB5A28F72B93003B2037 /* ShoppingCart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingCart.swift; sourceTree = "<group>"; };
 		399AAB5C28F72BCF003B2037 /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
+		399AAB5E28F84477003B2037 /* Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Header.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +135,7 @@
 				399AAB4F28F70788003B2037 /* DiscountsCell.swift */,
 				399AAB5228F708EF003B2037 /* CollectionsCell.swift */,
 				399AAB5428F7091A003B2037 /* TopRatedCell.swift */,
+				399AAB5E28F84477003B2037 /* Header.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -217,6 +220,7 @@
 				399AAB5728F728B8003B2037 /* TapButtonProtocol.swift in Sources */,
 				399AAB3128F6E82B003B2037 /* SceneDelegate.swift in Sources */,
 				399AAB4528F6EAF8003B2037 /* TabBar.swift in Sources */,
+				399AAB5F28F84477003B2037 /* Header.swift in Sources */,
 				399AAB5928F72B4B003B2037 /* SerchAndList.swift in Sources */,
 				399AAB5B28F72B93003B2037 /* ShoppingCart.swift in Sources */,
 				399AAB5528F7091A003B2037 /* TopRatedCell.swift in Sources */,

@@ -32,6 +32,12 @@ class Home: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .red
         setupCollectionView()
+        
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.navigationBar.tintColor = UIColor(hexString: "#393C39")
+        self.navigationController?.view.backgroundColor = .clear
     }
 
     private func setupCollectionView(){
@@ -43,6 +49,7 @@ class Home: UIViewController {
         collectionView.register(DiscountsCell.self, forCellWithReuseIdentifier: DiscountsCell.reuseId)
         collectionView.register(CollectionsCell.self, forCellWithReuseIdentifier: CollectionsCell.reuseId)
         collectionView.register(TopRatedCell.self, forCellWithReuseIdentifier: TopRatedCell.reuseId)
+        collectionView.register(Header.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
         
         setupDataSource()
         reloadData()
@@ -68,6 +75,25 @@ class Home: UIViewController {
                 return configure(cellType: TopRatedCell.self, with: itemIdentifier, for: indexPath)
             }
         })
+        
+        dataSource.supplementaryViewProvider = { (collectionView, kind, indexPath)  in
+            
+            guard let header = self.collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header", for: indexPath) as? Header else { fatalError("Header error") }
+            let section = SectionKind(rawValue: indexPath.section)
+            switch section{
+            
+            case .discounts:
+                header.headerLabel.text = "Акции"
+            case .collections:
+                header.headerLabel.text = "Коллекции"
+            case .topRated:
+                header.headerLabel.text = "Топ Рейтинг"
+            case .none:
+                print("error")
+            }
+            
+            return header
+        }
     }
     
     func reloadData(){
@@ -136,6 +162,9 @@ class Home: UIViewController {
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .groupPaging
         section.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(44))
+        let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
+        section.boundarySupplementaryItems = [header]
         return section
     }
     
@@ -153,6 +182,9 @@ class Home: UIViewController {
         group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8)
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(44))
+        let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
+        section.boundarySupplementaryItems = [header]
         return section
     }
     
@@ -171,6 +203,9 @@ class Home: UIViewController {
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuous
         section.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(44))
+        let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
+        section.boundarySupplementaryItems = [header]
         return section
     }
 }
