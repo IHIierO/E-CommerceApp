@@ -8,8 +8,11 @@
 import UIKit
 
 class TopRatedCell: UICollectionViewCell, SelfConfiguringCell {
+   
+    
     static var reuseId: String = "TopRatedCell"
-    weak var activeAlarmsCellDelegate: TapButtonProtocol?
+    
+    var favoriteButtonTapAction : (()->())?
     
     let topRatedImage: UIImageView = {
        let topRatedImage = UIImageView(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
@@ -24,8 +27,6 @@ class TopRatedCell: UICollectionViewCell, SelfConfiguringCell {
     
     let favoriteButton: UIButton = {
        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
-//        button.setImage(UIImage(systemName: "heart.circle"), for: .normal)
-//        button.imageView?.contentMode = .scaleAspectFit
         var config = UIButton.Configuration.plain()
         config.imagePadding = 4
         config.image = UIImage(systemName: "heart.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 40, weight: .bold, scale: .large))
@@ -52,7 +53,7 @@ class TopRatedCell: UICollectionViewCell, SelfConfiguringCell {
         return label
     }()
     
-    func configure(with itemIdentifier: Int) {
+    func configure(with itemIdentifier: Int, indexPath: IndexPath) {
         print(itemIdentifier)
     }
     
@@ -69,8 +70,7 @@ class TopRatedCell: UICollectionViewCell, SelfConfiguringCell {
     }
     
     @objc func addToFavorite(){
-        activeAlarmsCellDelegate?.buttonTapped()
-//        print("Add to Favorite")
+        favoriteButtonTapAction?()
     }
     
     required init?(coder: NSCoder) {
@@ -86,7 +86,7 @@ class TopRatedCell: UICollectionViewCell, SelfConfiguringCell {
             topRatedImage.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0),
         ])
         
-        self.contentView.addSubview(favoriteButton)
+        self.addSubview(favoriteButton)
         NSLayoutConstraint.activate([
             favoriteButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
             favoriteButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),

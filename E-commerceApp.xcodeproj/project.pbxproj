@@ -14,16 +14,16 @@
 		399AAB3B28F6E82C003B2037 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 399AAB3928F6E82C003B2037 /* LaunchScreen.storyboard */; };
 		399AAB4528F6EAF8003B2037 /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399AAB4428F6EAF8003B2037 /* TabBar.swift */; };
 		399AAB4828F6EB4E003B2037 /* ColorHex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399AAB4728F6EB4E003B2037 /* ColorHex.swift */; };
-		399AAB4A28F6ECA6003B2037 /* Favorite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399AAB4928F6ECA6003B2037 /* Favorite.swift */; };
+		399AAB4A28F6ECA6003B2037 /* Discounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399AAB4928F6ECA6003B2037 /* Discounts.swift */; };
 		399AAB4D28F706F5003B2037 /* SelfConfiguringCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399AAB4C28F706F5003B2037 /* SelfConfiguringCell.swift */; };
 		399AAB5028F70788003B2037 /* DiscountsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399AAB4F28F70788003B2037 /* DiscountsCell.swift */; };
 		399AAB5328F708EF003B2037 /* CollectionsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399AAB5228F708EF003B2037 /* CollectionsCell.swift */; };
 		399AAB5528F7091A003B2037 /* TopRatedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399AAB5428F7091A003B2037 /* TopRatedCell.swift */; };
-		399AAB5728F728B8003B2037 /* TapButtonProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399AAB5628F728B8003B2037 /* TapButtonProtocol.swift */; };
 		399AAB5928F72B4B003B2037 /* SerchAndList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399AAB5828F72B4B003B2037 /* SerchAndList.swift */; };
 		399AAB5B28F72B93003B2037 /* ShoppingCart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399AAB5A28F72B93003B2037 /* ShoppingCart.swift */; };
 		399AAB5D28F72BCF003B2037 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399AAB5C28F72BCF003B2037 /* Person.swift */; };
 		399AAB5F28F84477003B2037 /* Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399AAB5E28F84477003B2037 /* Header.swift */; };
+		399AAB6328F9782B003B2037 /* DiscountsPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399AAB6228F9782B003B2037 /* DiscountsPopup.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,16 +36,16 @@
 		399AAB3C28F6E82C003B2037 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		399AAB4428F6EAF8003B2037 /* TabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
 		399AAB4728F6EB4E003B2037 /* ColorHex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorHex.swift; sourceTree = "<group>"; };
-		399AAB4928F6ECA6003B2037 /* Favorite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Favorite.swift; sourceTree = "<group>"; };
+		399AAB4928F6ECA6003B2037 /* Discounts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Discounts.swift; sourceTree = "<group>"; };
 		399AAB4C28F706F5003B2037 /* SelfConfiguringCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfConfiguringCell.swift; sourceTree = "<group>"; };
 		399AAB4F28F70788003B2037 /* DiscountsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscountsCell.swift; sourceTree = "<group>"; };
 		399AAB5228F708EF003B2037 /* CollectionsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionsCell.swift; sourceTree = "<group>"; };
 		399AAB5428F7091A003B2037 /* TopRatedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopRatedCell.swift; sourceTree = "<group>"; };
-		399AAB5628F728B8003B2037 /* TapButtonProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapButtonProtocol.swift; sourceTree = "<group>"; };
 		399AAB5828F72B4B003B2037 /* SerchAndList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SerchAndList.swift; sourceTree = "<group>"; };
 		399AAB5A28F72B93003B2037 /* ShoppingCart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingCart.swift; sourceTree = "<group>"; };
 		399AAB5C28F72BCF003B2037 /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		399AAB5E28F84477003B2037 /* Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Header.swift; sourceTree = "<group>"; };
+		399AAB6228F9782B003B2037 /* DiscountsPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscountsPopup.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,12 +94,8 @@
 		399AAB4228F6EA4E003B2037 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				399AAB4428F6EAF8003B2037 /* TabBar.swift */,
-				399AAB3228F6E82B003B2037 /* Home.swift */,
-				399AAB4928F6ECA6003B2037 /* Favorite.swift */,
-				399AAB5828F72B4B003B2037 /* SerchAndList.swift */,
-				399AAB5A28F72B93003B2037 /* ShoppingCart.swift */,
-				399AAB5C28F72BCF003B2037 /* Person.swift */,
+				399AAB6028F9771F003B2037 /* Main Controllers */,
+				399AAB6128F97744003B2037 /* Sub Controllers */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -124,7 +120,6 @@
 			isa = PBXGroup;
 			children = (
 				399AAB4C28F706F5003B2037 /* SelfConfiguringCell.swift */,
-				399AAB5628F728B8003B2037 /* TapButtonProtocol.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -138,6 +133,27 @@
 				399AAB5E28F84477003B2037 /* Header.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		399AAB6028F9771F003B2037 /* Main Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				399AAB4428F6EAF8003B2037 /* TabBar.swift */,
+				399AAB3228F6E82B003B2037 /* Home.swift */,
+				399AAB5828F72B4B003B2037 /* SerchAndList.swift */,
+				399AAB5A28F72B93003B2037 /* ShoppingCart.swift */,
+				399AAB5C28F72BCF003B2037 /* Person.swift */,
+			);
+			path = "Main Controllers";
+			sourceTree = "<group>";
+		};
+		399AAB6128F97744003B2037 /* Sub Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				399AAB4928F6ECA6003B2037 /* Discounts.swift */,
+				399AAB6228F9782B003B2037 /* DiscountsPopup.swift */,
+			);
+			path = "Sub Controllers";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -216,13 +232,13 @@
 				399AAB4828F6EB4E003B2037 /* ColorHex.swift in Sources */,
 				399AAB5D28F72BCF003B2037 /* Person.swift in Sources */,
 				399AAB2F28F6E82B003B2037 /* AppDelegate.swift in Sources */,
-				399AAB4A28F6ECA6003B2037 /* Favorite.swift in Sources */,
-				399AAB5728F728B8003B2037 /* TapButtonProtocol.swift in Sources */,
+				399AAB4A28F6ECA6003B2037 /* Discounts.swift in Sources */,
 				399AAB3128F6E82B003B2037 /* SceneDelegate.swift in Sources */,
 				399AAB4528F6EAF8003B2037 /* TabBar.swift in Sources */,
 				399AAB5F28F84477003B2037 /* Header.swift in Sources */,
 				399AAB5928F72B4B003B2037 /* SerchAndList.swift in Sources */,
 				399AAB5B28F72B93003B2037 /* ShoppingCart.swift in Sources */,
+				399AAB6328F9782B003B2037 /* DiscountsPopup.swift in Sources */,
 				399AAB5528F7091A003B2037 /* TopRatedCell.swift in Sources */,
 				399AAB5328F708EF003B2037 /* CollectionsCell.swift in Sources */,
 			);
@@ -370,6 +386,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -401,6 +418,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

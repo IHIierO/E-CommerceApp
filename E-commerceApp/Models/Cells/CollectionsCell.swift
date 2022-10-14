@@ -8,6 +8,8 @@
 import UIKit
 
 class CollectionsCell: UICollectionViewCell, SelfConfiguringCell {
+   
+    
     static var reuseId: String = "CollectionsCell"
     
     let label: UILabel = {
@@ -29,11 +31,12 @@ class CollectionsCell: UICollectionViewCell, SelfConfiguringCell {
     }()
     
     let imageData = [
-    "kid", "men", "women"
+    "kid", "men", "women","kid", "men", "women","kid", "men",
     ]
     
-    func configure(with itemIdentifier: Int) {
-        collectionImage.image = UIImage(named: "\(imageData[0])")
+    func configure(with itemIdentifier: Int, indexPath: IndexPath) {
+        collectionImage.image = UIImage(named: "\(imageData[indexPath.row])")
+        label.text = "\(imageData[indexPath.row])"
     }
     
     override init(frame: CGRect) {

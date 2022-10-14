@@ -27,6 +27,12 @@ class Home: UIViewController {
     var dataSource: UICollectionViewDiffableDataSource<SectionKind, Int>! = nil
     
     var collectionView: UICollectionView! = nil
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let tabBar = self.tabBarController as! TabBar
+        tabBar.showTabBar()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +44,7 @@ class Home: UIViewController {
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.navigationBar.tintColor = UIColor(hexString: "#393C39")
         self.navigationController?.view.backgroundColor = .clear
+        
     }
 
     private func setupCollectionView(){
@@ -50,6 +57,7 @@ class Home: UIViewController {
         collectionView.register(CollectionsCell.self, forCellWithReuseIdentifier: CollectionsCell.reuseId)
         collectionView.register(TopRatedCell.self, forCellWithReuseIdentifier: TopRatedCell.reuseId)
         collectionView.register(Header.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
+        collectionView.delegate = self
         
         setupDataSource()
         reloadData()
@@ -58,6 +66,8 @@ class Home: UIViewController {
     
     func configure<T: SelfConfiguringCell>(cellType: T.Type, with itemIdentifier: Int, for indexPath: IndexPath) -> T {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellType.reuseId, for: indexPath) as? T else { fatalError("Error: \(cellType)")}
+        cell.configure(with: itemIdentifier, indexPath: indexPath)
+        
         return cell
     }
     
@@ -72,7 +82,13 @@ class Home: UIViewController {
             case .collections:
                 return configure(cellType: CollectionsCell.self, with: itemIdentifier, for: indexPath)
             case .topRated:
-                return configure(cellType: TopRatedCell.self, with: itemIdentifier, for: indexPath)
+                
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TopRatedCell.reuseId, for: indexPath) as! TopRatedCell
+                cell.favoriteButtonTapAction = { () in
+                    print("add favorite")
+                }
+                
+                return cell
             }
         })
         
@@ -210,10 +226,30 @@ class Home: UIViewController {
     }
 }
 
-extension Home: TapButtonProtocol{
-    
-    func buttonTapped() {
-        print("Add to Favorite")
+extension Home: UICollectionViewDelegate{
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let section = SectionKind(rawValue: indexPath.section)
+        
+        switch section{
+        case .discounts:
+            let discountsPopup = DiscountsPopup()
+            discountsPopup.config(indexPath: indexPath)
+            discountsPopup.moreInfoButtonTappedCallback = {
+                () in
+                discountsPopup.animateOut()
+                let discounts = Discounts()
+                discounts.discountData = discountsPopup.discountData
+                discounts.config(indexPath: indexPath)
+                self.navigationController?.pushViewController(discounts, animated: true)
+            }
+            view.addSubview(discountsPopup)
+        case .collections:
+            print("\(section)")
+        case .topRated:
+            print("\(section)")
+        case .none:
+            print("error")
+        }
     }
 }
 

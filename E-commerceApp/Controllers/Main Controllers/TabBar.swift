@@ -29,17 +29,20 @@ class TabBar: UITabBarController{
         let shoppingCartViewController = createNavigationControllers(
             viewControllers: ShoppingCart(),
             tabBarItemName: "ShoppingCart",
-            tabBarItemImage: "heart")
+            tabBarItemImage: "heart"
+        )
         
         let searchAndListViewController = createNavigationControllers(
             viewControllers: SerchAndList(),
             tabBarItemName: "Search",
-            tabBarItemImage: "doc.text.magnifyingglass")
+            tabBarItemImage: "doc.text.magnifyingglass"
+        )
         
         let personViewController = createNavigationControllers(
             viewControllers: Person(),
             tabBarItemName: "Person",
-            tabBarItemImage: "person")
+            tabBarItemImage: "person"
+        )
         
         viewControllers = [homeController,searchAndListViewController, shoppingCartViewController, personViewController]
     }
@@ -48,7 +51,6 @@ class TabBar: UITabBarController{
         
         let tabBarItem = UITabBarItem(title: tabBarItemName, image: UIImage(systemName: tabBarItemImage)?.withAlignmentRectInsets(.init(top: 10, left: 0, bottom: 0, right: 0)), tag: 0)
         tabBarItem.titlePositionAdjustment = .init(horizontal: 0, vertical: 10 )
-        
         let navigationController = UINavigationController(rootViewController: viewControllers)
         navigationController.tabBarItem = tabBarItem
         
