@@ -1,14 +1,13 @@
 //
-//  SerchAndList.swift
+//  FirstMenuController.swift
 //  E-commerceApp
 //
-//  Created by Artem Vorobev on 12.10.2022.
+//  Created by Artem Vorobev on 17.10.2022.
 //
-
 
 import UIKit
 
-class SerchAndList: UIViewController {
+class FirstMenuController: UIViewController {
     
     private let searchBar = UISearchController(searchResultsController: nil)
     private let tableView = UITableView()
@@ -38,12 +37,11 @@ class SerchAndList: UIViewController {
         tableView.delegate = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         
-        
         menuTextData = [
-        "Косметика",
-        "Банные принадлежности",
-        "Бытовые принадлежности",
-        "Еда",
+        "Для лица",
+        "Для тела",
+        "Для рук",
+        "Уходовая",
         ]
         
         view.addSubview(tableView)
@@ -55,10 +53,11 @@ class SerchAndList: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
         ])
     }
+
 }
 
 //MARK: UISearchBarDelegate, UISearchResultsUpdating
-extension SerchAndList: UISearchBarDelegate, UISearchResultsUpdating {
+extension FirstMenuController: UISearchBarDelegate, UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         let searchText = searchController.searchBar.text!
         if !searchText.isEmpty{
@@ -73,12 +72,13 @@ extension SerchAndList: UISearchBarDelegate, UISearchResultsUpdating {
         search = false
         tableView.reloadData()
     }
+    
+    
 }
 
 //MARK: UITableViewDelegate, UITableViewDataSource
-extension SerchAndList: UITableViewDelegate, UITableViewDataSource {
+extension FirstMenuController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         if search{
             let searchText = searchBar.searchBar.text!
             let filterMenuTextData = menuTextData.filter({ $0.lowercased().contains(searchText.lowercased()) })
@@ -86,7 +86,6 @@ extension SerchAndList: UITableViewDelegate, UITableViewDataSource {
         }else{
             return menuTextData.count
         }
-        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -106,37 +105,9 @@ extension SerchAndList: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch indexPath{
-        case [0,0]:
-            let firstMenuController = FirstMenuController()
-            navigationController?.pushViewController(firstMenuController, animated: true)
-        case [0,1]:
-            print("\(menuTextData[indexPath.row])")
-        case [0,2]:
-            print("\(menuTextData[indexPath.row])")
-        case [0,3]:
-            print("\(menuTextData[indexPath.row])")
-        
-        default:
-            print("you dont select catigories")
-        }
-    }
-}
-
-// MARK: - SwiftUI
-import SwiftUI
-struct SerchAndListProvider: PreviewProvider{
-    static var previews: some View {
-        ContainerView().edgesIgnoringSafeArea(.all)
-    }
-    struct ContainerView: UIViewControllerRepresentable{
-        let serchAndList = TabBar()
-        func makeUIViewController(context: Context) -> some TabBar {
-            return serchAndList
-        }
-        func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
-            
-        }
+        let productsViewController = ProductsViewController()
+        productsViewController.title = "\(menuTextData[indexPath.row])"
+        navigationController?.pushViewController(productsViewController, animated: true)
     }
 }
 

@@ -36,7 +36,6 @@ class Home: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .red
         setupCollectionView()
         
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
@@ -255,7 +254,7 @@ extension Home: UICollectionViewDelegate{
 
 // MARK: - SwiftUI
 import SwiftUI
-struct FlowProvider: PreviewProvider{
+struct TabBarProvider: PreviewProvider{
     static var previews: some View {
         ContainerView().edgesIgnoringSafeArea(.all)
     }
