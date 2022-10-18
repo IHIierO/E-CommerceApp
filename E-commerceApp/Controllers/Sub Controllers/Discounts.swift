@@ -11,9 +11,8 @@ class Discounts: UIViewController {
     
     var discountData:[String] = []
     
-    private let discountLabel: UILabel = {
+    let discountLabel: UILabel = {
         let label = UILabel()
-        label.text = "Акция 30%"
         label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -31,7 +30,7 @@ class Discounts: UIViewController {
     }
     
     func config(indexPath: IndexPath) {
-        discountLabel.text = "Акция \(discountData[indexPath.row])%"
+        discountLabel.text = products[0].productName
     }
 
     private func setConstraints(){

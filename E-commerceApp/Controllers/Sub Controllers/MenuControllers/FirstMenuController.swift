@@ -13,6 +13,7 @@ class FirstMenuController: UIViewController {
     private let tableView = UITableView()
     private var menuTextData:[String] = []
     private var search = false
+   
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,7 +54,6 @@ class FirstMenuController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
         ])
     }
-
 }
 
 //MARK: UISearchBarDelegate, UISearchResultsUpdating
@@ -108,6 +108,17 @@ extension FirstMenuController: UITableViewDelegate, UITableViewDataSource {
         let productsViewController = ProductsViewController()
         productsViewController.title = "\(menuTextData[indexPath.row])"
         navigationController?.pushViewController(productsViewController, animated: true)
+        
+        switch indexPath {
+        case [0,0]:
+            let curentCategory = products.filter( {$0.productCategory == "cream for face" })
+            productsViewController.productImage.image = UIImage(named: curentCategory[0].productImage!)
+        case [0,2]:
+            let curentCategory = products.filter( {$0.productCategory == "cream for hands" })
+            productsViewController.productImage.image = UIImage(named: curentCategory[0].productImage!)
+        default:
+            print("no index")
+        }
     }
 }
 

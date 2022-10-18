@@ -28,6 +28,8 @@ class Home: UIViewController {
     
     var collectionView: UICollectionView! = nil
     
+    var curentTopRated = products.filter({$0.rating >= 10})
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         let tabBar = self.tabBarController as! TabBar
@@ -84,9 +86,11 @@ class Home: UIViewController {
                 
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TopRatedCell.reuseId, for: indexPath) as! TopRatedCell
                 cell.favoriteButtonTapAction = { () in
-                    print("add favorite")
+                    self.curentTopRated[indexPath.row].favorite = true
                 }
-                
+                cell.topRatedImage.image = UIImage(named: curentTopRated[indexPath.row].productImage!)
+                cell.nameLabel.text = curentTopRated[indexPath.row].productName
+                cell.priceLabel.text = curentTopRated[indexPath.row].price
                 return cell
             }
         })
@@ -130,7 +134,7 @@ class Home: UIViewController {
                 snapshot.appendSections([sectionKind])
                 snapshot.appendItems(Array(itemOffset..<itemUpperbount))
             case .topRated:
-                let itemPerSection = 6
+                let itemPerSection = curentTopRated.count
                 let itemOffset = sectionKind.columnCount * itemPerSection
                 let itemUpperbount = itemOffset + itemPerSection
                 snapshot.appendSections([sectionKind])
@@ -225,23 +229,57 @@ class Home: UIViewController {
     }
 }
 
+// MARK: - UICollectionViewDelegate
 extension Home: UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let section = SectionKind(rawValue: indexPath.section)
-        
+        let discountsPopup = DiscountsPopup()
+        discountsPopup.config(indexPath: indexPath)
+        view.addSubview(discountsPopup)
         switch section{
         case .discounts:
-            let discountsPopup = DiscountsPopup()
-            discountsPopup.config(indexPath: indexPath)
-            discountsPopup.moreInfoButtonTappedCallback = {
-                () in
-                discountsPopup.animateOut()
-                let discounts = Discounts()
-                discounts.discountData = discountsPopup.discountData
-                discounts.config(indexPath: indexPath)
-                self.navigationController?.pushViewController(discounts, animated: true)
+            switch indexPath{
+            case [0,0]:
+                discountsPopup.moreInfoButtonTappedCallback = {
+                    () in
+                    discountsPopup.animateOut()
+                    let discounts = Discounts()
+                    let curendDiscoun = products.filter({$0.discount == 10})
+                    print("\(curendDiscoun)")
+                    discounts.discountLabel.text = curendDiscoun[0].productName
+                    discounts.discountData = discountsPopup.discountData
+//                    discounts.config(indexPath: indexPath)
+                    self.navigationController?.pushViewController(discounts, animated: true)
+                }
+            case [0,1]:
+                discountsPopup.moreInfoButtonTappedCallback = {
+                    () in
+                    discountsPopup.animateOut()
+                    let discounts = Discounts()
+                    let curendDiscoun = products.filter({$0.discount == 20})
+                    print("\(curendDiscoun)")
+                    discounts.discountLabel.text = curendDiscoun[0].productName
+                    discounts.discountData = discountsPopup.discountData
+//                    discounts.config(indexPath: indexPath)
+                    self.navigationController?.pushViewController(discounts, animated: true)
+                }
+            case [0,2]:
+                discountsPopup.moreInfoButtonTappedCallback = {
+                    () in
+                    discountsPopup.animateOut()
+                    let discounts = Discounts()
+                    let curendDiscoun = products.filter({$0.discount == 30})
+                    print("\(curendDiscoun)")
+                    discounts.discountLabel.text = curendDiscoun[0].productName
+                    discounts.discountData = discountsPopup.discountData
+//                    discounts.config(indexPath: indexPath)
+                    self.navigationController?.pushViewController(discounts, animated: true)
+                }
+                
+            default:
+                print("no index")
             }
-            view.addSubview(discountsPopup)
+            
         case .collections:
             print("\(section)")
         case .topRated:

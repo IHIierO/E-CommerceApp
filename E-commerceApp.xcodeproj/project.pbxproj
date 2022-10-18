@@ -27,6 +27,7 @@
 		399AAB6928FD99D7003B2037 /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399AAB6828FD99D7003B2037 /* MenuCell.swift */; };
 		399AAB6C28FD9E3E003B2037 /* FirstMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399AAB6B28FD9E3D003B2037 /* FirstMenuController.swift */; };
 		399AAB6E28FDA02A003B2037 /* ProductsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399AAB6D28FDA02A003B2037 /* ProductsViewController.swift */; };
+		399AAB7028FEA8C5003B2037 /* ProductModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399AAB6F28FEA8C5003B2037 /* ProductModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +53,7 @@
 		399AAB6828FD99D7003B2037 /* MenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCell.swift; sourceTree = "<group>"; };
 		399AAB6B28FD9E3D003B2037 /* FirstMenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstMenuController.swift; sourceTree = "<group>"; };
 		399AAB6D28FDA02A003B2037 /* ProductsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsViewController.swift; sourceTree = "<group>"; };
+		399AAB6F28FEA8C5003B2037 /* ProductModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +111,7 @@
 		399AAB4328F6EA69003B2037 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				399AAB6F28FEA8C5003B2037 /* ProductModel.swift */,
 				399AAB4E28F7075B003B2037 /* Cells */,
 			);
 			path = Models;
@@ -269,6 +272,7 @@
 				399AAB2F28F6E82B003B2037 /* AppDelegate.swift in Sources */,
 				399AAB4A28F6ECA6003B2037 /* Discounts.swift in Sources */,
 				399AAB3128F6E82B003B2037 /* SceneDelegate.swift in Sources */,
+				399AAB7028FEA8C5003B2037 /* ProductModel.swift in Sources */,
 				399AAB4528F6EAF8003B2037 /* TabBar.swift in Sources */,
 				399AAB5F28F84477003B2037 /* Header.swift in Sources */,
 				399AAB5928F72B4B003B2037 /* SerchAndList.swift in Sources */,
