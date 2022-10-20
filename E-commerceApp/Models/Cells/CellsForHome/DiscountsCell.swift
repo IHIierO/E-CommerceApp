@@ -30,7 +30,7 @@ class DiscountsCell: UICollectionViewCell, SelfConfiguringCell {
     "discont_50"
     ]
     
-    func configure(with itemIdentifier: Int, indexPath: IndexPath) {
+    func configure(with itemIdentifier: Int, indexPath: IndexPath, products: [Product]) {
         discontImage.image = UIImage(named: "\(discontImageDate[indexPath.row])")
     }
     

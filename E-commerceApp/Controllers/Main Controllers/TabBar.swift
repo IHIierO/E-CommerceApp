@@ -33,7 +33,7 @@ class TabBar: UITabBarController{
         )
         
         let searchAndListViewController = createNavigationControllers(
-            viewControllers: SerchAndList(),
+            viewControllers: SearchAndList(),
             tabBarItemName: "Search",
             tabBarItemImage: "doc.text.magnifyingglass"
         )

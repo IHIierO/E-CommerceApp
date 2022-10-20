@@ -1,24 +1,22 @@
 //
-//  FirstMenuController.swift
+//  SearchAndList.swift
 //  E-commerceApp
 //
-//  Created by Artem Vorobev on 17.10.2022.
+//  Created by Artem Vorobev on 12.10.2022.
 //
+
 
 import UIKit
 
-class FirstMenuController: UIViewController {
+class SearchAndList: UIViewController {
     
     private let searchBar = UISearchController(searchResultsController: nil)
     private let tableView = UITableView()
     private var menuTextData:[String] = []
     private var search = false
-   
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
         setupViewController()
         setupTableVIew()
     }
@@ -37,14 +35,13 @@ class FirstMenuController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        
         menuTextData = [
         "Для лица",
         "Для тела",
         "Для рук",
-        "Уходовая",
+        "Для волос",
+        "Для дома"
         ]
-        
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -57,7 +54,7 @@ class FirstMenuController: UIViewController {
 }
 
 //MARK: UISearchBarDelegate, UISearchResultsUpdating
-extension FirstMenuController: UISearchBarDelegate, UISearchResultsUpdating {
+extension SearchAndList: UISearchBarDelegate, UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         let searchText = searchController.searchBar.text!
         if !searchText.isEmpty{
@@ -72,13 +69,12 @@ extension FirstMenuController: UISearchBarDelegate, UISearchResultsUpdating {
         search = false
         tableView.reloadData()
     }
-    
-    
 }
 
 //MARK: UITableViewDelegate, UITableViewDataSource
-extension FirstMenuController: UITableViewDelegate, UITableViewDataSource {
+extension SearchAndList: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         if search{
             let searchText = searchBar.searchBar.text!
             let filterMenuTextData = menuTextData.filter({ $0.lowercased().contains(searchText.lowercased()) })
@@ -86,6 +82,7 @@ extension FirstMenuController: UITableViewDelegate, UITableViewDataSource {
         }else{
             return menuTextData.count
         }
+        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -96,7 +93,9 @@ extension FirstMenuController: UITableViewDelegate, UITableViewDataSource {
         if search {
             let searchText = searchBar.searchBar.text!
             let filterMenuTextData = menuTextData.filter({ $0.lowercased().contains(searchText.lowercased()) })
-            cell.textLabel?.text = "\(filterMenuTextData[indexPath.row])"
+            var configure = cell.defaultContentConfiguration()
+            configure.text = "\(filterMenuTextData[indexPath.row])"
+            cell.contentConfiguration = configure
         }else{
             cell.textLabel?.text = "\(menuTextData[indexPath.row])"
         }
@@ -105,20 +104,54 @@ extension FirstMenuController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let productsViewController = ProductsViewController()
-        productsViewController.title = "\(menuTextData[indexPath.row])"
-        navigationController?.pushViewController(productsViewController, animated: true)
-        
-        switch indexPath {
+        switch indexPath{
         case [0,0]:
-            let curentCategory = products.filter( {$0.productCategory == "cream for face" })
-            productsViewController.productImage.image = UIImage(named: curentCategory[0].productImage!)
+            let creamForFace = products.filter({$0.productCategory == "cream for face"})
+            
+            let productsViewController = ProductsViewController()
+            productsViewController.title = "\(menuTextData[indexPath.row])"
+            productsViewController.curentProducts = creamForFace
+            
+            navigationController?.pushViewController(productsViewController, animated: true)
+        case [0,1]:
+            let productsViewController = ProductsViewController()
+            productsViewController.title = "\(menuTextData[indexPath.row])"
+            navigationController?.pushViewController(productsViewController, animated: true)
         case [0,2]:
-            let curentCategory = products.filter( {$0.productCategory == "cream for hands" })
-            productsViewController.productImage.image = UIImage(named: curentCategory[0].productImage!)
+            let filters = Filter(id: "2", names: ["Delete filters", "50ml", "125ml",])
+            let creamForHands = products.filter({$0.productCategory == "cream for hands"})
+            let productsViewController = ProductsViewController()
+            productsViewController.title = "\(menuTextData[indexPath.row])"
+            productsViewController.curentProducts = creamForHands
+            productsViewController.filters = filters
+            navigationController?.pushViewController(productsViewController, animated: true)
+        case [0,3]:
+            let filters = Filter(id: "3", names: ["Delete filters", "50ml", "125ml",])
+            let creamForHands = products.filter({$0.productCategory == "shampo"})
+            let productsViewController = ProductsViewController()
+            productsViewController.title = "\(menuTextData[indexPath.row])"
+            productsViewController.curentProducts = creamForHands
+            productsViewController.filters = filters
+            navigationController?.pushViewController(productsViewController, animated: true)
+        case [0,4]:
+            let productsViewController = ProductsViewController()
+            productsViewController.title = "\(menuTextData[indexPath.row])"
+            navigationController?.pushViewController(productsViewController, animated: true)
+        
         default:
-            print("no index")
+            print("you dont select catigories")
         }
+    }
+}
+
+// MARK: - SwiftUI
+import SwiftUI
+struct SerchAndListProvider: PreviewProvider{
+    static var previews: some View {
+        UIViewControllerPreview {
+            let vc = TabBar()
+            return vc
+        }.edgesIgnoringSafeArea(.all)
     }
 }
 

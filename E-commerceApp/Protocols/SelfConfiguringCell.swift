@@ -10,5 +10,5 @@ import UIKit
 
 protocol SelfConfiguringCell{
     static var reuseId: String {get}
-    func configure(with itemIdentifier: Int, indexPath: IndexPath)
+    func configure(with itemIdentifier: Int, indexPath: IndexPath, products: [Product])
 }

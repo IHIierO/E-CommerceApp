@@ -1,5 +1,5 @@
 //
-//  CollectionsCell.swift
+//  NewestCell.swift
 //  E-commerceApp
 //
 //  Created by Artem Vorobev on 12.10.2022.
@@ -7,9 +7,10 @@
 
 import UIKit
 
-class CollectionsCell: UICollectionViewCell, SelfConfiguringCell {
-   
+class NewestCell: UICollectionViewCell, SelfConfiguringCell {
     
+    var productData: [Product] = []
+   
     static var reuseId: String = "CollectionsCell"
     
     let label: UILabel = {
@@ -34,9 +35,9 @@ class CollectionsCell: UICollectionViewCell, SelfConfiguringCell {
     "kid", "men", "women","kid", "men", "women","kid", "men",
     ]
     
-    func configure(with itemIdentifier: Int, indexPath: IndexPath) {
-        collectionImage.image = UIImage(named: "\(imageData[indexPath.row])")
-        label.text = "\(imageData[indexPath.row])"
+    func configure(with itemIdentifier: Int, indexPath: IndexPath, products: [Product]) {
+        collectionImage.image = UIImage(named: "\(products[indexPath.row].productImage!)")
+        label.text = "\(products[indexPath.row].productName)"
     }
     
     override init(frame: CGRect) {
