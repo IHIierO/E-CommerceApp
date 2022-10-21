@@ -73,7 +73,7 @@ var products: [Product] = [
           productImage: "shampo_1",
           rating: 23,
          favorite: true,
-         volume: 50),
+         volume: 100),
     .init(id: "Shampo 2",
           productName: "Shampo 2",
           productDescription: "with calogen",
@@ -82,6 +82,6 @@ var products: [Product] = [
           discount: 10,
           productImage: "shampo_2",
           rating: 5,
-         volume: 125,
+         volume: 200,
          newest: true),
 ]

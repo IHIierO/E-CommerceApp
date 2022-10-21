@@ -46,8 +46,8 @@ class ProductsViewController: UIViewController {
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.backgroundColor = UIColor(hexString: "#f5f5dc")
         view.addSubview(collectionView)
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "menu")
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "products")
+        collectionView.register(ProductsMenuCell.self, forCellWithReuseIdentifier: ProductsMenuCell.reuseId)
+        collectionView.register(ProductsCell.self, forCellWithReuseIdentifier: ProductsCell.reuseId)
         collectionView.register(Header.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
         collectionView.delegate = self
         collectionViewManageData.setupDataSource(collectionView: collectionView, curentProducts: curentProducts, filters: filters)
@@ -69,7 +69,7 @@ class ProductsViewController: UIViewController {
         }
         
         let config = UICollectionViewCompositionalLayoutConfiguration()
-        config.interSectionSpacing = 20
+        config.interSectionSpacing = 10
         layout.configuration = config
         
         return layout
@@ -89,7 +89,7 @@ class ProductsViewController: UIViewController {
         group.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 4, bottom: 8, trailing: 4)
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuous
-        section.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 4, bottom: 0, trailing: 4)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 4, bottom: 8, trailing: 4)
 //        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(44))
 //        let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
 //        section.boundarySupplementaryItems = [header]
@@ -99,15 +99,15 @@ class ProductsViewController: UIViewController {
     private func createProductsSection() -> NSCollectionLayoutSection {
         
         let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(0.25),
+            widthDimension: .fractionalWidth(0.5),
             heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4)
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .fractionalWidth(0.3))
+            heightDimension: .fractionalHeight(0.35))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8)
+        group.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0)
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(24))
@@ -132,16 +132,34 @@ extension ProductsViewController: UICollectionViewDelegate{
                 collectionViewManageData.reloadData(curentProducts: curentProducts, filters: filters)
 //                collectionView.reloadData()
             case [0,1]:
-                let ocurentMl = curentProducts.filter({$0.volume == 50})
-                collectionViewManageData.setupDataSource(collectionView: collectionView, curentProducts: ocurentMl, filters: filters)
-                collectionViewManageData.reloadData(curentProducts: ocurentMl, filters: filters)
-//                collectionView.reloadData()
+                if title == "Для рук"{
+                    let ocurentMl = curentProducts.filter({$0.volume == 50})
+                    collectionViewManageData.setupDataSource(collectionView: collectionView, curentProducts: ocurentMl, filters: filters)
+                    collectionViewManageData.reloadData(curentProducts: ocurentMl, filters: filters)
+    //                collectionView.reloadData()
+                }
+                
+                if title == "Для волос"{
+                    let ocurentMl = curentProducts.filter({$0.volume == 100})
+                    collectionViewManageData.setupDataSource(collectionView: collectionView, curentProducts: ocurentMl, filters: filters)
+                    collectionViewManageData.reloadData(curentProducts: ocurentMl, filters: filters)
+    //                collectionView.reloadData()
+                }
                 
             case [0,2]:
-                let ocurentMl = curentProducts.filter({$0.volume == 125})
-                collectionViewManageData.setupDataSource(collectionView: collectionView, curentProducts: ocurentMl, filters: filters)
-                collectionViewManageData.reloadData(curentProducts: ocurentMl, filters: filters)
-//                collectionView.reloadData()
+                if title == "Для рук"{
+                    let ocurentMl = curentProducts.filter({$0.volume == 125})
+                    collectionViewManageData.setupDataSource(collectionView: collectionView, curentProducts: ocurentMl, filters: filters)
+                    collectionViewManageData.reloadData(curentProducts: ocurentMl, filters: filters)
+    //                collectionView.reloadData()
+                }
+                
+                if title == "Для волос"{
+                    let ocurentMl = curentProducts.filter({$0.volume == 200})
+                    collectionViewManageData.setupDataSource(collectionView: collectionView, curentProducts: ocurentMl, filters: filters)
+                    collectionViewManageData.reloadData(curentProducts: ocurentMl, filters: filters)
+    //                collectionView.reloadData()
+                }
             default:
                 print("error")
             }

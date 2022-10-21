@@ -126,7 +126,7 @@ extension SearchAndList: UITableViewDelegate, UITableViewDataSource {
             productsViewController.filters = filters
             navigationController?.pushViewController(productsViewController, animated: true)
         case [0,3]:
-            let filters = Filter(id: "3", names: ["Delete filters", "50ml", "125ml",])
+            let filters = Filter(id: "3", names: ["Delete filters", "100ml", "200ml",])
             let creamForHands = products.filter({$0.productCategory == "shampo"})
             let productsViewController = ProductsViewController()
             productsViewController.title = "\(menuTextData[indexPath.row])"
