@@ -7,8 +7,7 @@
 
 import UIKit
 
-class DiscountsCell: UICollectionViewCell, SelfConfiguringCell {
-    
+class DiscountsCell: UICollectionViewCell{
     
     static var reuseId: String = "DiscountsCell"
     
@@ -30,7 +29,7 @@ class DiscountsCell: UICollectionViewCell, SelfConfiguringCell {
     "discont_50"
     ]
     
-    func configure(with itemIdentifier: Int, indexPath: IndexPath, products: [Product]) {
+    func configure(with itemIdentifier: Int, indexPath: IndexPath) {
         discontImage.image = UIImage(named: "\(discontImageDate[indexPath.row])")
     }
     

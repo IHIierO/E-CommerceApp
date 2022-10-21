@@ -11,14 +11,12 @@ class ProductsViewController: UIViewController {
     var curentProducts: [Product] = []
     var filters: Filter! = nil
     
-    var dataSource: UICollectionViewDiffableDataSource<SectionKind, Int>! = nil
-    
     var collectionView: UICollectionView! = nil
     
     private let searchBar = UISearchController(searchResultsController: nil)
     private var search = false
     
-    let collectionViewManageData = CollectionViewManageData()
+    let collectionViewManageData = ProductsCollectionViewManageData()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -55,11 +53,10 @@ class ProductsViewController: UIViewController {
     }
  
     // MARK: - createLayout
-    
     private func createLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvirnment) -> NSCollectionLayoutSection? in
             
-            let section = SectionKind(rawValue: sectionIndex)!
+            let section = ProductsSectionKind(rawValue: sectionIndex)!
             switch section {
             case .menu:
                 return self.createMenuSection()
@@ -76,16 +73,8 @@ class ProductsViewController: UIViewController {
     }
     
     private func createMenuSection() -> NSCollectionLayoutSection {
-        
-        let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .fractionalHeight(1.0))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 4, bottom: 8, trailing: 4)
-        let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(0.3),
-            heightDimension: .fractionalWidth(0.125))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        let item = CreateSection.createItem(width: .fractionalWidth(1), height: .fractionalHeight(1), spacing: 8)
+        let group = CreateSection.createGroup(alignment: .horizontal, width: .fractionalWidth(0.3), height: .fractionalWidth(0.125), item: [item])
         group.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 4, bottom: 8, trailing: 4)
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuous
@@ -97,17 +86,8 @@ class ProductsViewController: UIViewController {
     }
     
     private func createProductsSection() -> NSCollectionLayoutSection {
-        
-        let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(0.5),
-            heightDimension: .fractionalHeight(1.0))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4)
-        let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .fractionalHeight(0.35))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        group.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0)
+        let item = CreateSection.createItem(width: .fractionalWidth(1), height: .fractionalHeight(1), spacing: 4)
+        let group = CreateSection.createGroup(alignment: .horizontal, width: .fractionalWidth(1), height: .fractionalHeight(0.35), item: item, count: 2)
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(24))
@@ -121,7 +101,7 @@ class ProductsViewController: UIViewController {
 // MARK: - UICollectionViewDelegate
 extension ProductsViewController: UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let section = SectionKind(rawValue: indexPath.section)
+        let section = ProductsSectionKind(rawValue: indexPath.section)
         
         switch section {
             
