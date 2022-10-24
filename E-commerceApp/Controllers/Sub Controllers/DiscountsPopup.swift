@@ -19,7 +19,6 @@ class DiscountsPopup: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
     private let discountDescription: UILabel = {
         let label = UILabel()
         label.text = "Акция 30% на всю косметику бренда Letual"
@@ -29,7 +28,6 @@ class DiscountsPopup: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
     let discountData = [
     "10",
     "20",
@@ -50,7 +48,6 @@ class DiscountsPopup: UIView {
         container.translatesAutoresizingMaskIntoConstraints = false
         return container
     }()
-    
     private let closeButton: UIButton = {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
          var config = UIButton.Configuration.plain()
@@ -62,7 +59,6 @@ class DiscountsPopup: UIView {
          button.translatesAutoresizingMaskIntoConstraints = false
          return button
     }()
-    
     private let moreInfoButton: UIButton = {
         let button = UIButton()
         button.configuration = .gray()
@@ -84,7 +80,6 @@ class DiscountsPopup: UIView {
             }
         }
     }
-    
     @objc private func animateIn(){
         self.container.transform = CGAffineTransform(translationX: 0, y: -self.frame.height)
         self.alpha = 0
@@ -142,7 +137,7 @@ class DiscountsPopup: UIView {
             discountPercent.topAnchor.constraint(equalTo: container.topAnchor, constant: 0),
             discountPercent.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 0),
             discountPercent.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: 0),
-            discountPercent.heightAnchor.constraint(equalTo: container.heightAnchor, multiplier: 0.45)
+            discountPercent.heightAnchor.constraint(equalTo: container.heightAnchor, multiplier: 0.25)
         ])
         
         container.addSubview(moreInfoButton)
@@ -155,7 +150,6 @@ class DiscountsPopup: UIView {
         
         container.addSubview(discountDescription)
         NSLayoutConstraint.activate([
-            discountDescription.centerYAnchor.constraint(equalTo: container.centerYAnchor),
             discountDescription.topAnchor.constraint(equalTo: discountPercent.bottomAnchor, constant: 0),
             discountDescription.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 0),
             discountDescription.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: 0),

@@ -74,7 +74,7 @@ class ProductsCell: UICollectionViewCell, SelfConfiguringCell {
     func configure(with itemIdentifier: Int, indexPath: IndexPath, products: [Product]) {
         productImage.image = UIImage(named: "\(products[indexPath.row].productImage!)")
         nameLabel.text = "\(products[indexPath.row].productName)"
-        priceLabel.text = "\(products[indexPath.row].price)"
+        priceLabel.text = "\(products[indexPath.row].price) руб."
     }
     
     private func setConstraints(){

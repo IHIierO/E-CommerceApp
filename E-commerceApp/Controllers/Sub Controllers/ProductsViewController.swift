@@ -38,7 +38,6 @@ class ProductsViewController: UIViewController {
         self.navigationController?.view.backgroundColor = .clear
         navigationItem.searchController = searchBar
     }
-
     private func setupCollectionView(){
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -71,7 +70,6 @@ class ProductsViewController: UIViewController {
         
         return layout
     }
-    
     private func createMenuSection() -> NSCollectionLayoutSection {
         let item = CreateSection.createItem(width: .fractionalWidth(1), height: .fractionalHeight(1), spacing: 8)
         let group = CreateSection.createGroup(alignment: .horizontal, width: .fractionalWidth(0.3), height: .fractionalWidth(0.125), item: [item])
@@ -84,7 +82,6 @@ class ProductsViewController: UIViewController {
 //        section.boundarySupplementaryItems = [header]
         return section
     }
-    
     private func createProductsSection() -> NSCollectionLayoutSection {
         let item = CreateSection.createItem(width: .fractionalWidth(1), height: .fractionalHeight(1), spacing: 4)
         let group = CreateSection.createGroup(alignment: .horizontal, width: .fractionalWidth(1), height: .fractionalHeight(0.35), item: item, count: 2)
@@ -95,7 +92,6 @@ class ProductsViewController: UIViewController {
         section.boundarySupplementaryItems = [header]
         return section
     }
-    
 }
 
 // MARK: - UICollectionViewDelegate

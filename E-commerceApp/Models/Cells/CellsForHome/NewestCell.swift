@@ -8,41 +8,69 @@
 import UIKit
 
 class NewestCell: UICollectionViewCell, SelfConfiguringCell {
-    
-    var productData: [Product] = []
    
     static var reuseId: String = "CollectionsCell"
     
-    let label: UILabel = {
-        let label = UILabel()
-        label.text = "Men"
-        label.textAlignment = .center
+    let favoriteButton: UIButton = {
+       let button = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
+        var config = UIButton.Configuration.plain()
+        config.imagePadding = 4
+        config.image = UIImage(systemName: "heart", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large))
+        button.configuration = config
+        button.tintColor = .red
+        
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    let addToShoppingCard: UIButton = {
+       let button = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
+        var config = UIButton.Configuration.plain()
+        config.imagePadding = 4
+        config.image = UIImage(systemName: "cart", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large))
+        button.configuration = config
+        button.tintColor = .black
+        
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    let productImage: UIImageView = {
+       let productImage = UIImageView(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
+        productImage.image = UIImage(named: "topRated")
+        productImage.contentMode = .scaleAspectFill
+//        flowerImage.layer.cornerRadius = 15
+        productImage.clipsToBounds = true
+        
+        productImage.translatesAutoresizingMaskIntoConstraints = false
+        return productImage
+    }()
+    
+    let priceLabel: UILabel = {
+       let label = UILabel()
+        label.text = "$125"
         
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    let collectionImage: UIImageView = {
-        let collectionImage = UIImageView(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
-        collectionImage.image = UIImage(named: "men")
-        collectionImage.contentMode = .scaleAspectFill
+    let nameLabel: UILabel = {
+       let label = UILabel()
+        label.text = "Куртка Женская"
         
-        collectionImage.translatesAutoresizingMaskIntoConstraints = false
-        return collectionImage
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
     
-    let imageData = [
-    "kid", "men", "women","kid", "men", "women","kid", "men",
-    ]
-    
     func configure(with itemIdentifier: Int, indexPath: IndexPath, products: [Product]) {
-        collectionImage.image = UIImage(named: "\(products[indexPath.row].productImage!)")
-        label.text = "\(products[indexPath.row].productName)"
+        productImage.image = UIImage(named: "\(products[indexPath.row].productImage!)")
+        nameLabel.text = "\(products[indexPath.row].productName)"
+        priceLabel.text = "\(products[indexPath.row].price)"
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .blue
+        backgroundColor = .white
         
         self.layer.cornerRadius = 10
         self.clipsToBounds = true
@@ -55,21 +83,45 @@ class NewestCell: UICollectionViewCell, SelfConfiguringCell {
     }
     
     private func setConstraints(){
-        self.addSubview(collectionImage)
+        self.addSubview(productImage)
         NSLayoutConstraint.activate([
-            collectionImage.topAnchor.constraint(equalTo: self.topAnchor, constant: 0),
-            collectionImage.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0),
-            collectionImage.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0),
-            collectionImage.heightAnchor.constraint(equalToConstant: self.frame.height - 20),
-            collectionImage.widthAnchor.constraint(equalToConstant: self.frame.width)
+            productImage.topAnchor.constraint(equalTo: self.topAnchor, constant: 0),
+            productImage.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0),
+            productImage.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0),
+            productImage.heightAnchor.constraint(equalToConstant: self.frame.height - 40),
+            productImage.widthAnchor.constraint(equalToConstant: self.frame.width)
         ])
         
-        self.addSubview(label)
+        self.addSubview(nameLabel)
         NSLayoutConstraint.activate([
-            label.topAnchor.constraint(equalTo: collectionImage.bottomAnchor, constant: 2),
-            label.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0),
-            label.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0),
-            label.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -2)
+            nameLabel.heightAnchor.constraint(equalToConstant: 20),
+            nameLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 4),
+            nameLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0),
+            nameLabel.topAnchor.constraint(equalTo: productImage.bottomAnchor, constant: 0),
+        ])
+        
+        self.addSubview(priceLabel)
+        NSLayoutConstraint.activate([
+            priceLabel.heightAnchor.constraint(equalToConstant: 20),
+            priceLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 4),
+            priceLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0),
+            priceLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 0),
+        ])
+        
+        self.addSubview(favoriteButton)
+        NSLayoutConstraint.activate([
+            favoriteButton.topAnchor.constraint(equalTo: productImage.topAnchor, constant: 4),
+            favoriteButton.trailingAnchor.constraint(equalTo: productImage.trailingAnchor, constant: -4),
+            favoriteButton.widthAnchor.constraint(equalToConstant: 40),
+            favoriteButton.heightAnchor.constraint(equalToConstant: 40)
+        ])
+        
+        self.addSubview(addToShoppingCard)
+        NSLayoutConstraint.activate([
+            addToShoppingCard.bottomAnchor.constraint(equalTo: productImage.bottomAnchor, constant: -4),
+            addToShoppingCard.leadingAnchor.constraint(equalTo: productImage.leadingAnchor, constant: 4),
+            addToShoppingCard.widthAnchor.constraint(equalToConstant: 40),
+            addToShoppingCard.heightAnchor.constraint(equalToConstant: 40)
         ])
     }
 }

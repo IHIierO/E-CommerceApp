@@ -40,7 +40,6 @@ class Home: UIViewController {
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.backgroundColor = UIColor(hexString: "#f5f5dc")
         view.addSubview(collectionView)
-        
         collectionView.register(DiscountsCell.self, forCellWithReuseIdentifier: DiscountsCell.reuseId)
         collectionView.register(NewestCell.self, forCellWithReuseIdentifier: NewestCell.reuseId)
         collectionView.register(TopRatedCell.self, forCellWithReuseIdentifier: TopRatedCell.reuseId)
@@ -72,7 +71,6 @@ class Home: UIViewController {
         
         return layout
     }
-    
     private func createDiscountSection() -> NSCollectionLayoutSection {
         let item = CreateSection.createItem(width: .fractionalWidth(1), height: .fractionalHeight(1), spacing: 8)
         let group = CreateSection.createGroup(alignment: .horizontal, width: .fractionalWidth(1), height: .fractionalWidth(0.5), item: [item])
@@ -84,7 +82,6 @@ class Home: UIViewController {
         section.boundarySupplementaryItems = [header]
         return section
     }
-    
     private func createNewestSection() -> NSCollectionLayoutSection {
         let item = CreateSection.createItem(width: .fractionalWidth(1), height: .fractionalHeight(1), spacing: 8)
         let group = CreateSection.createGroup(alignment: .horizontal, width: .fractionalWidth(0.45), height: .fractionalWidth(0.7), item: [item])
@@ -96,7 +93,6 @@ class Home: UIViewController {
         section.boundarySupplementaryItems = [header]
         return section
     }
-    
     private func createTopRatedSection() -> NSCollectionLayoutSection {
         let item = CreateSection.createItem(width: .fractionalWidth(1), height: .fractionalHeight(1), spacing: 8)
         let group = CreateSection.createGroup(alignment: .horizontal, width: .fractionalWidth(0.93), height: .fractionalWidth(0.6), item: [item])

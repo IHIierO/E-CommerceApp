@@ -13,14 +13,12 @@ class TabBar: UITabBarController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         tabBarConfig()
 //        setTabBarAppearance()
 //        setupAddNewFlowerButton()
     }
     
     private func tabBarConfig(){
-        
         let homeController = createNavigationControllers(
             viewControllers: Home(),
             tabBarItemName: "Main",
@@ -29,48 +27,39 @@ class TabBar: UITabBarController{
         let shoppingCartViewController = createNavigationControllers(
             viewControllers: ShoppingCart(),
             tabBarItemName: "ShoppingCart",
-            tabBarItemImage: "heart"
+            tabBarItemImage: "cart"
         )
-        
         let searchAndListViewController = createNavigationControllers(
             viewControllers: SearchAndList(),
             tabBarItemName: "Search",
             tabBarItemImage: "doc.text.magnifyingglass"
         )
-        
         let personViewController = createNavigationControllers(
             viewControllers: Person(),
             tabBarItemName: "Person",
             tabBarItemImage: "person"
         )
-        
         viewControllers = [homeController,searchAndListViewController, shoppingCartViewController, personViewController]
     }
     
     private func createNavigationControllers(viewControllers: UIViewController, tabBarItemName: String, tabBarItemImage: String) -> UINavigationController{
-        
         let tabBarItem = UITabBarItem(title: tabBarItemName, image: UIImage(systemName: tabBarItemImage)?.withAlignmentRectInsets(.init(top: 10, left: 0, bottom: 0, right: 0)), tag: 0)
         tabBarItem.titlePositionAdjustment = .init(horizontal: 0, vertical: 10 )
         let navigationController = UINavigationController(rootViewController: viewControllers)
         navigationController.tabBarItem = tabBarItem
-        
         return navigationController
     }
     
     private func setTabBarAppearance(){
-        
         let customLayer = CAShapeLayer()
         customLayer.path = createPath()
         tabBar.layer.insertSublayer(customLayer, at: 0)
-        
         customLayer.fillColor = UIColor(hexString: "#CFD9CE").cgColor
-        
         tabBar.tintColor = UIColor(hexString: "#477940")
         tabBar.unselectedItemTintColor = UIColor(hexString: "#393C39")
     }
     
     private func createPath() -> CGPath {
-        
         let cornerRad: CGFloat = 30.0
         let height: CGFloat = 47.0
         let centerWidth = self.tabBar.frame.width / 2
@@ -140,7 +129,6 @@ class TabBar: UITabBarController{
         self.tabBar.isHidden = true
         self.addNewFlowerButton.isHidden = true
     }
-    
     func showTabBar() {
         self.tabBar.isHidden = false
         self.addNewFlowerButton.isHidden = false

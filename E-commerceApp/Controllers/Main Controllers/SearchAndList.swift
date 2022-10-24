@@ -18,11 +18,15 @@ class SearchAndList: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViewController()
-        setupTableVIew()
+        setupTableView()
     }
 
     private func setupViewController(){
         view.backgroundColor = .white
+        setupNavigationBar()
+    }
+    
+    private func setupNavigationBar(){
         title = "Categories"
         
         searchBar.searchResultsUpdater = self
@@ -30,8 +34,7 @@ class SearchAndList: UIViewController {
         navigationItem.searchController = searchBar
         navigationItem.hidesSearchBarWhenScrolling = false
     }
-    
-    private func setupTableVIew(){
+    private func setupTableView(){
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
@@ -64,7 +67,6 @@ extension SearchAndList: UISearchBarDelegate, UISearchResultsUpdating {
         }
         tableView.reloadData()
     }
-    
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         search = false
         tableView.reloadData()
@@ -74,15 +76,12 @@ extension SearchAndList: UISearchBarDelegate, UISearchResultsUpdating {
 //MARK: UITableViewDelegate, UITableViewDataSource
 extension SearchAndList: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        if search{
-            let searchText = searchBar.searchBar.text!
-            let filterMenuTextData = menuTextData.filter({ $0.lowercased().contains(searchText.lowercased()) })
-            return filterMenuTextData.count
-        }else{
+//        if search{
+//            let searchText = searchBar.searchBar.text!
+//            let filterMenuTextData = menuTextData.filter({ $0.lowercased().contains(searchText.lowercased()) })
+//            return filterMenuTextData.count
+//        }else{}
             return menuTextData.count
-        }
-        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -90,15 +89,15 @@ extension SearchAndList: UITableViewDelegate, UITableViewDataSource {
         cell.backgroundColor = .red
         cell.accessoryType = .disclosureIndicator
         cell.selectionStyle = .none
-        if search {
-            let searchText = searchBar.searchBar.text!
-            let filterMenuTextData = menuTextData.filter({ $0.lowercased().contains(searchText.lowercased()) })
-            var configure = cell.defaultContentConfiguration()
-            configure.text = "\(filterMenuTextData[indexPath.row])"
-            cell.contentConfiguration = configure
-        }else{
-            cell.textLabel?.text = "\(menuTextData[indexPath.row])"
-        }
+        //        if search {
+        //            let searchText = searchBar.searchBar.text!
+        //            let filterMenuTextData = menuTextData.filter({ $0.lowercased().contains(searchText.lowercased()) })
+        //            var configure = cell.defaultContentConfiguration()
+        //            configure.text = "\(filterMenuTextData[indexPath.row])"
+        //            cell.contentConfiguration = configure
+        //        }else{ }
+        cell.textLabel?.text = "\(menuTextData[indexPath.row])"
+        
         
         return cell
     }
@@ -106,38 +105,18 @@ extension SearchAndList: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath{
         case [0,0]:
-            let creamForFace = products.filter({$0.productCategory == "cream for face"})
-            
-            let productsViewController = ProductsViewController()
-            productsViewController.title = "\(menuTextData[indexPath.row])"
-            productsViewController.curentProducts = creamForFace
-            
-            navigationController?.pushViewController(productsViewController, animated: true)
+            let filters = Filter(id: "0", names: ["Delete filters",])
+            ViewControllersHelper.pushToProductsViewController(indexPath: indexPath, category: "cream for face", menuTextData: menuTextData, navigationController: navigationController, filters: filters)
         case [0,1]:
-            let productsViewController = ProductsViewController()
-            productsViewController.title = "\(menuTextData[indexPath.row])"
-            navigationController?.pushViewController(productsViewController, animated: true)
+            print("you dont select catigories")
         case [0,2]:
             let filters = Filter(id: "2", names: ["Delete filters", "50ml", "125ml",])
-            let creamForHands = products.filter({$0.productCategory == "cream for hands"})
-            let productsViewController = ProductsViewController()
-            productsViewController.title = "\(menuTextData[indexPath.row])"
-            productsViewController.curentProducts = creamForHands
-            productsViewController.filters = filters
-            navigationController?.pushViewController(productsViewController, animated: true)
+            ViewControllersHelper.pushToProductsViewController(indexPath: indexPath, category: "cream for hands", menuTextData: menuTextData, navigationController: navigationController, filters: filters)
         case [0,3]:
             let filters = Filter(id: "3", names: ["Delete filters", "100ml", "200ml",])
-            let creamForHands = products.filter({$0.productCategory == "shampo"})
-            let productsViewController = ProductsViewController()
-            productsViewController.title = "\(menuTextData[indexPath.row])"
-            productsViewController.curentProducts = creamForHands
-            productsViewController.filters = filters
-            navigationController?.pushViewController(productsViewController, animated: true)
+            ViewControllersHelper.pushToProductsViewController(indexPath: indexPath, category: "shampo", menuTextData: menuTextData, navigationController: navigationController, filters: filters)
         case [0,4]:
-            let productsViewController = ProductsViewController()
-            productsViewController.title = "\(menuTextData[indexPath.row])"
-            navigationController?.pushViewController(productsViewController, animated: true)
-        
+            print("you dont select catigories")
         default:
             print("you dont select catigories")
         }
