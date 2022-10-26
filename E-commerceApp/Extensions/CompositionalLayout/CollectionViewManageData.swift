@@ -83,14 +83,12 @@ class ProductsCollectionViewManageData {
                 let itemUpperbount = itemOffset + itemPerSection
                 snapshot.appendSections([.menu])
                 snapshot.appendItems(Array(itemOffset..<itemUpperbount))
-//                snapshot.reconfigureItems(Array(itemOffset..<itemUpperbount))
             case .products:
                     let itemPerSection = curentProducts.count
                     let itemOffset = sectionKind.columnCount * itemPerSection
                     let itemUpperbount = itemOffset + itemPerSection
                 snapshot.appendSections([.products])
                     snapshot.appendItems(Array(itemOffset..<itemUpperbount))
-//                snapshot.reconfigureItems(Array(itemOffset..<itemUpperbount))
             }
         }
         dataSource.applySnapshotUsingReloadData(snapshot)
