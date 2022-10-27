@@ -102,43 +102,7 @@ extension ProductsViewController: UICollectionViewDelegate{
         switch section {
             
         case .menu:
-            switch indexPath{
-            case [0,0]:
-                collectionViewManageData.setupDataSource(collectionView: collectionView, curentProducts: curentProducts, filters: filters)
-                collectionViewManageData.reloadData(curentProducts: curentProducts, filters: filters)
-//                collectionView.reloadData()
-            case [0,1]:
-                if title == "Для рук"{
-                    let ocurentMl = curentProducts.filter({$0.volume == 50})
-                    collectionViewManageData.setupDataSource(collectionView: collectionView, curentProducts: ocurentMl, filters: filters)
-                    collectionViewManageData.reloadData(curentProducts: ocurentMl, filters: filters)
-    //                collectionView.reloadData()
-                }
-                
-                if title == "Для волос"{
-                    let ocurentMl = curentProducts.filter({$0.volume == 100})
-                    collectionViewManageData.setupDataSource(collectionView: collectionView, curentProducts: ocurentMl, filters: filters)
-                    collectionViewManageData.reloadData(curentProducts: ocurentMl, filters: filters)
-    //                collectionView.reloadData()
-                }
-                
-            case [0,2]:
-                if title == "Для рук"{
-                    let ocurentMl = curentProducts.filter({$0.volume == 125})
-                    collectionViewManageData.setupDataSource(collectionView: collectionView, curentProducts: ocurentMl, filters: filters)
-                    collectionViewManageData.reloadData(curentProducts: ocurentMl, filters: filters)
-    //                collectionView.reloadData()
-                }
-                
-                if title == "Для волос"{
-                    let ocurentMl = curentProducts.filter({$0.volume == 200})
-                    collectionViewManageData.setupDataSource(collectionView: collectionView, curentProducts: ocurentMl, filters: filters)
-                    collectionViewManageData.reloadData(curentProducts: ocurentMl, filters: filters)
-    //                collectionView.reloadData()
-                }
-            default:
-                print("error")
-            }
+            ViewControllersHelper.didSelectCurentFilter(filters: filters, indexPath: indexPath, collectionViewManageData: collectionViewManageData, collectionView: collectionView, curentProducts: curentProducts)
         case .products:
             print("error")
         case .none:

@@ -54,7 +54,7 @@ class TopRatedCell: UICollectionViewCell, SelfConfiguringCell {
     }()
     
     func configure(with itemIdentifier: Int, indexPath: IndexPath, products: [Product]) {
-        topRatedImage.image = UIImage(named: products[indexPath.row].productImage!)
+        topRatedImage.image = UIImage(named: products[indexPath.row].productImage)
         nameLabel.text = products[indexPath.row].productName
         priceLabel.text = "\(products[indexPath.row].price) руб."
     }

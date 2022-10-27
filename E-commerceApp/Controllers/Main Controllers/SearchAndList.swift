@@ -43,7 +43,8 @@ class SearchAndList: UIViewController {
         "Для тела",
         "Для рук",
         "Для волос",
-        "Для дома"
+        "Для дома",
+        "Наборы"
         ]
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -106,15 +107,15 @@ extension SearchAndList: UITableViewDelegate, UITableViewDataSource {
         switch indexPath{
         case [0,0]:
             let filters = Filter(id: "0", names: ["Delete filters",])
-            ViewControllersHelper.pushToProductsViewController(indexPath: indexPath, category: "cream for face", menuTextData: menuTextData, navigationController: navigationController, filters: filters)
+            ViewControllersHelper.pushToProductsViewController(indexPath: indexPath, category: "для лица", menuTextData: menuTextData, navigationController: navigationController, filters: filters)
         case [0,1]:
             print("you dont select catigories")
         case [0,2]:
             let filters = Filter(id: "2", names: ["Delete filters", "50ml", "125ml",])
-            ViewControllersHelper.pushToProductsViewController(indexPath: indexPath, category: "cream for hands", menuTextData: menuTextData, navigationController: navigationController, filters: filters)
+            ViewControllersHelper.pushToProductsViewController(indexPath: indexPath, category: "для рук", menuTextData: menuTextData, navigationController: navigationController, filters: filters)
         case [0,3]:
             let filters = Filter(id: "3", names: ["Delete filters", "100ml", "200ml",])
-            ViewControllersHelper.pushToProductsViewController(indexPath: indexPath, category: "shampo", menuTextData: menuTextData, navigationController: navigationController, filters: filters)
+            ViewControllersHelper.pushToProductsViewController(indexPath: indexPath, category: "для волос", menuTextData: menuTextData, navigationController: navigationController, filters: filters)
         case [0,4]:
             print("you dont select catigories")
         default:

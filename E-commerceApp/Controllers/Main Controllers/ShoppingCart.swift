@@ -7,8 +7,6 @@
 
 import UIKit
 
-
-
 class ShoppingCart: UIViewController {
   
     var productsToCart = products.filter({$0.shoppingCart == true})
@@ -21,7 +19,6 @@ class ShoppingCart: UIViewController {
         button.configuration?.subtitle = "263 руб."
         button.configuration?.baseForegroundColor = .black
         button.configuration?.titleAlignment = .center
-//        button.configuration?.cornerStyle = .
         
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -34,7 +31,6 @@ class ShoppingCart: UIViewController {
         title = "Корзина"
         setupCollectionView()
         setConstraints()
-        
     }
     
     private func inAllPrice() -> Int {
@@ -76,6 +72,13 @@ class ShoppingCart: UIViewController {
         }
        let newSum = allSum.reduce(0, +)
         return newSum
+    }
+    private func newData() {
+        inAllSumData[0] = "\(inAllCount()) шт."
+        inAllSumData[1] = "\(productsSumPrice()) руб."
+        inAllSumData[2] = "\(productsSumPrice() - inAllPrice()) руб."
+        inAllSumData[3] = "\(inAllPrice()) руб."
+        buyButton.configuration?.subtitle = "\(inAllPrice()) руб."
     }
     
     private func setupCollectionView(){
@@ -162,11 +165,7 @@ extension ShoppingCart: UICollectionViewDelegateFlowLayout, UICollectionViewData
             cell.plusButtonCallback = { [self]
                 () in
                 productsToCart[indexPath.row].count = productsToCart[indexPath.row].count + 1
-                inAllSumData[0] = "\(inAllCount()) шт."
-                inAllSumData[1] = "\(productsSumPrice()) руб."
-                inAllSumData[2] = "\(productsSumPrice() - inAllPrice()) руб."
-                inAllSumData[3] = "\(inAllPrice()) руб."
-                buyButton.configuration?.subtitle = "\(inAllPrice()) руб."
+                newData()
                 cell.stepperLabel.text = "\(productsToCart[indexPath.row].count)"
                 collectionView.reloadSections(NSIndexSet(index: 1) as IndexSet)
             }
@@ -174,21 +173,15 @@ extension ShoppingCart: UICollectionViewDelegateFlowLayout, UICollectionViewData
                 () in
                 if productsToCart[indexPath.row].count > 1 {
                     productsToCart[indexPath.row].count = productsToCart[indexPath.row].count - 1
-                    inAllSumData[0] = "\(inAllCount()) шт."
-                    inAllSumData[1] = "\(productsSumPrice()) руб."
-                    inAllSumData[2] = "\(productsSumPrice() - inAllPrice()) руб."
-                    inAllSumData[3] = "\(inAllPrice()) руб."
+                    newData()
                     cell.stepperLabel.text = "\(productsToCart[indexPath.row].count)"
-                    buyButton.configuration?.subtitle = "\(inAllPrice()) руб."
                     collectionView.reloadSections(NSIndexSet(index: 1) as IndexSet)
                 }else{
                     productsToCart[indexPath.row].count = productsToCart[indexPath.row].count - 0
                     cell.stepperLabel.text = "\(productsToCart[indexPath.row].count)"
                 }
             }
-            
             return cell
-            
         case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PriceCell.reuseId, for: indexPath) as! PriceCell
             cell.config(indexPath: indexPath)
@@ -205,14 +198,9 @@ extension ShoppingCart: UICollectionViewDelegateFlowLayout, UICollectionViewData
         productsToCart[indexPath.row].shoppingCart = false
         productsToCart[indexPath.row].count = 0
         productsToCart.remove(at: indexPath.row)
-        inAllSumData[0] = "\(inAllCount()) шт."
-        inAllSumData[1] = "\(productsSumPrice()) руб."
-        inAllSumData[2] = "\(productsSumPrice() - inAllPrice()) руб."
-        inAllSumData[3] = "\(inAllPrice()) руб."
+        newData()
         collectionView.reloadData()
      }
-    
-    
 }
 
 // MARK: - SwiftUI

@@ -133,12 +133,12 @@ class CartCell: UICollectionViewCell, UIGestureRecognizerDelegate {
         super.layoutSubviews()
         
         if (pan.state == UIGestureRecognizer.State.changed) {
-              let p: CGPoint = pan.translation(in: self)
-              let width = self.contentView.frame.width
-              let height = self.contentView.frame.height
-              self.contentView.frame = CGRect(x: p.x,y: 0, width: width, height: height);
+            let p: CGPoint = pan.translation(in: self)
+            let width = self.contentView.frame.width
+            let height = self.contentView.frame.height
+            self.contentView.frame = CGRect(x: p.x,y: 0, width: width, height: height);
             self.deleteLabel.frame = CGRect(x: p.x + width + deleteLabel.frame.size.width, y: 0, width: 100, height: height)
-            }
+        }
     }
     
     @objc func onPan(_ pan: UIPanGestureRecognizer) {
@@ -185,7 +185,7 @@ class CartCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     }
     
     func configure(indexPath: IndexPath, products: [Product]){
-        productImage.image = UIImage(named: products[indexPath.row].productImage!)
+        productImage.image = UIImage(named: products[indexPath.row].productImage)
         nameLabel.text = "\(products[indexPath.row].productName) | \(products[indexPath.row].volume)ml"
         
         if products[indexPath.row].discount != nil {

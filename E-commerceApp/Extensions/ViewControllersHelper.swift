@@ -16,12 +16,17 @@ class ViewControllersHelper {
         discountsPopup.moreInfoButtonTappedCallback = {
             () in
             discountsPopup.animateOut()
-            let discounts = Discounts()
-            let curendDiscoun = products.filter({$0.discount == discontPircent})
-            print("\(curendDiscoun)")
-            discounts.discountLabel.text = curendDiscoun[0].productName
-            discounts.discountData = discountsPopup.discountData
-//                    discounts.config(indexPath: indexPath)
+            let discounts = ProductsViewController()
+            let curentDiscount = products.filter({$0.discount == discontPircent})
+            var curentFilters = Filter(names: ["Delete filters"])
+            for product in curentDiscount {
+                let filters = Filter(names: ["для лица", "для тела", "для рук", "для волос", "для дома", "наборы"])
+                if filters.names.contains(product.productCategory) {
+                    curentFilters.names.append(product.productCategory)
+                }
+            }
+            discounts.curentProducts = curentDiscount
+            discounts.filters = curentFilters
             navigationController?.pushViewController(discounts, animated: true)
         }
     }
@@ -33,5 +38,46 @@ class ViewControllersHelper {
         productsViewController.curentProducts = creamForHands
         productsViewController.filters = filters
         navigationController?.pushViewController(productsViewController, animated: true)
+    }
+    
+    static func didSelectCurentFilter(filters: Filter, indexPath: IndexPath, collectionViewManageData: ProductsCollectionViewManageData, collectionView: UICollectionView, curentProducts: [Product]) {
+        
+        if filters.names.contains("Delete filters") {
+            let index = filters.names.firstIndex(of: "Delete filters")
+            switch indexPath {
+            case [0,Int(index!)]:
+                collectionViewManageData.setupDataSource(collectionView: collectionView, curentProducts: curentProducts, filters: filters)
+                collectionViewManageData.reloadData(curentProducts: curentProducts, filters: filters)
+            default:
+                print("error")
+            }
+        }
+        
+        for name in filters.names {
+            let filterForMl = ["50ml","100ml","125ml","200ml"]
+            let filterForCategory = ["для лица", "для тела", "для рук", "для волос", "для дома", "наборы"]
+            if filters.names.contains(name) && name != "Delete filters" && filterForMl.contains(name){
+                let index = filters.names.firstIndex(of: name)
+                switch indexPath {
+                case [0,Int(index!)]:
+                    let curentMl = curentProducts.filter({$0.volume == name})
+                    collectionViewManageData.setupDataSource(collectionView: collectionView, curentProducts: curentMl, filters: filters)
+                    collectionViewManageData.reloadData(curentProducts: curentMl, filters: filters)
+                default:
+                    print("error")
+                }
+            }
+            if filters.names.contains(name) && name != "Delete filters" && filterForCategory.contains(name){
+                let index = filters.names.firstIndex(of: name)
+                switch indexPath {
+                case [0,Int(index!)]:
+                    let curentCategory = curentProducts.filter({$0.productCategory == name})
+                    collectionViewManageData.setupDataSource(collectionView: collectionView, curentProducts: curentCategory, filters: filters)
+                    collectionViewManageData.reloadData(curentProducts: curentCategory, filters: filters)
+                default:
+                    print("error")
+                }
+            }
+        }
     }
 }
