@@ -9,6 +9,7 @@ import UIKit
 
 class ProductsCell: UICollectionViewCell, SelfConfiguringCell {
     static var reuseId: String = "ProductsCell"
+    var addToShoppingCardCallback: (()->())?
     
     let favoriteButton: UIButton = {
        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
@@ -21,7 +22,6 @@ class ProductsCell: UICollectionViewCell, SelfConfiguringCell {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
     let addToShoppingCard: UIButton = {
        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
         var config = UIButton.Configuration.plain()
@@ -33,7 +33,6 @@ class ProductsCell: UICollectionViewCell, SelfConfiguringCell {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
     let productImage: UIImageView = {
        let productImage = UIImageView(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
         productImage.image = UIImage(named: "topRated")
@@ -44,7 +43,6 @@ class ProductsCell: UICollectionViewCell, SelfConfiguringCell {
         productImage.translatesAutoresizingMaskIntoConstraints = false
         return productImage
     }()
-    
     let priceLabel: UILabel = {
        let label = UILabel()
         label.text = "$125"
@@ -52,7 +50,6 @@ class ProductsCell: UICollectionViewCell, SelfConfiguringCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
     let nameLabel: UILabel = {
        let label = UILabel()
         label.text = "Куртка Женская"
@@ -65,10 +62,15 @@ class ProductsCell: UICollectionViewCell, SelfConfiguringCell {
         super.init(frame: frame)
         setConstraints()
         self.backgroundColor = .red
+        addToShoppingCard.addTarget(self, action: #selector(addToShoppingCardTap), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func addToShoppingCardTap(){
+        addToShoppingCardCallback?()
     }
     
     func configure(with itemIdentifier: Int, indexPath: IndexPath, products: [Product]) {

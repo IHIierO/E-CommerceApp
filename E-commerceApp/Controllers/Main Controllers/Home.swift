@@ -113,20 +113,15 @@ extension Home: UICollectionViewDelegate{
         
         switch section{
         case .discounts:
-            switch indexPath{
-            case [0,0]:
-                ViewControllersHelper.pushToDiscount(indexPath: indexPath, view: view, discontPircent: 10, navigationController: navigationController!)
-            case [0,1]:
-                ViewControllersHelper.pushToDiscount(indexPath: indexPath, view: view, discontPircent: 20, navigationController: navigationController!)
-            case [0,2]:
-                ViewControllersHelper.pushToDiscount(indexPath: indexPath, view: view, discontPircent: 30, navigationController: navigationController!)
-            default:
-                print("no index")
-            }
+            ViewControllersHelper.pushToDiscount(indexPath: indexPath, view: view, discontPircent: 10, navigationController: navigationController!)
         case .newest:
-            print("\(section)")
+            let productCard = ProductCard()
+            productCard.discountLabel.text = "\(curentNewest[indexPath.row].productName)"
+            navigationController?.pushViewController(productCard, animated: true)
         case .topRated:
-            print("\(section)")
+            let productCard = ProductCard()
+            productCard.discountLabel.text = "\(curentTopRated[indexPath.row].productName)"
+            navigationController?.pushViewController(productCard, animated: true)
         case .none:
             print("error")
         }

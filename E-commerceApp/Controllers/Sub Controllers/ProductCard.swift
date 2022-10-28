@@ -1,5 +1,5 @@
 //
-//  Discounts.swift
+//  ProductCard.swift
 //  E-commerceApp
 //
 //  Created by Artem Vorobev on 12.10.2022.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class Discounts: UIViewController {
+class ProductCard: UIViewController {
     
     var discountData:[String] = []
     
@@ -23,7 +23,6 @@ class Discounts: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        title = "Discounts"
         
         setConstraints()
        

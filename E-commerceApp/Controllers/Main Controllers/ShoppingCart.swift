@@ -168,6 +168,7 @@ extension ShoppingCart: UICollectionViewDelegateFlowLayout, UICollectionViewData
                 newData()
                 cell.stepperLabel.text = "\(productsToCart[indexPath.row].count)"
                 collectionView.reloadSections(NSIndexSet(index: 1) as IndexSet)
+                print("\(products)")
             }
             cell.minusButtonCallback = { [self]
                 () in

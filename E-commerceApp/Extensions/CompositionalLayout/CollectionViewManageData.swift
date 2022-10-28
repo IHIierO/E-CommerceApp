@@ -50,10 +50,17 @@ class ProductsCollectionViewManageData {
             case .products:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductsCell.reuseId, for: indexPath) as! ProductsCell
                 cell.configure(with: itemIdentifier, indexPath: indexPath, products: curentProducts)
+                cell.addToShoppingCardCallback = {() in
+                    let test = curentProducts
+                    for product in products{
+                        if product.productName == test[indexPath.row].productName{
+                            print("\(test[indexPath.row].productName) addToShoppingCard")
+                        }
+                    }
+                }
                 return cell
             }
         })
-        
         dataSource.supplementaryViewProvider = { (collectionView, kind, indexPath)  in
             
             guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header", for: indexPath) as? Header else { fatalError("Header error") }
@@ -68,7 +75,6 @@ class ProductsCollectionViewManageData {
             }
             return header
         }
-        
     }
     
     func reloadData(curentProducts: [Product], filters: Filter){

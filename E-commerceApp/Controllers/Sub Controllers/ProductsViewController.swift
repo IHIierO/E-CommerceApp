@@ -7,8 +7,9 @@
 
 import UIKit
 
-class ProductsViewController: UIViewController {
+class ProductsViewController: UIViewController{
     var curentProducts: [Product] = []
+    var filteredProducts: [Product] = []
     var filters: Filter! = nil
     
     var collectionView: UICollectionView! = nil
@@ -49,6 +50,7 @@ class ProductsViewController: UIViewController {
         collectionView.delegate = self
         collectionViewManageData.setupDataSource(collectionView: collectionView, curentProducts: curentProducts, filters: filters)
         collectionViewManageData.reloadData(curentProducts: curentProducts, filters: filters)
+        filteredProducts = curentProducts
     }
  
     // MARK: - createLayout
@@ -100,11 +102,12 @@ extension ProductsViewController: UICollectionViewDelegate{
         let section = ProductsSectionKind(rawValue: indexPath.section)
         
         switch section {
-            
         case .menu:
-            ViewControllersHelper.didSelectCurentFilter(filters: filters, indexPath: indexPath, collectionViewManageData: collectionViewManageData, collectionView: collectionView, curentProducts: curentProducts)
+            ViewControllersHelper.didSelectCurentFilter(filters: filters, indexPath: indexPath, collectionViewManageData: collectionViewManageData, collectionView: collectionView, curentProducts: curentProducts, vc: self)
         case .products:
-            print("error")
+            let productCard = ProductCard()
+            productCard.discountLabel.text = "\(filteredProducts[indexPath.row].productName)"
+            navigationController?.pushViewController(productCard, animated: true)
         case .none:
             print("error")
         }
