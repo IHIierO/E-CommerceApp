@@ -115,13 +115,9 @@ extension Home: UICollectionViewDelegate{
         case .discounts:
             ViewControllersHelper.pushToDiscount(indexPath: indexPath, view: view, discontPircent: 10, navigationController: navigationController!)
         case .newest:
-            let productCard = ProductCard()
-            productCard.discountLabel.text = "\(curentNewest[indexPath.row].productName)"
-            navigationController?.pushViewController(productCard, animated: true)
+            ViewControllersHelper.pushToProductCard(navigationController: navigationController, products: curentNewest, indexPath: indexPath)
         case .topRated:
-            let productCard = ProductCard()
-            productCard.discountLabel.text = "\(curentTopRated[indexPath.row].productName)"
-            navigationController?.pushViewController(productCard, animated: true)
+            ViewControllersHelper.pushToProductCard(navigationController: navigationController, products: curentTopRated, indexPath: indexPath)
         case .none:
             print("error")
         }

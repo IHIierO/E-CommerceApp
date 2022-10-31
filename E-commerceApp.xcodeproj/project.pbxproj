@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		39074547290FEE6F004AE0BA /* ImageScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39074546290FEE6F004AE0BA /* ImageScrollView.swift */; };
 		390ED14228FEC06900F45C27 /* FavoriteProducts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 390ED14128FEC06900F45C27 /* FavoriteProducts.swift */; };
 		390ED1442900386900F45C27 /* ViewControllerPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 390ED1432900386900F45C27 /* ViewControllerPreview.swift */; };
 		390ED1462901454500F45C27 /* CollectionViewManageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 390ED1452901454500F45C27 /* CollectionViewManageData.swift */; };
@@ -40,6 +41,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		39074546290FEE6F004AE0BA /* ImageScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageScrollView.swift; sourceTree = "<group>"; };
 		390ED14128FEC06900F45C27 /* FavoriteProducts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteProducts.swift; sourceTree = "<group>"; };
 		390ED1432900386900F45C27 /* ViewControllerPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerPreview.swift; sourceTree = "<group>"; };
 		390ED1452901454500F45C27 /* CollectionViewManageData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewManageData.swift; sourceTree = "<group>"; };
@@ -85,6 +87,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		39074545290FEE35004AE0BA /* Sub Views */ = {
+			isa = PBXGroup;
+			children = (
+				399AAB6228F9782B003B2037 /* DiscountsPopup.swift */,
+				39074546290FEE6F004AE0BA /* ImageScrollView.swift */,
+			);
+			path = "Sub Views";
+			sourceTree = "<group>";
+		};
 		390ED1492902B0C300F45C27 /* Cells For Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -149,6 +160,7 @@
 			children = (
 				399AAB6028F9771F003B2037 /* Main Controllers */,
 				399AAB6128F97744003B2037 /* Sub Controllers */,
+				39074545290FEE35004AE0BA /* Sub Views */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -211,7 +223,6 @@
 				399AAB6D28FDA02A003B2037 /* ProductsViewController.swift */,
 				390ED14128FEC06900F45C27 /* FavoriteProducts.swift */,
 				399AAB4928F6ECA6003B2037 /* ProductCard.swift */,
-				399AAB6228F9782B003B2037 /* DiscountsPopup.swift */,
 			);
 			path = "Sub Controllers";
 			sourceTree = "<group>";
@@ -322,6 +333,7 @@
 				399AAB3128F6E82B003B2037 /* SceneDelegate.swift in Sources */,
 				399AAB7028FEA8C5003B2037 /* ProductModel.swift in Sources */,
 				390ED1442900386900F45C27 /* ViewControllerPreview.swift in Sources */,
+				39074547290FEE6F004AE0BA /* ImageScrollView.swift in Sources */,
 				391C58852906B6A3003E58F6 /* CartCell.swift in Sources */,
 				399AAB4528F6EAF8003B2037 /* TabBar.swift in Sources */,
 				399AAB5F28F84477003B2037 /* Header.swift in Sources */,

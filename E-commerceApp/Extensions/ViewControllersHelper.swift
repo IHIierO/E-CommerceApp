@@ -92,4 +92,26 @@ class ViewControllersHelper{
             }
         }
     }
+    
+    static func pushToProductCard(navigationController: UINavigationController?, products: [Product], indexPath: IndexPath){
+        let productCard = ProductCard()
+        
+//        for image in 0...2 {
+//            let imageToDisplay = UIImage(named: "cream_for_hands_\(image + 1)")
+//            productCard.productImage.image = imageToDisplay
+//            productCard.scrollView.addSubview(productCard.productImage)
+//        }
+        
+//        productCard.productImage.image = UIImage(named: products[indexPath.row].productImage)
+        productCard.productName.text = "\(products[indexPath.row].productName)"
+        productCard.productDiscription.text = "\(products[indexPath.row].productDescription ?? "")"
+        
+        if products[indexPath.row].discount != nil {
+            let discontPrice = (products[indexPath.row].price * (100 - (products[indexPath.row].discount ?? 100))/100)
+            productCard.productPrice.attributedText = "\(products[indexPath.row].price)  \(discontPrice) руб.".createAttributedString(stringtToStrike: "\(products[indexPath.row].price)")
+        }else{
+            productCard.productPrice.text = "\(products[indexPath.row].price) руб."
+        }
+        navigationController?.pushViewController(productCard, animated: true)
+    }
 }

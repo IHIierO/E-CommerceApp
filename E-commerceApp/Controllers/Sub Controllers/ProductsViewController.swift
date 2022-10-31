@@ -105,9 +105,7 @@ extension ProductsViewController: UICollectionViewDelegate{
         case .menu:
             ViewControllersHelper.didSelectCurentFilter(filters: filters, indexPath: indexPath, collectionViewManageData: collectionViewManageData, collectionView: collectionView, curentProducts: curentProducts, vc: self)
         case .products:
-            let productCard = ProductCard()
-            productCard.discountLabel.text = "\(filteredProducts[indexPath.row].productName)"
-            navigationController?.pushViewController(productCard, animated: true)
+            ViewControllersHelper.pushToProductCard(navigationController: navigationController, products: filteredProducts, indexPath: indexPath)
         case .none:
             print("error")
         }
