@@ -9,32 +9,151 @@ import UIKit
 
 class Person: UIViewController {
     
-    private let button: UIButton = {
+    let ksenia = PersonModel(name: "Ksenia Vorobyova", password: "123", image: "topRated", products: products.filter({$0.favorite == true}))
+    
+    let profileImage: UIImageView = {
+        let profileImage = UIImageView()
+        profileImage.contentMode = .scaleAspectFill
+        profileImage.layer.masksToBounds = true
+        profileImage.backgroundColor = .systemFill
+        profileImage.translatesAutoresizingMaskIntoConstraints = false
+        return profileImage
+    }()
+    let profileNameLabel: UILabel = {
+       let label = UILabel()
+        label.textAlignment = .center
+        label.backgroundColor = .systemTeal
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    let tableView: UITableView = {
+       let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    }()
+    
+    let exitButton: UIButton = {
         let button = UIButton()
         button.configuration = .gray()
-        button.configuration?.title = "Favorite"
+        button.configuration?.title = "Выйти"
         button.configuration?.baseForegroundColor = .black
         button.configuration?.cornerStyle = .capsule
         
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
+    var profileMenuTextData: [String] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        setupTableView()
+        setConstraints()
         
-        view.addSubview(button)
-        NSLayoutConstraint.activate([
-            button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            button.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-        ])
-        
-        button.addTarget(self, action: #selector(goToFavorite), for: .touchUpInside)
+        profileImage.image = UIImage(named: "\(ksenia.image)")
+        profileNameLabel.text = ksenia.name
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        profileImage.layer.cornerRadius = profileImage.frame.size.width / 2
+    }
+    
+    private func setupTableView(){
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.bounces = false
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        profileMenuTextData = [
+        "Избранное",
+        "Заказы",
+        "Настройки профиля",
+        "Справка",
+        "Контакты",
+        ]
     }
 
-    @objc func goToFavorite(){
-        navigationController?.pushViewController(FavoriteProducts(), animated: true)
+    private func setConstraints(){
+        view.addSubview(profileImage)
+        NSLayoutConstraint.activate([
+            profileImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            profileImage.topAnchor.constraint(equalTo: view.topAnchor, constant: 40),
+            profileImage.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
+            profileImage.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
+        ])
+        view.addSubview(profileNameLabel)
+        NSLayoutConstraint.activate([
+            profileNameLabel.topAnchor.constraint(equalTo: profileImage.bottomAnchor, constant: 40),
+            profileNameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
+            profileNameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
+            profileNameLabel.heightAnchor.constraint(equalToConstant: 30)
+        ])
+        
+        view.addSubview(exitButton)
+        NSLayoutConstraint.activate([
+            exitButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+            exitButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
+            exitButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
+            exitButton.heightAnchor.constraint(equalToConstant: 40)
+        ])
+        
+        view.addSubview(tableView)
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: profileNameLabel.bottomAnchor, constant: 40),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
+            tableView.bottomAnchor.constraint(equalTo: exitButton.topAnchor, constant: -40)
+        ])
+    }
+}
+
+// MARK: - UITableViewDelegate, UITableViewDataSource
+extension Person: UITableViewDelegate, UITableViewDataSource{
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return profileMenuTextData.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        cell.backgroundColor = .red
+        var config = cell.defaultContentConfiguration()
+        config.text = profileMenuTextData[indexPath.row]
+        cell.contentConfiguration = config
+        cell.accessoryType = .disclosureIndicator
+        cell.selectionStyle = .none
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch indexPath{
+        case [0,0]:
+            let favoriteProducts = ProductsViewController()
+            favoriteProducts.curentProducts = ksenia.products!
+            favoriteProducts.filters = Filter(names: [""])
+            navigationController?.pushViewController(favoriteProducts, animated: true)
+        case [0,1]:
+            print("\(profileMenuTextData[indexPath.row])")
+        case [0,2]:
+            print("\(profileMenuTextData[indexPath.row])")
+        case [0,3]:
+            print("\(profileMenuTextData[indexPath.row])")
+        case [0,4]:
+            print("\(profileMenuTextData[indexPath.row])")
+        default:
+            print("no menu row")
+        }
+    }
+    
+}
+
+// MARK: - SwiftUI
+import SwiftUI
+struct Person_Previews: PreviewProvider {
+    static var previews: some View {
+        UIViewControllerPreview {
+            // Return whatever controller you want to preview
+            let vc = Person()
+            return vc
+        }.edgesIgnoringSafeArea(.all)
     }
 }

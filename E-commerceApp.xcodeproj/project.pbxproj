@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		39074547290FEE6F004AE0BA /* ImageScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39074546290FEE6F004AE0BA /* ImageScrollView.swift */; };
+		3907454929103020004AE0BA /* PersonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3907454829103020004AE0BA /* PersonModel.swift */; };
 		390ED14228FEC06900F45C27 /* FavoriteProducts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 390ED14128FEC06900F45C27 /* FavoriteProducts.swift */; };
 		390ED1442900386900F45C27 /* ViewControllerPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 390ED1432900386900F45C27 /* ViewControllerPreview.swift */; };
 		390ED1462901454500F45C27 /* CollectionViewManageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 390ED1452901454500F45C27 /* CollectionViewManageData.swift */; };
@@ -42,6 +43,7 @@
 
 /* Begin PBXFileReference section */
 		39074546290FEE6F004AE0BA /* ImageScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageScrollView.swift; sourceTree = "<group>"; };
+		3907454829103020004AE0BA /* PersonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonModel.swift; sourceTree = "<group>"; };
 		390ED14128FEC06900F45C27 /* FavoriteProducts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteProducts.swift; sourceTree = "<group>"; };
 		390ED1432900386900F45C27 /* ViewControllerPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerPreview.swift; sourceTree = "<group>"; };
 		390ED1452901454500F45C27 /* CollectionViewManageData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewManageData.swift; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 		399AAB4328F6EA69003B2037 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				3907454829103020004AE0BA /* PersonModel.swift */,
 				399AAB6F28FEA8C5003B2037 /* ProductModel.swift */,
 				390ED1472901778A00F45C27 /* FiltersModel.swift */,
 				399AAB4E28F7075B003B2037 /* Cells */,
@@ -328,6 +331,7 @@
 				399AAB5D28F72BCF003B2037 /* Person.swift in Sources */,
 				399AAB6E28FDA02A003B2037 /* ProductsViewController.swift in Sources */,
 				399AAB2F28F6E82B003B2037 /* AppDelegate.swift in Sources */,
+				3907454929103020004AE0BA /* PersonModel.swift in Sources */,
 				399AAB4A28F6ECA6003B2037 /* ProductCard.swift in Sources */,
 				390ED1502902D5FF00F45C27 /* CreateSection.swift in Sources */,
 				399AAB3128F6E82B003B2037 /* SceneDelegate.swift in Sources */,

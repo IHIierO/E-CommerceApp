@@ -76,8 +76,6 @@ class ProductCard: UIViewController {
         productDiscription.delegate = self
         textViewDidChange(productDiscription)
         setConstraints()
-        
-        
     }
     
     func setupScrollView(){
@@ -107,7 +105,6 @@ class ProductCard: UIViewController {
     }
     
     @objc func fullScreenTap(_ sender: UITapGestureRecognizer) {
-        
         let imageView = sender.view as! UIImageView
         let imageScrollView = ImageScrollView(image: imageView.image!)
         imageScrollView.frame = UIScreen.main.bounds
@@ -123,13 +120,11 @@ class ProductCard: UIViewController {
         self.navigationController?.isNavigationBarHidden = true
         self.tabBarController?.tabBar.isHidden = true
     }
-
     @objc func dismissFullscreenImage(_ sender: UITapGestureRecognizer) {
         self.blurEffectView.removeFromSuperview()
         self.navigationController?.isNavigationBarHidden = false
         self.tabBarController?.tabBar.isHidden = false
         sender.view?.removeFromSuperview()
-        
     }
     
     @objc func pageControlDidChange(_ sender: UIPageControl){

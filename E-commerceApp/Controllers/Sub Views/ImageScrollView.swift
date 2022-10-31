@@ -59,7 +59,6 @@ class ImageScrollView: UIScrollView {
         let location = sender.location(in: sender.view)
         self.zoom(point: location, animated: true)
     }
-    
     func zoom(point: CGPoint, animated: Bool) {
         let currentScale = self.zoomScale
         let minScale = self.minimumZoomScale
@@ -74,7 +73,6 @@ class ImageScrollView: UIScrollView {
         self.zoom(to: zoomRect, animated: animated)
         
     }
-    
     func zoomRect(scale: CGFloat, center: CGPoint) -> CGRect {
         var zoomRect = CGRect.zero
         let bounds = self.bounds
@@ -86,15 +84,12 @@ class ImageScrollView: UIScrollView {
         zoomRect.origin.y = center.y - (zoomRect.size.height / 2)
         return zoomRect
     }
-
 }
 
 extension ImageScrollView: UIScrollViewDelegate {
-
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return imageView
     }
-
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
         let imageViewSize = imageView.frame.size
         let scrollViewSize = scrollView.bounds.size
