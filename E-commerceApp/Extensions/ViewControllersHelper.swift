@@ -103,6 +103,7 @@ class ViewControllersHelper{
 //        }
         
 //        productCard.productImage.image = UIImage(named: products[indexPath.row].productImage)
+        productCard.product = products[indexPath.row]
         productCard.productName.text = "\(products[indexPath.row].productName)"
         productCard.productDiscription.text = "\(products[indexPath.row].productDescription ?? "")"
         

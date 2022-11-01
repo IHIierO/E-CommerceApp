@@ -9,8 +9,6 @@ import UIKit
 
 class Person: UIViewController {
     
-    let ksenia = PersonModel(name: "Ksenia Vorobyova", password: "123", image: "topRated", products: products.filter({$0.favorite == true}))
-    
     let profileImage: UIImageView = {
         let profileImage = UIImageView()
         profileImage.contentMode = .scaleAspectFill
@@ -43,15 +41,16 @@ class Person: UIViewController {
         return button
     }()
     var profileMenuTextData: [String] = []
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupTableView()
         setConstraints()
         
-        profileImage.image = UIImage(named: "\(ksenia.image)")
-        profileNameLabel.text = ksenia.name
+        profileImage.image = UIImage(named: "\(Persons.ksenia.image)")
+        profileNameLabel.text = Persons.ksenia.name
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -128,7 +127,7 @@ extension Person: UITableViewDelegate, UITableViewDataSource{
         switch indexPath{
         case [0,0]:
             let favoriteProducts = ProductsViewController()
-            favoriteProducts.curentProducts = ksenia.products!
+            favoriteProducts.curentProducts = Persons.ksenia.favoriteProducts
             favoriteProducts.filters = Filter(names: [""])
             navigationController?.pushViewController(favoriteProducts, animated: true)
         case [0,1]:

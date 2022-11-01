@@ -122,8 +122,16 @@ class HomeCollectionViewManageData {
                 return cell
             case .topRated:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TopRatedCell.reuseId, for: indexPath) as! TopRatedCell
-                cell.favoriteButtonTapAction = { () in
-                    print("add to favorite")
+                cell.favoriteButtonTapAction = {() in
+                        if !Persons.ksenia.favoriteProducts.contains(curentTopRated[indexPath.row]){
+                            Persons.ksenia.favoriteProducts.append(curentTopRated[indexPath.row])
+                            cell.favoriteButton.configuration?.image = UIImage(systemName: "heart.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 40, weight: .bold, scale: .large))
+                        }else{
+                            if let index = Persons.ksenia.favoriteProducts.firstIndex(of: curentTopRated[indexPath.row]){
+                                Persons.ksenia.favoriteProducts.remove(at: index)
+                                cell.favoriteButton.configuration?.image = UIImage(systemName: "heart", withConfiguration: UIImage.SymbolConfiguration(pointSize: 40, weight: .bold, scale: .large))
+                            }
+                        }
                 }
                 cell.configure(with: itemIdentifier, indexPath: indexPath, products: curentTopRated)
                 return cell

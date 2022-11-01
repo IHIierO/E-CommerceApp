@@ -9,8 +9,22 @@ import UIKit
 
 struct PersonModel: Identifiable {
     var id = UUID()
-    var name: String
-    var password: String
-    var image: String
-    var products: [Product]?
+    var name: String = "Name"
+    var password: String = "Password"
+    var image: String = "Image"
+    var favoriteProducts: [Product] = []
+    var productsInCart: [Product] = []
+    var recentlyViewedProducts: [Product] = []
+    
 }
+
+class Persons {
+    static var ksenia = PersonModel(name: "Ksenia Vorobeva", image: "topRated")
+    
+    private init(){
+        
+    }
+}
+
+
+

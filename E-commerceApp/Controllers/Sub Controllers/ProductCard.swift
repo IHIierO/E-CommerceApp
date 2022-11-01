@@ -9,6 +9,9 @@ import UIKit
 
 class ProductCard: UIViewController {
     
+    var product = Product()
+    var containsInCart = false
+    
     var scrollView = UIScrollView()
     var productImages = [UIImage]()
     
@@ -72,12 +75,30 @@ class ProductCard: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        setupProductCard()
         setupScrollView()
-        productDiscription.delegate = self
-        textViewDidChange(productDiscription)
         setConstraints()
     }
     
+    @objc func addToCartButtonTap(){
+        if containsInCart == false {
+            if !Persons.ksenia.productsInCart.contains(product){
+                product.count = 1
+                Persons.ksenia.productsInCart.append(product)
+            }
+        }
+    }
+    
+    func setupProductCard(){
+        productDiscription.delegate = self
+        textViewDidChange(productDiscription)
+        addToCartButton.addTarget(self, action: #selector(addToCartButtonTap), for: .touchUpInside)
+        for i in Persons.ksenia.productsInCart{
+            if i.id == product.id {
+                containsInCart = true
+            }
+        }
+    }
     func setupScrollView(){
         view.addSubview(scrollView)
         scrollView.frame = CGRect(x: 0, y: 50, width: view.frame.width, height: view.frame.height * 0.45)
@@ -103,35 +124,6 @@ class ProductCard: UIViewController {
         }
         pageControl.addTarget(self, action: #selector(pageControlDidChange(_:)), for: .valueChanged)
     }
-    
-    @objc func fullScreenTap(_ sender: UITapGestureRecognizer) {
-        let imageView = sender.view as! UIImageView
-        let imageScrollView = ImageScrollView(image: imageView.image!)
-        imageScrollView.frame = UIScreen.main.bounds
-        imageScrollView.contentMode = .scaleAspectFit
-        imageScrollView.isUserInteractionEnabled = true
-        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImage))
-        tap.require(toFail: imageScrollView.zoomingTap)
-        tap.delaysTouchesBegan = true
-        imageScrollView.zoomingTap.delaysTouchesBegan = true
-        imageScrollView.addGestureRecognizer(tap)
-        self.view.addSubview(blurEffectView)
-        self.view.addSubview(imageScrollView)
-        self.navigationController?.isNavigationBarHidden = true
-        self.tabBarController?.tabBar.isHidden = true
-    }
-    @objc func dismissFullscreenImage(_ sender: UITapGestureRecognizer) {
-        self.blurEffectView.removeFromSuperview()
-        self.navigationController?.isNavigationBarHidden = false
-        self.tabBarController?.tabBar.isHidden = false
-        sender.view?.removeFromSuperview()
-    }
-    
-    @objc func pageControlDidChange(_ sender: UIPageControl){
-        let currentPage = sender.currentPage
-        scrollView.setContentOffset(CGPoint(x: CGFloat(currentPage) * view.frame.size.width, y: 0), animated: true)
-    }
-
     private func setConstraints(){
         
         view.addSubview(pageControl)
@@ -178,6 +170,34 @@ class ProductCard: UIViewController {
             productDiscription.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
         ])
         
+    }
+    
+    @objc func fullScreenTap(_ sender: UITapGestureRecognizer) {
+        let imageView = sender.view as! UIImageView
+        let imageScrollView = ImageScrollView(image: imageView.image!)
+        imageScrollView.frame = UIScreen.main.bounds
+        imageScrollView.contentMode = .scaleAspectFit
+        imageScrollView.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImage))
+        tap.require(toFail: imageScrollView.zoomingTap)
+        tap.delaysTouchesBegan = true
+        imageScrollView.zoomingTap.delaysTouchesBegan = true
+        imageScrollView.addGestureRecognizer(tap)
+        self.view.addSubview(blurEffectView)
+        self.view.addSubview(imageScrollView)
+        self.navigationController?.isNavigationBarHidden = true
+        self.tabBarController?.tabBar.isHidden = true
+    }
+    @objc func dismissFullscreenImage(_ sender: UITapGestureRecognizer) {
+        self.blurEffectView.removeFromSuperview()
+        self.navigationController?.isNavigationBarHidden = false
+        self.tabBarController?.tabBar.isHidden = false
+        sender.view?.removeFromSuperview()
+    }
+    
+    @objc func pageControlDidChange(_ sender: UIPageControl){
+        let currentPage = sender.currentPage
+        scrollView.setContentOffset(CGPoint(x: CGFloat(currentPage) * view.frame.size.width, y: 0), animated: true)
     }
 }
 

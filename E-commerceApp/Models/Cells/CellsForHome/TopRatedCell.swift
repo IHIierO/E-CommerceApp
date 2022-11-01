@@ -8,8 +8,6 @@
 import UIKit
 
 class TopRatedCell: UICollectionViewCell, SelfConfiguringCell {
-   
-    
     static var reuseId: String = "TopRatedCell"
     
     var favoriteButtonTapAction : (()->())?
@@ -24,19 +22,17 @@ class TopRatedCell: UICollectionViewCell, SelfConfiguringCell {
         topRatedImage.translatesAutoresizingMaskIntoConstraints = false
         return topRatedImage
     }()
-    
     let favoriteButton: UIButton = {
        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
         var config = UIButton.Configuration.plain()
         config.imagePadding = 4
-        config.image = UIImage(systemName: "heart.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 40, weight: .bold, scale: .large))
+        config.image = UIImage(systemName: "heart", withConfiguration: UIImage.SymbolConfiguration(pointSize: 40, weight: .bold, scale: .large))
         button.configuration = config
         button.tintColor = .red
         
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
     let priceLabel: UILabel = {
        let label = UILabel()
         label.text = "$125"

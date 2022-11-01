@@ -9,7 +9,7 @@ import UIKit
 
 class ShoppingCart: UIViewController {
   
-    var productsToCart = products.filter({$0.shoppingCart == true})
+//    var Persons.ksenia = PersonModel()
     var inAllSumData: [String] = []
     
     private let buyButton: UIButton = {
@@ -24,6 +24,11 @@ class ShoppingCart: UIViewController {
         return button
     }()
     private var collectionView: UICollectionView! = nil
+    
+    override func viewWillAppear(_ animated: Bool) {
+        collectionView.reloadData()
+        newData()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +42,7 @@ class ShoppingCart: UIViewController {
         
         var allSum: [Int] = []
         
-        for product in productsToCart {
+        for product in Persons.ksenia.productsInCart {
             if product.discount == nil{
                 let sum = product.price * product.count
                 allSum.append(sum)
@@ -54,7 +59,7 @@ class ShoppingCart: UIViewController {
         
         var allSum: [Int] = []
         
-        for product in productsToCart {
+        for product in Persons.ksenia.productsInCart  {
             let sum = product.price * product.count
             allSum.append(sum)
             
@@ -67,7 +72,7 @@ class ShoppingCart: UIViewController {
         
         var allSum: [Int] = []
         
-        for product in productsToCart {
+        for product in Persons.ksenia.productsInCart  {
             allSum.append(product.count)
         }
        let newSum = allSum.reduce(0, +)
@@ -149,7 +154,7 @@ extension ShoppingCart: UICollectionViewDelegateFlowLayout, UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch section {
-        case 0: return productsToCart.count
+        case 0: return Persons.ksenia.productsInCart.count
         case 1: return 4
         default: return 1
         }
@@ -160,26 +165,25 @@ extension ShoppingCart: UICollectionViewDelegateFlowLayout, UICollectionViewData
         switch indexPath.section {
         case 0 :
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CartCell.reuseId, for: indexPath) as! CartCell
-            cell.configure(indexPath: indexPath, products: productsToCart)
-            cell.stepperLabel.text = "\(productsToCart[indexPath.row].count)"
+            cell.configure(indexPath: indexPath, products: Persons.ksenia.productsInCart )
+            cell.stepperLabel.text = "\(Persons.ksenia.productsInCart [indexPath.row].count)"
             cell.plusButtonCallback = { [self]
                 () in
-                productsToCart[indexPath.row].count = productsToCart[indexPath.row].count + 1
+                Persons.ksenia.productsInCart[indexPath.row].count = Persons.ksenia.productsInCart[indexPath.row].count + 1
                 newData()
-                cell.stepperLabel.text = "\(productsToCart[indexPath.row].count)"
+                cell.stepperLabel.text = "\(Persons.ksenia.productsInCart[indexPath.row].count)"
                 collectionView.reloadSections(NSIndexSet(index: 1) as IndexSet)
-                print("\(products)")
             }
             cell.minusButtonCallback = { [self]
                 () in
-                if productsToCart[indexPath.row].count > 1 {
-                    productsToCart[indexPath.row].count = productsToCart[indexPath.row].count - 1
+                if Persons.ksenia.productsInCart[indexPath.row].count > 1 {
+                    Persons.ksenia.productsInCart[indexPath.row].count = Persons.ksenia.productsInCart[indexPath.row].count - 1
                     newData()
-                    cell.stepperLabel.text = "\(productsToCart[indexPath.row].count)"
+                    cell.stepperLabel.text = "\(Persons.ksenia.productsInCart[indexPath.row].count)"
                     collectionView.reloadSections(NSIndexSet(index: 1) as IndexSet)
                 }else{
-                    productsToCart[indexPath.row].count = productsToCart[indexPath.row].count - 0
-                    cell.stepperLabel.text = "\(productsToCart[indexPath.row].count)"
+                    Persons.ksenia.productsInCart[indexPath.row].count = Persons.ksenia.productsInCart[indexPath.row].count - 0
+                    cell.stepperLabel.text = "\(Persons.ksenia.productsInCart[indexPath.row].count)"
                 }
             }
             return cell
@@ -196,9 +200,8 @@ extension ShoppingCart: UICollectionViewDelegateFlowLayout, UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
-        productsToCart[indexPath.row].shoppingCart = false
-        productsToCart[indexPath.row].count = 0
-        productsToCart.remove(at: indexPath.row)
+        Persons.ksenia.productsInCart[indexPath.row].count = 0
+        Persons.ksenia.productsInCart.remove(at: indexPath.row)
         newData()
         collectionView.reloadData()
      }
