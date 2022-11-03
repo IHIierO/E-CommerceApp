@@ -10,6 +10,7 @@ import UIKit
 class NewestCell: UICollectionViewCell, SelfConfiguringCell {
    
     static var reuseId: String = "CollectionsCell"
+    var favoriteButtonTapAction : (()->())?
     
     let favoriteButton: UIButton = {
        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
@@ -66,7 +67,14 @@ class NewestCell: UICollectionViewCell, SelfConfiguringCell {
         productImage.image = UIImage(named: "\(products[indexPath.row].productImage)")
         nameLabel.text = "\(products[indexPath.row].productName)"
         priceLabel.text = "\(products[indexPath.row].price)"
+        
+        if Persons.ksenia.favoriteProducts.contains(products[indexPath.row]){
+            favoriteButton.configuration?.image = UIImage(systemName: "heart.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large))
+        }else{
+            favoriteButton.configuration?.image = UIImage(systemName: "heart", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large))
+        }
     }
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -75,11 +83,17 @@ class NewestCell: UICollectionViewCell, SelfConfiguringCell {
         self.layer.cornerRadius = 10
         self.clipsToBounds = true
         
+        favoriteButton.addTarget(self, action: #selector(addToFavorite), for: .touchUpInside)
+        
         setConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func addToFavorite(){
+        favoriteButtonTapAction?()
     }
     
     private func setConstraints(){

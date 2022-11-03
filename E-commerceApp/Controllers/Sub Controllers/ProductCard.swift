@@ -93,8 +93,8 @@ class ProductCard: UIViewController {
         productDiscription.delegate = self
         textViewDidChange(productDiscription)
         addToCartButton.addTarget(self, action: #selector(addToCartButtonTap), for: .touchUpInside)
-        for i in Persons.ksenia.productsInCart{
-            if i.id == product.id {
+        for productInCart in Persons.ksenia.productsInCart{
+            if productInCart.id == product.id {
                 containsInCart = true
             }
         }

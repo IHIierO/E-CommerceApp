@@ -9,7 +9,7 @@ import UIKit
 
 class PriceCell: UICollectionViewCell {
     static var reuseId: String = "PriceCell"
-    var productsToCart = products.filter({$0.shoppingCart == true})
+    var productsToCart = Products.products.filter({$0.shoppingCart == true})
     
     let inAllName: UILabel = {
        let label = UILabel()

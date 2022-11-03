@@ -11,7 +11,6 @@ class TopRatedCell: UICollectionViewCell, SelfConfiguringCell {
     static var reuseId: String = "TopRatedCell"
     
     var favoriteButtonTapAction : (()->())?
-    
     let topRatedImage: UIImageView = {
        let topRatedImage = UIImageView(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
         topRatedImage.image = UIImage(named: "topRated")
@@ -53,6 +52,12 @@ class TopRatedCell: UICollectionViewCell, SelfConfiguringCell {
         topRatedImage.image = UIImage(named: products[indexPath.row].productImage)
         nameLabel.text = products[indexPath.row].productName
         priceLabel.text = "\(products[indexPath.row].price) руб."
+        
+        if Persons.ksenia.favoriteProducts.contains(products[indexPath.row]) {
+            favoriteButton.configuration?.image = UIImage(systemName: "heart.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 40, weight: .bold, scale: .large))
+        }else{
+            favoriteButton.configuration?.image = UIImage(systemName: "heart", withConfiguration: UIImage.SymbolConfiguration(pointSize: 40, weight: .bold, scale: .large))
+        }
     }
     
     override init(frame: CGRect) {
@@ -65,6 +70,8 @@ class TopRatedCell: UICollectionViewCell, SelfConfiguringCell {
         favoriteButton.addTarget(self, action: #selector(addToFavorite), for: .touchUpInside)
         
         setConstraints()
+        
+        
     }
     
     @objc func addToFavorite(){

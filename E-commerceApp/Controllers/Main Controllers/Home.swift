@@ -12,8 +12,8 @@ class Home: UIViewController {
     var collectionView: UICollectionView! = nil
     let collectionViewManageData = HomeCollectionViewManageData()
     
-    var curentTopRated = products.filter({$0.rating >= 10})
-    var curentNewest = products.filter({$0.newest == true})
+    var curentTopRated = Products.products.filter({$0.rating >= 10})
+    var curentNewest = Products.products.filter({$0.newest == true})
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -47,7 +47,7 @@ class Home: UIViewController {
         collectionView.delegate = self
         
         // MARK: - Manage the data in UICollectionView
-        collectionViewManageData.setupDataSource(collectionView: collectionView, products: products, curentNewest: curentNewest, curentTopRated: curentTopRated)
+        collectionViewManageData.setupDataSource(collectionView: collectionView, products: Products.products, curentNewest: curentNewest, curentTopRated: curentTopRated)
         collectionViewManageData.reloadData(curentTopRated: curentTopRated, curentNewest: curentNewest)
     }
     

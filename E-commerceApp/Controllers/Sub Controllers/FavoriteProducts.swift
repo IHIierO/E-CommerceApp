@@ -9,7 +9,7 @@ import UIKit
 
 class FavoriteProducts: UIViewController {
     
-    var curentFavoriteProduct = products.filter({$0.favorite == true})
+    var curentFavoriteProduct = Products.products.filter({$0.favorite == true})
     
     let label: UILabel = {
        let label = UILabel()

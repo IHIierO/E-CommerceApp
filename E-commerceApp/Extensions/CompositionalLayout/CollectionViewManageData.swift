@@ -52,7 +52,7 @@ class ProductsCollectionViewManageData {
                 cell.configure(with: itemIdentifier, indexPath: indexPath, products: curentProducts)
                 cell.addToShoppingCardCallback = {() in
                     let test = curentProducts
-                    for product in products{
+                    for product in Products.products{
                         if product.productName == test[indexPath.row].productName{
                             print("\(test[indexPath.row].productName) addToShoppingCard")
                         }
@@ -108,33 +108,26 @@ class HomeCollectionViewManageData {
     func setupDataSource(collectionView: UICollectionView, products: [Product], curentNewest: [Product], curentTopRated: [Product]){
         dataSource = UICollectionViewDiffableDataSource<HomeSectionKind, Int>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, itemIdentifier) -> UICollectionViewCell? in
             let section = HomeSectionKind(rawValue: indexPath.section)!
+            let discountsCell = collectionView.dequeueReusableCell(withReuseIdentifier: DiscountsCell.reuseId, for: indexPath) as! DiscountsCell
+            let newestCell = collectionView.dequeueReusableCell(withReuseIdentifier: NewestCell.reuseId, for: indexPath) as! NewestCell
+            let topRatedCell = collectionView.dequeueReusableCell(withReuseIdentifier: TopRatedCell.reuseId, for: indexPath) as! TopRatedCell
             switch section {
                 
             case .discounts:
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DiscountsCell.reuseId, for: indexPath) as! DiscountsCell
-                cell.configure(with: itemIdentifier, indexPath: indexPath)
-                
-                return cell
+                discountsCell.configure(with: itemIdentifier, indexPath: indexPath)
+                return discountsCell
             case .newest:
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewestCell.reuseId, for: indexPath) as! NewestCell
-                cell.configure(with: itemIdentifier, indexPath: indexPath, products: curentNewest)
-                
-                return cell
+                newestCell.configure(with: itemIdentifier, indexPath: indexPath, products: curentNewest)
+                newestCell.favoriteButtonTapAction = { () in
+                    ViewControllersHelper.addToFavorite(products: curentNewest, indexPath: indexPath)
+                    collectionView.reloadData()}
+                return newestCell
             case .topRated:
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TopRatedCell.reuseId, for: indexPath) as! TopRatedCell
-                cell.favoriteButtonTapAction = {() in
-                        if !Persons.ksenia.favoriteProducts.contains(curentTopRated[indexPath.row]){
-                            Persons.ksenia.favoriteProducts.append(curentTopRated[indexPath.row])
-                            cell.favoriteButton.configuration?.image = UIImage(systemName: "heart.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 40, weight: .bold, scale: .large))
-                        }else{
-                            if let index = Persons.ksenia.favoriteProducts.firstIndex(of: curentTopRated[indexPath.row]){
-                                Persons.ksenia.favoriteProducts.remove(at: index)
-                                cell.favoriteButton.configuration?.image = UIImage(systemName: "heart", withConfiguration: UIImage.SymbolConfiguration(pointSize: 40, weight: .bold, scale: .large))
-                            }
-                        }
-                }
-                cell.configure(with: itemIdentifier, indexPath: indexPath, products: curentTopRated)
-                return cell
+                topRatedCell.configure(with: itemIdentifier, indexPath: indexPath, products: curentTopRated)
+                topRatedCell.favoriteButtonTapAction = {() in
+                    ViewControllersHelper.addToFavorite(products: curentTopRated, indexPath: indexPath)
+                    collectionView.reloadData()}
+                return topRatedCell
             }
         })
         
@@ -143,7 +136,6 @@ class HomeCollectionViewManageData {
             guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header", for: indexPath) as? Header else { fatalError("Header error") }
             let section = HomeSectionKind(rawValue: indexPath.section)
             switch section{
-            
             case .discounts:
                 header.headerLabel.text = "Акции"
             case .newest:
@@ -153,14 +145,12 @@ class HomeCollectionViewManageData {
             case .none:
                 print("error")
             }
-            
             return header
         }
     }
     
     func reloadData(curentTopRated: [Product], curentNewest: [Product]){
         var snapshot = NSDiffableDataSourceSnapshot<HomeSectionKind, Int>()
-        
         HomeSectionKind.allCases.forEach { (sectionKind) in
             
             switch sectionKind {

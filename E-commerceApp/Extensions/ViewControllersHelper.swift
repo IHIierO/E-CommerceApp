@@ -23,7 +23,7 @@ class ViewControllersHelper{
                     () in
                     discountsPopup.animateOut()
                     let discounts = ProductsViewController()
-                    let curentDiscount = products.filter({$0.discount == discont})
+                    let curentDiscount = Products.products.filter({$0.discount == discont})
                     var curentFilters = Filter(names: ["Delete filters"])
                     for product in curentDiscount {
                         let filters = Filter(names: ["для лица", "для тела", "для рук", "для волос", "для дома", "наборы"])
@@ -42,7 +42,7 @@ class ViewControllersHelper{
     }
     
     static func pushToProductsViewController(indexPath: IndexPath, category: String, menuTextData: [String], navigationController: UINavigationController?, filters: Filter) {
-        let curentCategory = products.filter({$0.productCategory == category})
+        let curentCategory = Products.products.filter({$0.productCategory == category})
         let productsViewController = ProductsViewController()
         productsViewController.title = "\(menuTextData[indexPath.row])"
         productsViewController.curentProducts = curentCategory
@@ -114,5 +114,16 @@ class ViewControllersHelper{
             productCard.productPrice.text = "\(products[indexPath.row].price) руб."
         }
         navigationController?.pushViewController(productCard, animated: true)
+    }
+    
+    static func addToFavorite(products: [Product], indexPath: IndexPath) {
+        
+        if !Persons.ksenia.favoriteProducts.contains(products[indexPath.row]){
+            Persons.ksenia.favoriteProducts.append(products[indexPath.row])
+        }else{
+            if let index = Persons.ksenia.favoriteProducts.firstIndex(of: products[indexPath.row]){
+                Persons.ksenia.favoriteProducts.remove(at: index)
+            }
+        }
     }
 }
