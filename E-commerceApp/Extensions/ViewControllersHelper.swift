@@ -103,7 +103,8 @@ class ViewControllersHelper{
 //        }
         
 //        productCard.productImage.image = UIImage(named: products[indexPath.row].productImage)
-        productCard.product = products[indexPath.row]
+        productCard.products = products
+        productCard.indexPath = indexPath
         productCard.productName.text = "\(products[indexPath.row].productName)"
         productCard.productDiscription.text = "\(products[indexPath.row].productDescription ?? "")"
         
@@ -118,12 +119,34 @@ class ViewControllersHelper{
     
     static func addToFavorite(products: [Product], indexPath: IndexPath) {
         
-        if !Persons.ksenia.favoriteProducts.contains(products[indexPath.row]){
+        if !Persons.ksenia.favoriteProducts.contains(where: { product in
+            product.id == products[indexPath.row].id
+        }){
             Persons.ksenia.favoriteProducts.append(products[indexPath.row])
         }else{
-            if let index = Persons.ksenia.favoriteProducts.firstIndex(of: products[indexPath.row]){
+            if let index = Persons.ksenia.favoriteProducts.firstIndex(where: { product in
+                product.id == products[indexPath.row].id
+            }){
                 Persons.ksenia.favoriteProducts.remove(at: index)
             }
         }
+    }
+    
+    static func addToCart(products: [Product], indexPath: IndexPath) {
+        
+        if !Persons.ksenia.productsInCart.contains(where: { product in
+            product.id == products[indexPath.row].id
+        }){
+            
+            Persons.ksenia.productsInCart.append(products[indexPath.row])
+            
+        }else{
+            if let index = Persons.ksenia.productsInCart.firstIndex(where: { product in
+                product.id == products[indexPath.row].id
+            }){
+                Persons.ksenia.productsInCart.remove(at: index)
+            }
+        }
+        
     }
 }

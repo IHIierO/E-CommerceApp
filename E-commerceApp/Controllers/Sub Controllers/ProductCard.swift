@@ -9,9 +9,8 @@ import UIKit
 
 class ProductCard: UIViewController {
     
-    var product = Product()
-    var containsInCart = false
-    
+    var products = [Product]()
+    var indexPath = IndexPath()
     var scrollView = UIScrollView()
     var productImages = [UIImage]()
     
@@ -74,30 +73,27 @@ class ProductCard: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
         setupProductCard()
         setupScrollView()
         setConstraints()
     }
     
     @objc func addToCartButtonTap(){
-        if containsInCart == false {
-            if !Persons.ksenia.productsInCart.contains(product){
-                product.count = 1
-                Persons.ksenia.productsInCart.append(product)
-            }
-        }
+        
+        ViewControllersHelper.addToCart(products: products, indexPath: indexPath)
+        addToCartButton.configuration?.title = !Persons.ksenia.productsInCart.contains(where: { product in
+            product.id == products[indexPath.row].id
+        }) ? "Добавить в корзину" : "В корзине"
     }
     
     func setupProductCard(){
+        view.backgroundColor = .white
         productDiscription.delegate = self
         textViewDidChange(productDiscription)
         addToCartButton.addTarget(self, action: #selector(addToCartButtonTap), for: .touchUpInside)
-        for productInCart in Persons.ksenia.productsInCart{
-            if productInCart.id == product.id {
-                containsInCart = true
-            }
-        }
+        addToCartButton.configuration?.title = !Persons.ksenia.productsInCart.contains(where: { product in
+            product.id == products[indexPath.row].id
+        }) ? "Добавить в корзину" : "В корзине"
     }
     func setupScrollView(){
         view.addSubview(scrollView)

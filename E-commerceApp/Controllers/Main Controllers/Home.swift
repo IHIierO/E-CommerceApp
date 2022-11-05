@@ -19,6 +19,7 @@ class Home: UIViewController {
         super.viewWillAppear(animated)
         let tabBar = self.tabBarController as! TabBar
         tabBar.showTabBar()
+        collectionView.reloadData()
     }
 
     override func viewDidLoad() {

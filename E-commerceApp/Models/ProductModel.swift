@@ -7,14 +7,14 @@
 
 import UIKit
 
-struct Product: Identifiable, Hashable {
+struct Product: Identifiable{
 
     var id = UUID()
     var productName: String = ""
     var productDescription: String?
     var productCategory: String = ""
     var productSecondCategory: String = ""
-    var count: Int = 0
+    var count: Int = 1
     var price: Int = 0
     var discount: Int?
     var productImage: String = ""

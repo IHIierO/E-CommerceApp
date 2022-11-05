@@ -10,6 +10,7 @@ import UIKit
 class ProductsCell: UICollectionViewCell, SelfConfiguringCell {
     static var reuseId: String = "ProductsCell"
     var addToShoppingCardCallback: (()->())?
+    var favoriteButtonTapAction : (()->())?
     
     let favoriteButton: UIButton = {
        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
@@ -62,6 +63,8 @@ class ProductsCell: UICollectionViewCell, SelfConfiguringCell {
         super.init(frame: frame)
         setConstraints()
         self.backgroundColor = .red
+        
+        favoriteButton.addTarget(self, action: #selector(addToFavorite), for: .touchUpInside)
         addToShoppingCard.addTarget(self, action: #selector(addToShoppingCardTap), for: .touchUpInside)
     }
     
@@ -69,6 +72,10 @@ class ProductsCell: UICollectionViewCell, SelfConfiguringCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
+    @objc func addToFavorite(){
+        favoriteButtonTapAction?()
+    }
     @objc func addToShoppingCardTap(){
         addToShoppingCardCallback?()
     }
@@ -77,6 +84,22 @@ class ProductsCell: UICollectionViewCell, SelfConfiguringCell {
         productImage.image = UIImage(named: "\(products[indexPath.row].productImage)")
         nameLabel.text = "\(products[indexPath.row].productName)"
         priceLabel.text = "\(products[indexPath.row].price) руб."
+        
+        if Persons.ksenia.favoriteProducts.contains(where: { product in
+            product.id == products[indexPath.row].id
+        }) {
+            favoriteButton.configuration?.image = UIImage(systemName: "heart.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large))
+        }else{
+            favoriteButton.configuration?.image = UIImage(systemName: "heart", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large))
+        }
+        
+        if Persons.ksenia.productsInCart.contains(where: { product in
+            product.id == products[indexPath.row].id
+        }){
+            addToShoppingCard.configuration?.image = UIImage(systemName: "cart.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large))
+        }else{
+            addToShoppingCard.configuration?.image = UIImage(systemName: "cart", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large))
+        }
     }
     
     private func setConstraints(){
@@ -86,7 +109,6 @@ class ProductsCell: UICollectionViewCell, SelfConfiguringCell {
             productImage.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0),
             productImage.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0),
             productImage.heightAnchor.constraint(equalToConstant: self.frame.height - 40),
-            productImage.widthAnchor.constraint(equalToConstant: self.frame.width)
         ])
         
         self.addSubview(nameLabel)

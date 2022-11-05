@@ -50,14 +50,12 @@ class ProductsCollectionViewManageData {
             case .products:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductsCell.reuseId, for: indexPath) as! ProductsCell
                 cell.configure(with: itemIdentifier, indexPath: indexPath, products: curentProducts)
-                cell.addToShoppingCardCallback = {() in
-                    let test = curentProducts
-                    for product in Products.products{
-                        if product.productName == test[indexPath.row].productName{
-                            print("\(test[indexPath.row].productName) addToShoppingCard")
-                        }
-                    }
-                }
+                cell.addToShoppingCardCallback = { () in
+                    ViewControllersHelper.addToCart(products: curentProducts, indexPath: indexPath)
+                    collectionView.reloadData()}
+                cell.favoriteButtonTapAction = {() in
+                    ViewControllersHelper.addToFavorite(products: curentProducts, indexPath: indexPath)
+                    collectionView.reloadData()}
                 return cell
             }
         })
@@ -120,6 +118,9 @@ class HomeCollectionViewManageData {
                 newestCell.configure(with: itemIdentifier, indexPath: indexPath, products: curentNewest)
                 newestCell.favoriteButtonTapAction = { () in
                     ViewControllersHelper.addToFavorite(products: curentNewest, indexPath: indexPath)
+                    collectionView.reloadData()}
+                newestCell.addToShoppingCardCallback = { () in
+                    ViewControllersHelper.addToCart(products: curentNewest, indexPath: indexPath)
                     collectionView.reloadData()}
                 return newestCell
             case .topRated:

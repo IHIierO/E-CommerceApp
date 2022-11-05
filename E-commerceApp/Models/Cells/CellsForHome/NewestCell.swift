@@ -10,6 +10,7 @@ import UIKit
 class NewestCell: UICollectionViewCell, SelfConfiguringCell {
    
     static var reuseId: String = "CollectionsCell"
+    var addToShoppingCardCallback: (()->())?
     var favoriteButtonTapAction : (()->())?
     
     let favoriteButton: UIButton = {
@@ -23,7 +24,6 @@ class NewestCell: UICollectionViewCell, SelfConfiguringCell {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
     let addToShoppingCard: UIButton = {
        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
         var config = UIButton.Configuration.plain()
@@ -35,7 +35,6 @@ class NewestCell: UICollectionViewCell, SelfConfiguringCell {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
     let productImage: UIImageView = {
        let productImage = UIImageView(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
         productImage.image = UIImage(named: "topRated")
@@ -46,7 +45,6 @@ class NewestCell: UICollectionViewCell, SelfConfiguringCell {
         productImage.translatesAutoresizingMaskIntoConstraints = false
         return productImage
     }()
-    
     let priceLabel: UILabel = {
        let label = UILabel()
         label.text = "$125"
@@ -54,7 +52,6 @@ class NewestCell: UICollectionViewCell, SelfConfiguringCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
     let nameLabel: UILabel = {
        let label = UILabel()
         label.text = "Куртка Женская"
@@ -68,10 +65,20 @@ class NewestCell: UICollectionViewCell, SelfConfiguringCell {
         nameLabel.text = "\(products[indexPath.row].productName)"
         priceLabel.text = "\(products[indexPath.row].price)"
         
-        if Persons.ksenia.favoriteProducts.contains(products[indexPath.row]){
+        if Persons.ksenia.favoriteProducts.contains(where: { product in
+            product.id == products[indexPath.row].id
+        }){
             favoriteButton.configuration?.image = UIImage(systemName: "heart.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large))
         }else{
             favoriteButton.configuration?.image = UIImage(systemName: "heart", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large))
+        }
+        
+        if Persons.ksenia.productsInCart.contains(where: { product in
+            product.id == products[indexPath.row].id
+        }){
+            addToShoppingCard.configuration?.image = UIImage(systemName: "cart.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large))
+        }else{
+            addToShoppingCard.configuration?.image = UIImage(systemName: "cart", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large))
         }
     }
     
@@ -84,6 +91,7 @@ class NewestCell: UICollectionViewCell, SelfConfiguringCell {
         self.clipsToBounds = true
         
         favoriteButton.addTarget(self, action: #selector(addToFavorite), for: .touchUpInside)
+        addToShoppingCard.addTarget(self, action: #selector(addToShoppingCardTap), for: .touchUpInside)
         
         setConstraints()
     }
@@ -95,6 +103,9 @@ class NewestCell: UICollectionViewCell, SelfConfiguringCell {
     @objc func addToFavorite(){
         favoriteButtonTapAction?()
     }
+    @objc func addToShoppingCardTap(){
+        addToShoppingCardCallback?()
+    }
     
     private func setConstraints(){
         self.addSubview(productImage)
@@ -103,7 +114,6 @@ class NewestCell: UICollectionViewCell, SelfConfiguringCell {
             productImage.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0),
             productImage.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0),
             productImage.heightAnchor.constraint(equalToConstant: self.frame.height - 40),
-            productImage.widthAnchor.constraint(equalToConstant: self.frame.width)
         ])
         
         self.addSubview(nameLabel)

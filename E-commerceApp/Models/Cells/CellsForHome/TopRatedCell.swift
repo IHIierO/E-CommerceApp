@@ -53,7 +53,9 @@ class TopRatedCell: UICollectionViewCell, SelfConfiguringCell {
         nameLabel.text = products[indexPath.row].productName
         priceLabel.text = "\(products[indexPath.row].price) руб."
         
-        if Persons.ksenia.favoriteProducts.contains(products[indexPath.row]) {
+        if Persons.ksenia.favoriteProducts.contains(where: { product in
+            product.id == products[indexPath.row].id
+        }) {
             favoriteButton.configuration?.image = UIImage(systemName: "heart.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 40, weight: .bold, scale: .large))
         }else{
             favoriteButton.configuration?.image = UIImage(systemName: "heart", withConfiguration: UIImage.SymbolConfiguration(pointSize: 40, weight: .bold, scale: .large))
