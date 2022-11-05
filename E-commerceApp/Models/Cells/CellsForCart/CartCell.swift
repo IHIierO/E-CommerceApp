@@ -7,14 +7,6 @@
 
 import UIKit
 
-extension String {
-        func createAttributedString(stringtToStrike: String) -> NSMutableAttributedString {
-            let attributedString = NSMutableAttributedString(string: self)
-            let range = attributedString.mutableString.range(of: stringtToStrike)
-            attributedString.addAttributes([NSAttributedString.Key.strikethroughStyle : NSUnderlineStyle.single.rawValue], range: range)
-            return attributedString
-        } }
-
 class CartCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     static var reuseId: String = "CartCell"
     

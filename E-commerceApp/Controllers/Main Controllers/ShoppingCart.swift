@@ -95,6 +95,7 @@ class ShoppingCart: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(CartCell.self, forCellWithReuseIdentifier: CartCell.reuseId)
         collectionView.register(PriceCell.self, forCellWithReuseIdentifier: PriceCell.reuseId)
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "isEmpty")
         collectionView.delegate = self
         collectionView.dataSource = self
         buyButton.configuration?.subtitle = "\(inAllPrice())"
@@ -154,7 +155,12 @@ extension ShoppingCart: UICollectionViewDelegateFlowLayout, UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch section {
-        case 0: return Persons.ksenia.productsInCart.count
+        case 0:
+            if !Persons.ksenia.productsInCart.isEmpty {
+                return Persons.ksenia.productsInCart.count
+            }else{
+                return 1
+            }
         case 1: return 4
         default: return 1
         }
@@ -164,29 +170,35 @@ extension ShoppingCart: UICollectionViewDelegateFlowLayout, UICollectionViewData
         
         switch indexPath.section {
         case 0 :
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CartCell.reuseId, for: indexPath) as! CartCell
-            cell.configure(indexPath: indexPath, products: Persons.ksenia.productsInCart )
-            cell.stepperLabel.text = "\(Persons.ksenia.productsInCart [indexPath.row].count)"
-            cell.plusButtonCallback = { [self]
-                () in
-                Persons.ksenia.productsInCart[indexPath.row].count = Persons.ksenia.productsInCart[indexPath.row].count + 1
-                newData()
-                cell.stepperLabel.text = "\(Persons.ksenia.productsInCart[indexPath.row].count)"
-                collectionView.reloadSections(NSIndexSet(index: 1) as IndexSet)
-            }
-            cell.minusButtonCallback = { [self]
-                () in
-                if Persons.ksenia.productsInCart[indexPath.row].count > 1 {
-                    Persons.ksenia.productsInCart[indexPath.row].count = Persons.ksenia.productsInCart[indexPath.row].count - 1
+            if !Persons.ksenia.productsInCart.isEmpty{
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CartCell.reuseId, for: indexPath) as! CartCell
+                cell.configure(indexPath: indexPath, products: Persons.ksenia.productsInCart )
+                cell.stepperLabel.text = "\(Persons.ksenia.productsInCart [indexPath.row].count)"
+                cell.plusButtonCallback = { [self]
+                    () in
+                    Persons.ksenia.productsInCart[indexPath.row].count = Persons.ksenia.productsInCart[indexPath.row].count + 1
                     newData()
                     cell.stepperLabel.text = "\(Persons.ksenia.productsInCart[indexPath.row].count)"
                     collectionView.reloadSections(NSIndexSet(index: 1) as IndexSet)
-                }else{
-                    Persons.ksenia.productsInCart[indexPath.row].count = Persons.ksenia.productsInCart[indexPath.row].count - 0
-                    cell.stepperLabel.text = "\(Persons.ksenia.productsInCart[indexPath.row].count)"
                 }
+                cell.minusButtonCallback = { [self]
+                    () in
+                    if Persons.ksenia.productsInCart[indexPath.row].count > 1 {
+                        Persons.ksenia.productsInCart[indexPath.row].count = Persons.ksenia.productsInCart[indexPath.row].count - 1
+                        newData()
+                        cell.stepperLabel.text = "\(Persons.ksenia.productsInCart[indexPath.row].count)"
+                        collectionView.reloadSections(NSIndexSet(index: 1) as IndexSet)
+                    }else{
+                        Persons.ksenia.productsInCart[indexPath.row].count = Persons.ksenia.productsInCart[indexPath.row].count - 0
+                        cell.stepperLabel.text = "\(Persons.ksenia.productsInCart[indexPath.row].count)"
+                    }
+                }
+                return cell
+            }else{
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "isEmpty", for: indexPath)
+                cell.backgroundColor = .red
+                return cell
             }
-            return cell
         case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PriceCell.reuseId, for: indexPath) as! PriceCell
             cell.config(indexPath: indexPath)
