@@ -1,15 +1,15 @@
 //
-//  PriceCell.swift
+//  PriceCell2.swift
 //  E-commerceApp
 //
-//  Created by Artem Vorobev on 24.10.2022.
+//  Created by Artem Vorobev on 07.11.2022.
 //
 
 import UIKit
 
-class PriceCell: UICollectionViewCell {
+class PriceCellTV: UITableViewCell {
+    
     static var reuseId: String = "PriceCell"
-    var productsToCart = Products.products.filter({$0.shoppingCart == true})
     
     let inAllName: UILabel = {
        let label = UILabel()
@@ -20,7 +20,6 @@ class PriceCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
     let inAllNameData = [
     "Товаров в заказе",
     "Товары на сумму",
@@ -36,23 +35,19 @@ class PriceCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         setConstraints()
-        self.backgroundColor = .brown
-        
+        self.selectionStyle = .none
     }
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     func config(indexPath: IndexPath){
         inAllName.text = "\(inAllNameData[indexPath.row])"
-//        inAllSum.text = "\(inAllSumData[indexPath.row])"
     }
-    
     func setConstraints(){
         self.addSubview(inAllName)
         NSLayoutConstraint.activate([
@@ -67,4 +62,5 @@ class PriceCell: UICollectionViewCell {
             inAllSum.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1/3)
         ])
     }
+
 }

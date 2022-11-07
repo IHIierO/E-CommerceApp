@@ -25,7 +25,7 @@ class TabBar: UITabBarController{
             tabBarItemImage: "house"
         )
         let shoppingCartViewController = createNavigationControllers(
-            viewControllers: ShoppingCart(),
+            viewControllers: ShoppingCartTV(),
             tabBarItemName: "ShoppingCart",
             tabBarItemImage: "cart"
         )

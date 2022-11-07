@@ -1,13 +1,15 @@
 //
-//  ShoppingCartTV.swift
+//  ShoppingCart.swift
 //  E-commerceApp
 //
-//  Created by Artem Vorobev on 07.11.2022.
+//  Created by Artem Vorobev on 12.10.2022.
 //
 
 import UIKit
 
-class ShoppingCartTV: UIViewController {
+class ShoppingCart: UIViewController {
+  
+//    var Persons.ksenia = PersonModel()
     var inAllSumData: [String] = []
     
     private let buyButton: UIButton = {
@@ -21,10 +23,10 @@ class ShoppingCartTV: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    private var tableView = UITableView()
+    private var collectionView: UICollectionView! = nil
     
     override func viewWillAppear(_ animated: Bool) {
-        tableView.reloadData()
+        collectionView.reloadData()
         newData()
     }
 
@@ -32,7 +34,7 @@ class ShoppingCartTV: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         title = "Корзина"
-        setupTableView()
+        setupCollectionView()
         setConstraints()
     }
     
@@ -84,15 +86,18 @@ class ShoppingCartTV: UIViewController {
         buyButton.configuration?.subtitle = "\(inAllPrice()) руб."
     }
     
-    private func setupTableView(){
-        view.addSubview(tableView)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(CartCellTV.self, forCellReuseIdentifier: CartCellTV.reuseId)
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "no products")
-        tableView.register(PriceCellTV.self, forCellReuseIdentifier: PriceCellTV.reuseId)
+    private func setupCollectionView(){
+        let layout = UICollectionViewFlowLayout()
+         layout.scrollDirection = .vertical
+        layout.sectionInset = .init(top: 20, left: 10, bottom: 20, right: 10)
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.register(CartCell.self, forCellWithReuseIdentifier: CartCell.reuseId)
+        collectionView.register(PriceCell.self, forCellWithReuseIdentifier: PriceCell.reuseId)
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "isEmpty")
+        collectionView.delegate = self
+        collectionView.dataSource = self
         buyButton.configuration?.subtitle = "\(inAllPrice())"
         
         inAllSumData = [
@@ -101,6 +106,7 @@ class ShoppingCartTV: UIViewController {
             "\(productsSumPrice() - inAllPrice()) руб.",
             "\(inAllPrice()) руб.",
             ]
+        
     }
     private func setConstraints(){
         view.addSubview(buyButton)
@@ -110,23 +116,44 @@ class ShoppingCartTV: UIViewController {
             buyButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
             buyButton.heightAnchor.constraint(equalToConstant: 60)
         ])
-        view.addSubview(tableView)
+        view.addSubview(collectionView)
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
-            tableView.bottomAnchor.constraint(equalTo: buyButton.topAnchor, constant: 0)
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            collectionView.bottomAnchor.constraint(equalTo: buyButton.topAnchor, constant: 0)
         ])
     }
-}
 
-//MARK: - UITableViewDelegate, UITableViewDataSource
-extension ShoppingCartTV: UITableViewDelegate, UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+}
+//MARK: - UICollectionViewDelegateFlowLayout, UICollectionViewDataSource
+extension ShoppingCart: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        2
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        switch indexPath.section {
+        case 0:
+            return CGSize(width: collectionView.frame.width - 20, height: collectionView.frame.width/2)
+        case 1:
+            return CGSize(width: collectionView.frame.width - 20, height: collectionView.frame.width/6)
+        default:
+            return CGSize(width: collectionView.frame.width - 20, height: collectionView.frame.width/2)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        switch section {
+        case 0: return 20
+        case 1: return 0
+        default: return 20
+        }
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch section {
         case 0:
             if !Persons.ksenia.productsInCart.isEmpty {
@@ -139,11 +166,12 @@ extension ShoppingCartTV: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch indexPath.section{
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        switch indexPath.section {
         case 0 :
             if !Persons.ksenia.productsInCart.isEmpty{
-                let cell = tableView.dequeueReusableCell(withIdentifier: CartCellTV.reuseId, for: indexPath) as! CartCellTV
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CartCell.reuseId, for: indexPath) as! CartCell
                 cell.configure(indexPath: indexPath, products: Persons.ksenia.productsInCart )
                 cell.stepperLabel.text = "\(Persons.ksenia.productsInCart [indexPath.row].count)"
                 cell.plusButtonCallback = { [self]
@@ -151,7 +179,7 @@ extension ShoppingCartTV: UITableViewDelegate, UITableViewDataSource {
                     Persons.ksenia.productsInCart[indexPath.row].count = Persons.ksenia.productsInCart[indexPath.row].count + 1
                     newData()
                     cell.stepperLabel.text = "\(Persons.ksenia.productsInCart[indexPath.row].count)"
-                    tableView.reloadSections(NSIndexSet(index: 1) as IndexSet, with: .automatic)
+                    collectionView.reloadSections(NSIndexSet(index: 1) as IndexSet)
                 }
                 cell.minusButtonCallback = { [self]
                     () in
@@ -159,7 +187,7 @@ extension ShoppingCartTV: UITableViewDelegate, UITableViewDataSource {
                         Persons.ksenia.productsInCart[indexPath.row].count = Persons.ksenia.productsInCart[indexPath.row].count - 1
                         newData()
                         cell.stepperLabel.text = "\(Persons.ksenia.productsInCart[indexPath.row].count)"
-                        tableView.reloadSections(NSIndexSet(index: 1) as IndexSet, with: .automatic)
+                        collectionView.reloadSections(NSIndexSet(index: 1) as IndexSet)
                     }else{
                         Persons.ksenia.productsInCart[indexPath.row].count = Persons.ksenia.productsInCart[indexPath.row].count - 0
                         cell.stepperLabel.text = "\(Persons.ksenia.productsInCart[indexPath.row].count)"
@@ -167,79 +195,38 @@ extension ShoppingCartTV: UITableViewDelegate, UITableViewDataSource {
                 }
                 return cell
             }else{
-                let cell = tableView.dequeueReusableCell(withIdentifier: "no products", for: indexPath)
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "isEmpty", for: indexPath)
                 cell.backgroundColor = .red
                 return cell
             }
-            
         case 1:
-            let cell = tableView.dequeueReusableCell(withIdentifier: PriceCellTV.reuseId, for: indexPath) as! PriceCellTV
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PriceCell.reuseId, for: indexPath) as! PriceCell
             cell.config(indexPath: indexPath)
             cell.inAllSum.text = inAllSumData[indexPath.row]
             return cell
-        
         default:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "no products", for: indexPath)
-            cell.backgroundColor = .red
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PriceCell.reuseId, for: indexPath) as! PriceCell
+            cell.config(indexPath: indexPath)
             return cell
         }
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        switch indexPath.section {
-        case 0:
-            return CGFloat(tableView.frame.height / 5)
-        case 1:
-            return CGFloat(20)
-        default:
-            return CGFloat(20)
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, complitionHandler in
-            
-            Persons.ksenia.productsInCart.remove(at: indexPath.row)
-            self.newData()
-            tableView.reloadData()
-            
-            return complitionHandler(true)
-        }
-        deleteAction.backgroundColor = .red
-        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
-        configuration.performsFirstActionWithFullSwipe = true
-        return configuration
-    }
-    
-    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let favoriteAction = UIContextualAction(style: .normal, title: "Add to Favorite") { _, _, complitionHandler in
-            
-            ViewControllersHelper.addToFavorite(products: Persons.ksenia.productsInCart, indexPath: indexPath)
-            tableView.reloadRows(at: [indexPath], with: .none)
-            
-            return complitionHandler(true)
-        }
-        favoriteAction.backgroundColor = .magenta
-        let configuration = UISwipeActionsConfiguration(actions: [favoriteAction])
-        configuration.performsFirstActionWithFullSwipe = true
-        return configuration
-    }
-    
+    func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
+        Persons.ksenia.productsInCart[indexPath.row].count = 0
+        Persons.ksenia.productsInCart.remove(at: indexPath.row)
+        newData()
+        collectionView.reloadData()
+     }
 }
 
 // MARK: - SwiftUI
 import SwiftUI
-struct ShoppingCartTV_Previews: PreviewProvider {
+struct ShoppingCart_Previews: PreviewProvider {
     static var previews: some View {
         UIViewControllerPreview {
             // Return whatever controller you want to preview
-            let vc = TabBar()
+            let vc = ShoppingCart()
             return vc
         }.edgesIgnoringSafeArea(.all)
     }
 }
-

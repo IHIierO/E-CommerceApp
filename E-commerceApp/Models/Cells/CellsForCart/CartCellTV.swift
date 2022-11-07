@@ -1,21 +1,22 @@
 //
-//  CartCell.swift
+//  CartCell2.swift
 //  E-commerceApp
 //
-//  Created by Artem Vorobev on 24.10.2022.
+//  Created by Artem Vorobev on 07.11.2022.
 //
 
 import UIKit
 
-class CartCell: UICollectionViewCell, UIGestureRecognizerDelegate {
-    static var reuseId: String = "CartCell"
+class CartCellTV: UITableViewCell {
+    
+    static var reuseId: String = "CartCell2"
     
     var plusButtonCallback: (()->())?
     var minusButtonCallback: (()->())?
-    var pan: UIPanGestureRecognizer!
     
     let containerView: UIView = {
        let containerView = UIView()
+//        containerView.layer.cornerRadius = 8
         containerView.backgroundColor = .lightGray
         containerView.translatesAutoresizingMaskIntoConstraints = false
         return containerView
@@ -98,74 +99,25 @@ class CartCell: UICollectionViewCell, UIGestureRecognizerDelegate {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    let deleteLabel: UILabel = {
-       let label = UILabel()
-        
-        let imageAttachment = NSTextAttachment()
-        imageAttachment.image = UIImage(systemName: "trash", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large))
-        let fullString = NSMutableAttributedString(attachment: imageAttachment)
-        label.attributedText = fullString
-        label.backgroundColor = .red
-        label.textAlignment = .center
-        
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupCell()
     }
-    
+//    override func layoutSubviews() {
+//        super.layoutSubviews()
+//        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
+//        
+//    }
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        setupCell()
+        fatalError("init(coder:) has not been implemented")
     }
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        if (pan.state == UIGestureRecognizer.State.changed) {
-            let p: CGPoint = pan.translation(in: self)
-            let width = self.contentView.frame.width
-            let height = self.contentView.frame.height
-            self.contentView.frame = CGRect(x: p.x,y: 0, width: width, height: height);
-            self.deleteLabel.frame = CGRect(x: p.x + width + deleteLabel.frame.size.width, y: 0, width: 100, height: height)
-        }
-    }
-    
-    @objc func onPan(_ pan: UIPanGestureRecognizer) {
-        if pan.state == UIGestureRecognizer.State.began {
-
-        } else if pan.state == UIGestureRecognizer.State.changed {
-        self.setNeedsLayout()
-      } else {
-        if abs(pan.velocity(in: self).x) > 500 {
-          let collectionView: UICollectionView = self.superview as! UICollectionView
-          let indexPath: IndexPath = collectionView.indexPathForItem(at: self.center)!
-          collectionView.delegate?.collectionView!(collectionView, performAction: #selector(onPan(_:)), forItemAt: indexPath, withSender: nil)
-        } else {
-          UIView.animate(withDuration: 0.2, animations: {
-            self.setNeedsLayout()
-            self.layoutIfNeeded()
-          })
-        }
-      }
-    }
-    
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-       return true
-     }
-     override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-       return abs((pan.velocity(in: pan.view)).x) > abs((pan.velocity(in: pan.view)).y)
-     }
     
     private func setupCell(){
+        self.selectionStyle = .none
         setConstraints()
         stepperPlusButton.addTarget(self, action: #selector(stepperPlusButtonTapped), for: .touchUpInside)
         stepperMinusButton.addTarget(self, action: #selector(stepperMinusButtonTapped), for: .touchUpInside)
-        pan = UIPanGestureRecognizer(target: self, action: #selector(onPan(_:)))
-        pan.delegate = self
-        self.addGestureRecognizer(pan)
     }
     
     @objc func stepperPlusButtonTapped(){
@@ -185,8 +137,15 @@ class CartCell: UICollectionViewCell, UIGestureRecognizerDelegate {
         }else{
             priceLabel.text = "\(products[indexPath.row].price) руб."
         }
+        
+        if Persons.ksenia.favoriteProducts.contains(where: { product in
+            product.id == products[indexPath.row].id
+        }){
+            favoriteButton.configuration?.image = UIImage(systemName: "heart.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large))
+        }else{
+            favoriteButton.configuration?.image = UIImage(systemName: "heart", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large))
+        }
     }
-    
     private func setConstraints() {
         self.contentView.addSubview(containerView)
         NSLayoutConstraint.activate([
@@ -200,12 +159,11 @@ class CartCell: UICollectionViewCell, UIGestureRecognizerDelegate {
             productImage.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 8),
             productImage.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 8),
             productImage.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -8),
-            productImage.heightAnchor.constraint(equalToConstant: self.frame.height - 16),
             productImage.widthAnchor.constraint(equalToConstant: self.frame.width / 3)
         ])
         self.contentView.addSubview(nameLabel)
         NSLayoutConstraint.activate([
-            nameLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 8),
+            nameLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10),
             nameLabel.leadingAnchor.constraint(equalTo: productImage.trailingAnchor, constant: 8),
             nameLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8)
         ])
@@ -256,7 +214,5 @@ class CartCell: UICollectionViewCell, UIGestureRecognizerDelegate {
             stepperPlusButton.bottomAnchor.constraint(equalTo: stepperStackView.bottomAnchor, constant: 0),
             stepperPlusButton.widthAnchor.constraint(equalTo: stepperStackView.widthAnchor, multiplier: 1/3)
         ])
-        self.insertSubview(deleteLabel, belowSubview: self.contentView)
     }
 }
-
