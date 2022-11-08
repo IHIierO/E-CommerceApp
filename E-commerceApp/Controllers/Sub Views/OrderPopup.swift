@@ -86,7 +86,7 @@ class OrderPopup: UIView {
         })
     }
     
-    @objc private func moreInfoButtonTapped(){
+    @objc private func oderButtonTapped(){
         orderButtonTappedCallback?()
     }
     
@@ -103,7 +103,7 @@ class OrderPopup: UIView {
         setConstraints()
 //        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(animateOut)))
         closeButton.addTarget(self, action: #selector(animateOut), for: .touchUpInside)
-        orderButton.addTarget(self, action: #selector(moreInfoButtonTapped), for: .touchUpInside)
+        orderButton.addTarget(self, action: #selector(oderButtonTapped), for: .touchUpInside)
         animateIn()
     }
     

@@ -124,9 +124,18 @@ class ShoppingCartTV: UIViewController {
         
         if Persons.ksenia.productsInCart.count > 0{
             let orderPopup = OrderPopup()
-            orderPopup.orderButtonTappedCallback = { () in
-                let newOrder = OrdersModel(deliveryDate: Date(), deliveryTime: "12:00 - 14:00", recipientName: Persons.ksenia.name, recipientNumber: "+79146948930", deliveryMethod: "Доставка Курьером", deliveryAdress: "Николая Рубцова 9", paymentMethod: "Картой на сайте", inAllSumData: self.inAllSumData, productsInOrder: Persons.ksenia.productsInCart)
+            orderPopup.orderButtonTappedCallback = { [self] () in
+                let newOrder = OrdersModel(deliveryStatus: false, deliveryDate: Date(), deliveryTime: "12:00 - 14:00", recipientName: Persons.ksenia.name, recipientNumber: "+79146948930", deliveryMethod: "Доставка Курьером", deliveryAdress: "Николая Рубцова 9", paymentMethod: "Картой на сайте", inAllSumData: inAllSumData, productsInOrder: Persons.ksenia.productsInCart)
                 Persons.ksenia.orders.append(newOrder)
+                orderPopup.animateOut()
+                let addToOrder = NotificationPopup()
+                addToOrder.label.text = "Добавлено"
+                view.addSubview(addToOrder)
+                Persons.ksenia.productsInCart.removeAll()
+                let tabBar = tabBarController as! TabBar
+                tabBar.changeBageValue()
+                tableView.reloadData()
+                newData()
             }
             view.addSubview(orderPopup)
         }
@@ -135,10 +144,11 @@ class ShoppingCartTV: UIViewController {
 
 //MARK: - UITableViewDelegate, UITableViewDataSource
 extension ShoppingCartTV: UITableViewDelegate, UITableViewDataSource {
+    
+    //MARK: - Table View Data
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
@@ -151,7 +161,6 @@ extension ShoppingCartTV: UITableViewDelegate, UITableViewDataSource {
         default: return 1
         }
     }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section{
         case 0 :
@@ -197,7 +206,6 @@ extension ShoppingCartTV: UITableViewDelegate, UITableViewDataSource {
             return cell
         }
     }
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
         case 0:
@@ -209,15 +217,17 @@ extension ShoppingCartTV: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+    //MARK: - Table View Swipe Actions
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
-    
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, complitionHandler in
             
             Persons.ksenia.productsInCart.remove(at: indexPath.row)
             self.newData()
+            let tabBar = self.tabBarController as! TabBar
+            tabBar.changeBageValue()
             tableView.reloadData()
             
             return complitionHandler(true)
@@ -227,7 +237,6 @@ extension ShoppingCartTV: UITableViewDelegate, UITableViewDataSource {
         configuration.performsFirstActionWithFullSwipe = true
         return configuration
     }
-    
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let favoriteAction = UIContextualAction(style: .normal, title: "Add to Favorite") { _, _, complitionHandler in
             
@@ -241,7 +250,6 @@ extension ShoppingCartTV: UITableViewDelegate, UITableViewDataSource {
         configuration.performsFirstActionWithFullSwipe = true
         return configuration
     }
-    
 }
 
 // MARK: - SwiftUI

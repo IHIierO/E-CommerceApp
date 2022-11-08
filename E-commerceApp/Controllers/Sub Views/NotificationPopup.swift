@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AddToCartPopup: UIView {
+class NotificationPopup: UIView {
     
     private let container: UIView = {
        let container = UIView()

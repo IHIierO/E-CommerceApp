@@ -139,7 +139,7 @@ class ViewControllersHelper{
         }){
             
             Persons.ksenia.productsInCart.append(products[indexPath.row])
-            let addToCartPopup = AddToCartPopup()
+            let addToCartPopup = NotificationPopup()
             addToCartPopup.label.text = "Добавлен в корзину"
             view.addSubview(addToCartPopup)
             let tabBar = tabBarController as! TabBar
@@ -151,7 +151,7 @@ class ViewControllersHelper{
             }){
                 Persons.ksenia.productsInCart.remove(at: index)
             }
-            let addToCartPopup = AddToCartPopup()
+            let addToCartPopup = NotificationPopup()
             addToCartPopup.label.text = "Удален из корзины"
             view.addSubview(addToCartPopup)
             let tabBar = tabBarController as! TabBar
