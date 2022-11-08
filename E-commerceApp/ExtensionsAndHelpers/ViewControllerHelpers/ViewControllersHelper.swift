@@ -50,13 +50,13 @@ class ViewControllersHelper{
         navigationController?.pushViewController(productsViewController, animated: true)
     }
     
-    static func didSelectCurentFilter(filters: Filter, indexPath: IndexPath, collectionViewManageData: ProductsCollectionViewManageData, collectionView: UICollectionView, curentProducts: [Product], vc: ProductsViewController) {
+    static func didSelectCurentFilter(filters: Filter, indexPath: IndexPath, collectionViewManageData: ProductsCollectionViewManageData, collectionView: UICollectionView, view: UIView, tabBarController: UITabBarController, curentProducts: [Product], vc: ProductsViewController) {
         
         if filters.names.contains("Delete filters") {
             let index = filters.names.firstIndex(of: "Delete filters")
             switch indexPath {
             case [0,Int(index!)]:
-                collectionViewManageData.setupDataSource(collectionView: collectionView, curentProducts: curentProducts, filters: filters)
+                collectionViewManageData.setupDataSource(collectionView: collectionView, view: view, tabBarColtroller: tabBarController, curentProducts: curentProducts, filters: filters)
                 collectionViewManageData.reloadData(curentProducts: curentProducts, filters: filters)
                 vc.filteredProducts = curentProducts
             default:
@@ -72,7 +72,7 @@ class ViewControllersHelper{
                 switch indexPath {
                 case [0,Int(index!)]:
                     let curentMl = curentProducts.filter({$0.volume == name})
-                    collectionViewManageData.setupDataSource(collectionView: collectionView, curentProducts: curentMl, filters: filters)
+                    collectionViewManageData.setupDataSource(collectionView: collectionView, view: view, tabBarColtroller: tabBarController, curentProducts: curentMl, filters: filters)
                     collectionViewManageData.reloadData(curentProducts: curentMl, filters: filters)
                     vc.filteredProducts = curentMl
                 default:
@@ -83,7 +83,7 @@ class ViewControllersHelper{
                 switch indexPath {
                 case [0,Int(index!)]:
                     let curentCategory = curentProducts.filter({$0.productCategory == name})
-                    collectionViewManageData.setupDataSource(collectionView: collectionView, curentProducts: curentCategory, filters: filters)
+                    collectionViewManageData.setupDataSource(collectionView: collectionView, view: view, tabBarColtroller: tabBarController, curentProducts: curentCategory, filters: filters)
                     collectionViewManageData.reloadData(curentProducts: curentCategory, filters: filters)
                     vc.filteredProducts = curentCategory
                 default:
@@ -132,13 +132,18 @@ class ViewControllersHelper{
         }
     }
     
-    static func addToCart(products: [Product], indexPath: IndexPath) {
+    static func addToCart(products: [Product], indexPath: IndexPath, view: UIView, tabBarController: UITabBarController) {
         
         if !Persons.ksenia.productsInCart.contains(where: { product in
             product.id == products[indexPath.row].id
         }){
             
             Persons.ksenia.productsInCart.append(products[indexPath.row])
+            let addToCartPopup = AddToCartPopup()
+            addToCartPopup.label.text = "Добавлен в корзину"
+            view.addSubview(addToCartPopup)
+            let tabBar = tabBarController as! TabBar
+            tabBar.changeBageValue()
             
         }else{
             if let index = Persons.ksenia.productsInCart.firstIndex(where: { product in
@@ -146,6 +151,11 @@ class ViewControllersHelper{
             }){
                 Persons.ksenia.productsInCart.remove(at: index)
             }
+            let addToCartPopup = AddToCartPopup()
+            addToCartPopup.label.text = "Удален из корзины"
+            view.addSubview(addToCartPopup)
+            let tabBar = tabBarController as! TabBar
+            tabBar.changeBageValue()
         }
         
     }

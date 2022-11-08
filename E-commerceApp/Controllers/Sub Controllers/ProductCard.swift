@@ -80,7 +80,7 @@ class ProductCard: UIViewController {
     
     @objc func addToCartButtonTap(){
         
-        ViewControllersHelper.addToCart(products: products, indexPath: indexPath)
+        ViewControllersHelper.addToCart(products: products, indexPath: indexPath, view: view, tabBarController: self.tabBarController!)
         addToCartButton.configuration?.title = !Persons.ksenia.productsInCart.contains(where: { product in
             product.id == products[indexPath.row].id
         }) ? "Добавить в корзину" : "В корзине"

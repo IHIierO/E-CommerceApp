@@ -22,29 +22,34 @@ class TabBar: UITabBarController{
         let homeController = createNavigationControllers(
             viewControllers: Home(),
             tabBarItemName: "Main",
-            tabBarItemImage: "house"
+            tabBarItemImage: "house",
+            tabBarItemBage: nil
         )
         let shoppingCartViewController = createNavigationControllers(
             viewControllers: ShoppingCartTV(),
             tabBarItemName: "ShoppingCart",
-            tabBarItemImage: "cart"
+            tabBarItemImage: "cart",
+            tabBarItemBage: "\(Persons.ksenia.productsInCart.count)"
         )
         let searchAndListViewController = createNavigationControllers(
             viewControllers: SearchAndList(),
             tabBarItemName: "Search",
-            tabBarItemImage: "doc.text.magnifyingglass"
+            tabBarItemImage: "doc.text.magnifyingglass",
+            tabBarItemBage: nil
         )
         let personViewController = createNavigationControllers(
             viewControllers: Person(),
             tabBarItemName: "Person",
-            tabBarItemImage: "person"
+            tabBarItemImage: "person",
+            tabBarItemBage: nil
         )
         viewControllers = [homeController,searchAndListViewController, shoppingCartViewController, personViewController]
     }
     
-    private func createNavigationControllers(viewControllers: UIViewController, tabBarItemName: String, tabBarItemImage: String) -> UINavigationController{
+    private func createNavigationControllers(viewControllers: UIViewController, tabBarItemName: String, tabBarItemImage: String, tabBarItemBage: String?) -> UINavigationController{
         let tabBarItem = UITabBarItem(title: tabBarItemName, image: UIImage(systemName: tabBarItemImage)?.withAlignmentRectInsets(.init(top: 10, left: 0, bottom: 0, right: 0)), tag: 0)
         tabBarItem.titlePositionAdjustment = .init(horizontal: 0, vertical: 10 )
+        tabBarItem.badgeValue = tabBarItemBage
         let navigationController = UINavigationController(rootViewController: viewControllers)
         navigationController.tabBarItem = tabBarItem
         return navigationController
@@ -132,5 +137,11 @@ class TabBar: UITabBarController{
     func showTabBar() {
         self.tabBar.isHidden = false
         self.addNewFlowerButton.isHidden = false
+    }
+    func changeBageValue(){
+        if let tabBarItems = self.tabBar.items{
+            let i = tabBarItems[2]
+            i.badgeValue = "\(Persons.ksenia.productsInCart.count)"
+        }
     }
 }

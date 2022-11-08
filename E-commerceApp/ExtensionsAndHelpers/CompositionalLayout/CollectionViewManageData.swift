@@ -39,7 +39,7 @@ class ProductsCollectionViewManageData {
     
     var dataSource: UICollectionViewDiffableDataSource<ProductsSectionKind, Int>! = nil
     
-    func setupDataSource(collectionView: UICollectionView, curentProducts: [Product], filters: Filter){
+    func setupDataSource(collectionView: UICollectionView, view: UIView, tabBarColtroller: UITabBarController, curentProducts: [Product], filters: Filter){
         dataSource = UICollectionViewDiffableDataSource<ProductsSectionKind, Int>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, itemIdentifier) -> UICollectionViewCell? in
             let section = ProductsSectionKind(rawValue: indexPath.section)!
             switch section {
@@ -51,8 +51,10 @@ class ProductsCollectionViewManageData {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductsCell.reuseId, for: indexPath) as! ProductsCell
                 cell.configure(with: itemIdentifier, indexPath: indexPath, products: curentProducts)
                 cell.addToShoppingCardCallback = { () in
-                    ViewControllersHelper.addToCart(products: curentProducts, indexPath: indexPath)
-                    collectionView.reloadData()}
+                    ViewControllersHelper.addToCart(products: curentProducts, indexPath: indexPath, view: view, tabBarController: tabBarColtroller)
+                    collectionView.reloadData()
+                    
+                }
                 cell.favoriteButtonTapAction = {() in
                     ViewControllersHelper.addToFavorite(products: curentProducts, indexPath: indexPath)
                     collectionView.reloadData()}
@@ -103,7 +105,7 @@ class HomeCollectionViewManageData {
     
     var dataSource: UICollectionViewDiffableDataSource<HomeSectionKind, Int>! = nil
     
-    func setupDataSource(collectionView: UICollectionView, products: [Product], curentNewest: [Product], curentTopRated: [Product]){
+    func setupDataSource(collectionView: UICollectionView, view: UIView, tabBarColtroller: UITabBarController, products: [Product], curentNewest: [Product], curentTopRated: [Product]){
         dataSource = UICollectionViewDiffableDataSource<HomeSectionKind, Int>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, itemIdentifier) -> UICollectionViewCell? in
             let section = HomeSectionKind(rawValue: indexPath.section)!
             let discountsCell = collectionView.dequeueReusableCell(withReuseIdentifier: DiscountsCell.reuseId, for: indexPath) as! DiscountsCell
@@ -120,7 +122,7 @@ class HomeCollectionViewManageData {
                     ViewControllersHelper.addToFavorite(products: curentNewest, indexPath: indexPath)
                     collectionView.reloadData()}
                 newestCell.addToShoppingCardCallback = { () in
-                    ViewControllersHelper.addToCart(products: curentNewest, indexPath: indexPath)
+                    ViewControllersHelper.addToCart(products: curentNewest, indexPath: indexPath, view: view, tabBarController: tabBarColtroller)
                     collectionView.reloadData()}
                 return newestCell
             case .topRated:

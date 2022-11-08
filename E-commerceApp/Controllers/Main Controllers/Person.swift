@@ -131,7 +131,8 @@ extension Person: UITableViewDelegate, UITableViewDataSource{
             favoriteProducts.filters = Filter(names: [""])
             navigationController?.pushViewController(favoriteProducts, animated: true)
         case [0,1]:
-            print("\(profileMenuTextData[indexPath.row])")
+            let orders = Orders()
+            navigationController?.pushViewController(orders, animated: true)
         case [0,2]:
             print("\(profileMenuTextData[indexPath.row])")
         case [0,3]:

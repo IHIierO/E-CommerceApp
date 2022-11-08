@@ -15,6 +15,7 @@ struct PersonModel: Identifiable {
     var favoriteProducts: [Product] = []
     var productsInCart: [Product] = []
     var recentlyViewedProducts: [Product] = []
+    var orders: [OrdersModel] = []
     
 }
 

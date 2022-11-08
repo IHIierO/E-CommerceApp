@@ -48,7 +48,7 @@ class ProductsViewController: UIViewController{
         collectionView.register(ProductsCell.self, forCellWithReuseIdentifier: ProductsCell.reuseId)
         collectionView.register(Header.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
         collectionView.delegate = self
-        collectionViewManageData.setupDataSource(collectionView: collectionView, curentProducts: curentProducts, filters: filters)
+        collectionViewManageData.setupDataSource(collectionView: collectionView, view: view, tabBarColtroller: self.tabBarController!, curentProducts: curentProducts, filters: filters)
         collectionViewManageData.reloadData(curentProducts: curentProducts, filters: filters)
         filteredProducts = curentProducts
     }
@@ -103,7 +103,7 @@ extension ProductsViewController: UICollectionViewDelegate{
         
         switch section {
         case .menu:
-            ViewControllersHelper.didSelectCurentFilter(filters: filters, indexPath: indexPath, collectionViewManageData: collectionViewManageData, collectionView: collectionView, curentProducts: curentProducts, vc: self)
+            ViewControllersHelper.didSelectCurentFilter(filters: filters, indexPath: indexPath, collectionViewManageData: collectionViewManageData, collectionView: collectionView, view: view, tabBarController: self.tabBarController!, curentProducts: curentProducts, vc: self)
         case .products:
             ViewControllersHelper.pushToProductCard(navigationController: navigationController, products: filteredProducts, indexPath: indexPath)
         case .none:

@@ -94,6 +94,7 @@ class ShoppingCartTV: UIViewController {
         tableView.register(PriceCellTV.self, forCellReuseIdentifier: PriceCellTV.reuseId)
         
         buyButton.configuration?.subtitle = "\(inAllPrice())"
+        buyButton.addTarget(self, action: #selector(buyButtonTap), for: .touchUpInside)
         
         inAllSumData = [
             "\(inAllCount()) шт.",
@@ -117,6 +118,18 @@ class ShoppingCartTV: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
             tableView.bottomAnchor.constraint(equalTo: buyButton.topAnchor, constant: 0)
         ])
+    }
+    
+    @objc func buyButtonTap(){
+        
+        if Persons.ksenia.productsInCart.count > 0{
+            let orderPopup = OrderPopup()
+            orderPopup.orderButtonTappedCallback = { () in
+                let newOrder = OrdersModel(deliveryDate: Date(), deliveryTime: "12:00 - 14:00", recipientName: Persons.ksenia.name, recipientNumber: "+79146948930", deliveryMethod: "Доставка Курьером", deliveryAdress: "Николая Рубцова 9", paymentMethod: "Картой на сайте", inAllSumData: self.inAllSumData, productsInOrder: Persons.ksenia.productsInCart)
+                Persons.ksenia.orders.append(newOrder)
+            }
+            view.addSubview(orderPopup)
+        }
     }
 }
 

@@ -48,7 +48,7 @@ class Home: UIViewController {
         collectionView.delegate = self
         
         // MARK: - Manage the data in UICollectionView
-        collectionViewManageData.setupDataSource(collectionView: collectionView, products: Products.products, curentNewest: curentNewest, curentTopRated: curentTopRated)
+        collectionViewManageData.setupDataSource(collectionView: collectionView, view: view, tabBarColtroller: self.tabBarController!, products: Products.products, curentNewest: curentNewest, curentTopRated: curentTopRated)
         collectionViewManageData.reloadData(curentTopRated: curentTopRated, curentNewest: curentNewest)
     }
     
