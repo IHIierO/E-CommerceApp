@@ -24,22 +24,40 @@ class Orders: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(OrderCell.self, forCellReuseIdentifier: OrderCell.reuseId)
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "defaultCell")
     }
 }
 // MARK: - UITableViewDelegate, UITableViewDataSource
 extension Orders: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Persons.ksenia.orders.count
+        
+        if Persons.ksenia.orders.isEmpty {
+            return 1
+        }else{
+            return Persons.ksenia.orders.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: OrderCell.reuseId, for: indexPath) as! OrderCell
-        cell.config(indexPath: indexPath)
-        return cell
+        
+        if Persons.ksenia.orders.isEmpty {
+            let defaultCell = tableView.dequeueReusableCell(withIdentifier: "defaultCell", for: indexPath)
+            var content = defaultCell.defaultContentConfiguration()
+            content.text = "Нет заказов"
+            content.textProperties.alignment = .center
+            content.textProperties.font = .systemFont(ofSize: 40)
+            defaultCell.contentConfiguration = content
+            return defaultCell
+        }else{
+            let orderCell = tableView.dequeueReusableCell(withIdentifier: OrderCell.reuseId, for: indexPath) as! OrderCell
+            orderCell.config(indexPath: indexPath)
+            return orderCell
+        }
+       
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return view.bounds.height / 5
+        return view.bounds.height / 7
     }
     
 }

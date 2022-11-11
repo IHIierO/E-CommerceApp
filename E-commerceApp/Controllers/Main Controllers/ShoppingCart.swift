@@ -136,6 +136,8 @@ class ShoppingCartTV: UIViewController {
                 tabBar.changeBageValue()
                 tableView.reloadData()
                 newData()
+                #warning("Логика согранения заказа")
+                
             }
             view.addSubview(orderPopup)
         }

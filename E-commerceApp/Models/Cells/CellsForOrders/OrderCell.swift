@@ -42,45 +42,35 @@ class OrderCell: UITableViewCell {
     let hStack: UIStackView = {
        let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.distribution = .fillEqually
-        stackView.spacing = 10
-        stackView.backgroundColor = .blue
+        stackView.distribution = .fill
+        stackView.alignment = .fill
+        stackView.spacing = 4
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
-    
         override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
             super.init(style: style, reuseIdentifier: reuseIdentifier)
+            
             setConstraints()
             self.selectionStyle = .none
         }
         required init?(coder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
         }
+
     
     func config(indexPath: IndexPath){
-        orderNumber.text = "\(Persons.ksenia.orders[indexPath.row].id)"
+        orderNumber.text = "№ \(Persons.ksenia.orders[indexPath.row].id)"
         if Persons.ksenia.orders[indexPath.row].deliveryStatus == true {
             orderStatus.text = "Complite"
         }else{
             orderStatus.text = "Not complite"
         }
         orderAllSum.text = "K oplate \(Persons.ksenia.orders[indexPath.row].inAllSumData[3])"
-        for i in 0..<Persons.ksenia.orders[indexPath.row].productsInOrder.count {
-            let imageView = UIImageView()
-            imageView.contentMode = .scaleAspectFill
-            imageView.clipsToBounds = true
-            imageView.translatesAutoresizingMaskIntoConstraints = false
-//            imageView.heightAnchor.constraint(equalToConstant: hStack.frame.height).isActive = true
-            imageView.image = UIImage(named: Persons.ksenia.orders[indexPath.row].productsInOrder[i].productImage)
-            
-            hStack.addArrangedSubview(imageView)
-        }
-        
-        
+        ViewControllersHelper.ordersProductsImage(hStack: hStack, indexPath: indexPath)
     }
-    
+        
     func setConstraints(){
         self.addSubview(orderNumber)
         NSLayoutConstraint.activate([
@@ -107,8 +97,8 @@ class OrderCell: UITableViewCell {
         NSLayoutConstraint.activate([
             hStack.topAnchor.constraint(equalTo: orderAllSum.bottomAnchor, constant: 0),
             hStack.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0),
-            hStack.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.7),
             hStack.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0)
         ])
     }
 }
+

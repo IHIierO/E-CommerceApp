@@ -5,7 +5,7 @@
 //  Created by Artem Vorobev on 19.10.2022.
 //
 
-#if canImport(SwiftUI) && DEBUG
+
 import SwiftUI
 struct UIViewControllerPreview<ViewController: UIViewController>: UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: ViewController, context: Context) {
@@ -23,4 +23,19 @@ struct UIViewControllerPreview<ViewController: UIViewController>: UIViewControll
         viewController
     }
 }
-#endif
+
+struct ViewPreview: UIViewRepresentable {
+    let viewBuilder: () -> UIView
+
+    init(_ viewBuilder: @escaping () -> UIView) {
+        self.viewBuilder = viewBuilder
+    }
+
+    func makeUIView(context: Context) -> some UIView {
+        viewBuilder()
+    }
+
+    func updateUIView(_ uiView: UIViewType, context: Context) {
+        // Not needed
+    }
+}

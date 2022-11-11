@@ -29,7 +29,7 @@ class TabBar: UITabBarController{
             viewControllers: ShoppingCartTV(),
             tabBarItemName: "ShoppingCart",
             tabBarItemImage: "cart",
-            tabBarItemBage: "\(Persons.ksenia.productsInCart.count)"
+            tabBarItemBage: nil
         )
         let searchAndListViewController = createNavigationControllers(
             viewControllers: SearchAndList(),
@@ -141,7 +141,7 @@ class TabBar: UITabBarController{
     func changeBageValue(){
         if let tabBarItems = self.tabBar.items{
             let i = tabBarItems[2]
-            i.badgeValue = "\(Persons.ksenia.productsInCart.count)"
+            i.badgeValue = Persons.ksenia.productsInCart.count > 0 ? "\(Persons.ksenia.productsInCart.count)" : nil
         }
     }
 }

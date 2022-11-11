@@ -11,22 +11,33 @@ class OrderPopup: UIView {
     
     var orderButtonTappedCallback: (()->())?
     
-    private let discountPercent: UILabel = {
-        let label = UILabel()
-        label.text = "Акция 30%"
-        label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+    let deliveryMethod = DefaultUITextField(placeholderText: "Укажите способ доставки", height: 60)
+    let deliveryMethodPicker = DefaultUIPickerView(tagNumber: 1)
+    let deliveryMethodData = ["Курьером", "Самовывоз"]
+    let deliveryAdress = DefaultUITextField(placeholderText: "Укажите адрес доставки", height: 60)
+    let deliveryDate = DefaultUITextField(placeholderText: "Укажите дату доставки", height: 60)
+    let deliveryDatePicker: UIDatePicker = {
+      let datePicker = UIDatePicker(frame: .zero)
+      datePicker.datePickerMode = .date
+        datePicker.preferredDatePickerStyle = .inline
+      datePicker.timeZone = TimeZone.current
+      return datePicker
     }()
-    private let discountDescription: UILabel = {
-        let label = UILabel()
-        label.text = "Акция 30% на всю косметику бренда Letual"
-        label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
-        label.textAlignment = .center
-        label.numberOfLines = 4
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+    let deliveryTime = DefaultUITextField(placeholderText: "Укажите время доставки", height: 60)
+    let deliveryTimePicker = DefaultUIPickerView(tagNumber: 2)
+    let deliveryTimeData = ["10:00-12:00", "12:00-14:00", "14:00-16:00", "16:00-18:00", "18:00-20:00", "20:00-22:00"]
+    let paymentMethod = DefaultUITextField(placeholderText: "Укажите способ оплаты", height: 60)
+    let paymentMethodPicker = DefaultUIPickerView(tagNumber: 3)
+    let paymentMethodData = ["Картой на сайте", "Картой курьеру", "Наличными"]
+    let hStack: UIStackView = {
+       let hStack = UIStackView()
+        hStack.translatesAutoresizingMaskIntoConstraints = false
+        hStack.axis = .vertical
+        hStack.distribution = .fill
+        hStack.alignment = .fill
+        hStack.spacing = 20
+        
+        return hStack
     }()
     
     let blurEffect = UIBlurEffect(style: .dark)
@@ -58,7 +69,7 @@ class OrderPopup: UIView {
     private let orderButton: UIButton = {
         let button = UIButton()
         button.configuration = .gray()
-        button.configuration?.title = "Подробнее"
+        button.configuration?.title = "Оформить"
         button.configuration?.baseForegroundColor = .black
         button.configuration?.cornerStyle = .capsule
         
@@ -87,7 +98,19 @@ class OrderPopup: UIView {
     }
     
     @objc private func oderButtonTapped(){
-        orderButtonTappedCallback?()
+        if deliveryMethod.text != nil &&
+            deliveryAdress.text != nil &&
+            deliveryDate.text != nil &&
+            deliveryTime.text != nil &&
+            paymentMethod.text != nil &&
+            deliveryMethod.text != "" &&
+            deliveryAdress.text != "" &&
+            deliveryDate.text != "" &&
+            deliveryTime.text != "" &&
+            paymentMethod.text != ""
+        {
+            orderButtonTappedCallback?()
+        }
     }
     
     override init(frame: CGRect) {
@@ -100,11 +123,13 @@ class OrderPopup: UIView {
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.addSubview(blurEffectView)
         
+        
         setConstraints()
+        setupHStack()
 //        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(animateOut)))
         closeButton.addTarget(self, action: #selector(animateOut), for: .touchUpInside)
         orderButton.addTarget(self, action: #selector(oderButtonTapped), for: .touchUpInside)
-        animateIn()
+//        animateIn()
     }
     
     required init?(coder: NSCoder) {
@@ -115,6 +140,51 @@ class OrderPopup: UIView {
 //        discountPercent.text = "Акция \(discountData[indexPath.row])%"
 //        discountDescription.text = "Акция \(discountData[indexPath.row])% на всю косметику бренда Letual"
 //    }
+    
+    private func setupHStack(){
+        
+        hStack.addArrangedSubview(deliveryMethod)
+        hStack.addArrangedSubview(deliveryAdress)
+        hStack.addArrangedSubview(deliveryDate)
+        hStack.addArrangedSubview(deliveryTime)
+        hStack.addArrangedSubview(paymentMethod)
+        
+        deliveryMethod.inputView = deliveryMethodPicker
+        deliveryDate.inputView = deliveryDatePicker
+        deliveryTime.inputView = deliveryTimePicker
+        paymentMethod.inputView = paymentMethodPicker
+        
+        deliveryMethod.delegate = self
+        deliveryDate.delegate = self
+        deliveryTime.delegate = self
+        paymentMethod.delegate = self
+        
+        deliveryMethodPicker.delegate = self
+        deliveryMethodPicker.dataSource = self
+        deliveryTimePicker.delegate = self
+        deliveryTimePicker.dataSource = self
+        paymentMethodPicker.delegate = self
+        paymentMethodPicker.dataSource = self
+        deliveryDatePicker.addTarget(self, action: #selector(selectDate(sender:)), for: .valueChanged)
+        
+        let doneButton = UIBarButtonItem.init(title: "Done", style: .done, target: self, action: #selector(self.pickerDone))
+        let toolBar = UIToolbar.init(frame: CGRect(x: 0, y: 0, width: self.bounds.size.width, height: 44))
+        toolBar.setItems([UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil), doneButton], animated: true)
+        deliveryMethod.inputAccessoryView = toolBar
+        deliveryDate.inputAccessoryView = toolBar
+        deliveryTime.inputAccessoryView = toolBar
+        paymentMethod.inputAccessoryView = toolBar
+    }
+    
+    @objc func pickerDone() {
+        self.endEditing(true)
+}
+    
+    @objc func selectDate(sender: UIDatePicker){
+        let dateFormatter = DateFormatter()
+              dateFormatter.dateFormat = "dd MMM yyyy"
+        deliveryDate.text = "Дата доставки: \(dateFormatter.string(from: sender.date))"
+    }
     
     private func setConstraints(){
         self.addSubview(container)
@@ -133,14 +203,6 @@ class OrderPopup: UIView {
             closeButton.heightAnchor.constraint(equalToConstant: 20)
         ])
         
-        container.addSubview(discountPercent)
-        NSLayoutConstraint.activate([
-            discountPercent.topAnchor.constraint(equalTo: container.topAnchor, constant: 0),
-            discountPercent.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 0),
-            discountPercent.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: 0),
-            discountPercent.heightAnchor.constraint(equalTo: container.heightAnchor, multiplier: 0.25)
-        ])
-        
         container.addSubview(orderButton)
         NSLayoutConstraint.activate([
             orderButton.centerXAnchor.constraint(equalTo: container.centerXAnchor),
@@ -149,15 +211,92 @@ class OrderPopup: UIView {
             orderButton.heightAnchor.constraint(equalTo: container.heightAnchor, multiplier: 0.1),
         ])
         
-        container.addSubview(discountDescription)
+        container.addSubview(hStack)
         NSLayoutConstraint.activate([
-            discountDescription.topAnchor.constraint(equalTo: discountPercent.bottomAnchor, constant: 0),
-            discountDescription.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 0),
-            discountDescription.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: 0),
-            discountDescription.bottomAnchor.constraint(equalTo: orderButton.topAnchor, constant: 0)
+            hStack.topAnchor.constraint(equalTo: closeButton.bottomAnchor, constant: 10),
+//            hStack.bottomAnchor.constraint(equalTo: orderButton.topAnchor, constant: -10),
+            hStack.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 10),
+            hStack.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -10)
         ])
-        
         
     }
     
+}
+// MARK: - UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate
+extension OrderPopup: UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate{
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        if pickerView.tag == 1{
+            return deliveryMethodData.count
+        }
+        if pickerView.tag == 2{
+            return deliveryTimeData.count
+        }
+        if pickerView.tag == 3{
+            return paymentMethodData.count
+        }
+        return 0
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        if pickerView.tag == 1{
+            return "\(deliveryMethodData[row])"
+        }
+        if pickerView.tag == 2{
+            return "\(deliveryTimeData[row])"
+        }
+        if pickerView.tag == 3{
+            return "\(paymentMethodData[row])"
+        }
+        return nil
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if pickerView.tag == 1{
+            deliveryMethod.text = "Способ доставки: \(deliveryMethodData[row])"
+        }
+        if pickerView.tag == 2{
+            deliveryTime.text = "Время доставки: \(deliveryTimeData[row])"
+        }
+        if pickerView.tag == 3{
+            paymentMethod.text = "Вид оплаты: \(paymentMethodData[row])"
+        }
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        
+        if textField == deliveryMethod{
+            self.deliveryMethodPicker.selectRow(0, inComponent: 0, animated: true)
+            self.pickerView(deliveryMethodPicker, didSelectRow: 0, inComponent: 0)
+        }
+        if textField == deliveryDate{
+            let dateFormatter = DateFormatter()
+                  dateFormatter.dateFormat = "dd MMM yyyy"
+            deliveryDate.text = "Дата доставки: \(dateFormatter.string(from: Date()))"
+        }
+        if textField == deliveryTime{
+            self.deliveryTimePicker.selectRow(0, inComponent: 0, animated: true)
+            self.pickerView(deliveryTimePicker, didSelectRow: 0, inComponent: 0)
+        }
+        if textField == paymentMethod{
+            self.paymentMethodPicker.selectRow(0, inComponent: 0, animated: true)
+            self.pickerView(paymentMethodPicker, didSelectRow: 0, inComponent: 0)
+        }
+    }
+}
+
+
+
+// MARK: - SwiftUI
+import SwiftUI
+struct OrderPopupPreviews: PreviewProvider {
+    static var previews: some View {
+        ViewPreview{
+            let view = OrderPopup()
+            return view
+        }.ignoresSafeArea(.all)
+    }
 }

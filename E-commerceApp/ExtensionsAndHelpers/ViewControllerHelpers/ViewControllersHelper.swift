@@ -159,4 +159,38 @@ class ViewControllersHelper{
         }
         
     }
+    
+    static func ordersProductsImage(hStack: UIStackView, indexPath: IndexPath){
+        if Persons.ksenia.orders[indexPath.row].productsInOrder.count < 6 {
+            for i in 0..<Persons.ksenia.orders[indexPath.row].productsInOrder.count {
+                let imageView = UIImageView()
+                imageView.contentMode = .scaleAspectFill
+                imageView.clipsToBounds = true
+                imageView.image = UIImage(named: Persons.ksenia.orders[indexPath.row].productsInOrder[i].productImage)
+                imageView.translatesAutoresizingMaskIntoConstraints = false
+                imageView.widthAnchor.constraint(equalToConstant: 40).isActive = true
+                hStack.addArrangedSubview(imageView)
+            }
+        }else{
+            for i in 0...4{
+                let imageView = UIImageView()
+                imageView.contentMode = .scaleAspectFill
+                imageView.clipsToBounds = true
+                imageView.image = UIImage(named: Persons.ksenia.orders[indexPath.row].productsInOrder[i].productImage)
+                imageView.translatesAutoresizingMaskIntoConstraints = false
+                imageView.widthAnchor.constraint(equalToConstant: 40).isActive = true
+                hStack.addArrangedSubview(imageView)
+            }
+            
+            let label = UILabel()
+            label.text = "+ \(Persons.ksenia.orders[indexPath.row].productsInOrder.count - 5)"
+            label.backgroundColor = .lightGray
+            label.textAlignment = .center
+            label.translatesAutoresizingMaskIntoConstraints = false
+            label.widthAnchor.constraint(equalToConstant: 40).isActive = true
+            hStack.addArrangedSubview(label)
+            
+            
+        }
+    }
 }
