@@ -125,7 +125,7 @@ class ShoppingCartTV: UIViewController {
         if Persons.ksenia.productsInCart.count > 0{
             let orderPopup = OrderPopup()
             orderPopup.orderButtonTappedCallback = { [self] () in
-                let newOrder = OrdersModel(deliveryStatus: false, deliveryDate: Date(), deliveryTime: "12:00 - 14:00", recipientName: Persons.ksenia.name, recipientNumber: "+79146948930", deliveryMethod: "Доставка Курьером", deliveryAdress: "Николая Рубцова 9", paymentMethod: "Картой на сайте", inAllSumData: inAllSumData, productsInOrder: Persons.ksenia.productsInCart)
+                let newOrder = OrdersModel(deliveryStatus: false, deliveryDate: "\(orderPopup.deliveryDate.text!)", deliveryTime: "\(orderPopup.deliveryTime.text!)", recipientName: Persons.ksenia.name, recipientNumber: "+79146948930", deliveryMethod: "\(orderPopup.deliveryMethod.text!)", deliveryAdress: "\(orderPopup.deliveryAdress.text!)", paymentMethod: "\(orderPopup.paymentMethod.text!)", inAllSumData: inAllSumData, productsInOrder: Persons.ksenia.productsInCart)
                 Persons.ksenia.orders.append(newOrder)
                 orderPopup.animateOut()
                 let addToOrder = NotificationPopup()
@@ -136,7 +136,7 @@ class ShoppingCartTV: UIViewController {
                 tabBar.changeBageValue()
                 tableView.reloadData()
                 newData()
-                #warning("Логика согранения заказа")
+//                #warning("Логика согранения заказа")
                 
             }
             view.addSubview(orderPopup)
@@ -159,7 +159,11 @@ extension ShoppingCartTV: UITableViewDelegate, UITableViewDataSource {
             }else{
                 return 1
             }
-        case 1: return 4
+        case 1: if !Persons.ksenia.productsInCart.isEmpty {
+            return 4
+        }else{
+            return 0
+        }
         default: return 1
         }
     }
@@ -192,7 +196,16 @@ extension ShoppingCartTV: UITableViewDelegate, UITableViewDataSource {
                 return cell
             }else{
                 let cell = tableView.dequeueReusableCell(withIdentifier: "no products", for: indexPath)
-                cell.backgroundColor = .red
+                var content = cell.defaultContentConfiguration()
+                content.text = "Нет товаров в корзине"
+                content.textProperties.alignment = .center
+                content.textProperties.font = .systemFont(ofSize: 28)
+                content.textProperties.adjustsFontSizeToFitWidth = true
+                content.secondaryText = "Пожалуйста выберети товары из каталога"
+                content.secondaryTextProperties.alignment = .center
+                content.secondaryTextProperties.font = .systemFont(ofSize: 18)
+                content.secondaryTextProperties.adjustsFontSizeToFitWidth = true
+                cell.contentConfiguration = content
                 return cell
             }
             

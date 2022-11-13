@@ -61,7 +61,8 @@ class OrderCell: UITableViewCell {
 
     
     func config(indexPath: IndexPath){
-        orderNumber.text = "№ \(Persons.ksenia.orders[indexPath.row].id)"
+        let number = "№ \(Persons.ksenia.orders[indexPath.row].id)"
+        orderNumber.text = String(number.prefix(8))
         if Persons.ksenia.orders[indexPath.row].deliveryStatus == true {
             orderStatus.text = "Complite"
         }else{

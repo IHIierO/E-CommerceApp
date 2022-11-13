@@ -193,4 +193,47 @@ class ViewControllersHelper{
             
         }
     }
+    
+    static func chekingOderButtonTapped(deliveryMethod: DefaultUITextField, deliveryAdress: DefaultUITextField, deliveryDate: DefaultUITextField, deliveryTime: DefaultUITextField, paymentMethod: DefaultUITextField) {
+        if deliveryMethod.text == nil || deliveryMethod.text == "" {
+            deliveryMethod.layer.borderWidth = 1
+            deliveryMethod.layer.cornerRadius = 3
+            deliveryMethod.layer.borderColor = UIColor.red.cgColor
+        }else{
+            deliveryMethod.borderStyle = .roundedRect
+            deliveryMethod.layer.borderColor = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 0.9).cgColor
+        }
+        if deliveryAdress.text == nil || deliveryAdress.text == "" {
+            deliveryAdress.layer.borderWidth = 1
+            deliveryAdress.layer.cornerRadius = 3
+            deliveryAdress.layer.borderColor = UIColor.red.cgColor
+        }else{
+            deliveryAdress.borderStyle = .roundedRect
+            deliveryAdress.layer.borderColor = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 0.9).cgColor
+        }
+        if deliveryDate.text == nil || deliveryDate.text == "" {
+            deliveryDate.layer.borderWidth = 1
+            deliveryDate.layer.cornerRadius = 3
+            deliveryDate.layer.borderColor = UIColor.red.cgColor
+        }else{
+            deliveryDate.borderStyle = .roundedRect
+            deliveryDate.layer.borderColor = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 0.9).cgColor
+        }
+        if deliveryTime.text == nil || deliveryTime.text == "" {
+            deliveryTime.layer.borderWidth = 1
+            deliveryTime.layer.cornerRadius = 3
+            deliveryTime.layer.borderColor = UIColor.red.cgColor
+        }else{
+            deliveryTime.borderStyle = .roundedRect
+            deliveryTime.layer.borderColor = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 0.9).cgColor
+        }
+        if paymentMethod.text == nil || paymentMethod.text == "" {
+            paymentMethod.layer.borderWidth = 1
+            paymentMethod.layer.cornerRadius = 3
+            paymentMethod.layer.borderColor = UIColor.red.cgColor
+        }else{
+            paymentMethod.borderStyle = .roundedRect
+            paymentMethod.layer.borderColor = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 0.9).cgColor
+        }
+    }
 }

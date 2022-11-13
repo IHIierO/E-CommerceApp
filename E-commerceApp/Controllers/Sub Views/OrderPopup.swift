@@ -11,38 +11,6 @@ class OrderPopup: UIView {
     
     var orderButtonTappedCallback: (()->())?
     
-    let deliveryMethod = DefaultUITextField(placeholderText: "Укажите способ доставки", height: 60)
-    let deliveryMethodPicker = DefaultUIPickerView(tagNumber: 1)
-    let deliveryMethodData = ["Курьером", "Самовывоз"]
-    let deliveryAdress = DefaultUITextField(placeholderText: "Укажите адрес доставки", height: 60)
-    let deliveryDate = DefaultUITextField(placeholderText: "Укажите дату доставки", height: 60)
-    let deliveryDatePicker: UIDatePicker = {
-      let datePicker = UIDatePicker(frame: .zero)
-      datePicker.datePickerMode = .date
-        datePicker.preferredDatePickerStyle = .inline
-      datePicker.timeZone = TimeZone.current
-      return datePicker
-    }()
-    let deliveryTime = DefaultUITextField(placeholderText: "Укажите время доставки", height: 60)
-    let deliveryTimePicker = DefaultUIPickerView(tagNumber: 2)
-    let deliveryTimeData = ["10:00-12:00", "12:00-14:00", "14:00-16:00", "16:00-18:00", "18:00-20:00", "20:00-22:00"]
-    let paymentMethod = DefaultUITextField(placeholderText: "Укажите способ оплаты", height: 60)
-    let paymentMethodPicker = DefaultUIPickerView(tagNumber: 3)
-    let paymentMethodData = ["Картой на сайте", "Картой курьеру", "Наличными"]
-    let hStack: UIStackView = {
-       let hStack = UIStackView()
-        hStack.translatesAutoresizingMaskIntoConstraints = false
-        hStack.axis = .vertical
-        hStack.distribution = .fill
-        hStack.alignment = .fill
-        hStack.spacing = 20
-        
-        return hStack
-    }()
-    
-    let blurEffect = UIBlurEffect(style: .dark)
-    lazy var blurEffectView = UIVisualEffectView()
-    
     private let container: UIView = {
        let container = UIView()
         container.backgroundColor = .white
@@ -77,6 +45,55 @@ class OrderPopup: UIView {
         return button
     }()
     
+    let deliveryMethod = DefaultUITextField(placeholderText: "Укажите способ доставки")
+    let deliveryMethodPicker = DefaultUIPickerView(tagNumber: 1)
+    let deliveryMethodData = ["Курьером", "Самовывоз"]
+    let deliveryAdress = DefaultUITextField(placeholderText: "Укажите адрес доставки")
+    let deliveryDate = DefaultUITextField(placeholderText: "Укажите дату доставки")
+    let deliveryDatePicker: UIDatePicker = {
+        let datePicker = UIDatePicker(frame: .zero)
+        datePicker.datePickerMode = .date
+        datePicker.preferredDatePickerStyle = .inline
+        datePicker.timeZone = TimeZone.current
+        
+        let today = Date()
+        let startDay: Date = {
+            let components = DateComponents(day: +7)
+            return Calendar.current.date(byAdding: components, to: today)!
+        }()
+        
+        datePicker.minimumDate = startDay
+        
+        return datePicker
+    }()
+    let deliveryTime = DefaultUITextField(placeholderText: "Укажите время доставки")
+    let deliveryTimePicker = DefaultUIPickerView(tagNumber: 2)
+    let deliveryTimeData = ["10:00-12:00", "12:00-14:00", "14:00-16:00", "16:00-18:00", "18:00-20:00", "20:00-22:00"]
+    let paymentMethod = DefaultUITextField(placeholderText: "Укажите способ оплаты")
+    let paymentMethodPicker = DefaultUIPickerView(tagNumber: 3)
+    let paymentMethodData = ["Картой на сайте", "Картой курьеру", "Наличными"]
+    let warningLabel: UILabel = {
+       let label = UILabel()
+        label.text = "Заполните все красные поля"
+        label.textAlignment = .center
+        label.textColor = .red
+        label.layer.opacity = 0
+        return label
+    }()
+    let vStack: UIStackView = {
+       let vStack = UIStackView()
+        vStack.translatesAutoresizingMaskIntoConstraints = false
+        vStack.axis = .vertical
+        vStack.distribution = .fillProportionally
+        vStack.alignment = .fill
+        vStack.spacing = 20
+        
+        return vStack
+    }()
+    
+    let blurEffect = UIBlurEffect(style: .dark)
+    lazy var blurEffectView = UIVisualEffectView()
+    
     @objc func animateOut(){
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
             self.container.transform = CGAffineTransform(translationX: 0, y: -self.frame.height)
@@ -109,7 +126,11 @@ class OrderPopup: UIView {
             deliveryTime.text != "" &&
             paymentMethod.text != ""
         {
+            warningLabel.layer.opacity = 0
             orderButtonTappedCallback?()
+        }else{
+            ViewControllersHelper.chekingOderButtonTapped(deliveryMethod: deliveryMethod, deliveryAdress: deliveryAdress, deliveryDate: deliveryDate, deliveryTime: deliveryTime, paymentMethod: paymentMethod)
+            warningLabel.layer.opacity = 1
         }
     }
     
@@ -123,63 +144,44 @@ class OrderPopup: UIView {
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.addSubview(blurEffectView)
         
-        
         setConstraints()
-        setupHStack()
+        setupVStack()
 //        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(animateOut)))
         closeButton.addTarget(self, action: #selector(animateOut), for: .touchUpInside)
         orderButton.addTarget(self, action: #selector(oderButtonTapped), for: .touchUpInside)
-//        animateIn()
+        animateIn()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-//    func config(indexPath: IndexPath) {
-//        discountPercent.text = "Акция \(discountData[indexPath.row])%"
-//        discountDescription.text = "Акция \(discountData[indexPath.row])% на всю косметику бренда Letual"
-//    }
-    
-    private func setupHStack(){
+    private func setupVStack(){
         
-        hStack.addArrangedSubview(deliveryMethod)
-        hStack.addArrangedSubview(deliveryAdress)
-        hStack.addArrangedSubview(deliveryDate)
-        hStack.addArrangedSubview(deliveryTime)
-        hStack.addArrangedSubview(paymentMethod)
+        [deliveryMethod,deliveryAdress,deliveryDate,deliveryTime,paymentMethod,warningLabel].forEach {vStack.addArrangedSubview($0)}
         
         deliveryMethod.inputView = deliveryMethodPicker
         deliveryDate.inputView = deliveryDatePicker
         deliveryTime.inputView = deliveryTimePicker
         paymentMethod.inputView = paymentMethodPicker
         
-        deliveryMethod.delegate = self
-        deliveryDate.delegate = self
-        deliveryTime.delegate = self
-        paymentMethod.delegate = self
+        [deliveryMethod,deliveryAdress,deliveryDate,deliveryTime,paymentMethod].forEach {$0.delegate = self}
         
-        deliveryMethodPicker.delegate = self
-        deliveryMethodPicker.dataSource = self
-        deliveryTimePicker.delegate = self
-        deliveryTimePicker.dataSource = self
-        paymentMethodPicker.delegate = self
-        paymentMethodPicker.dataSource = self
+        [deliveryMethodPicker,deliveryTimePicker,paymentMethodPicker].forEach {
+            $0.delegate = self
+            $0.dataSource = self
+        }
         deliveryDatePicker.addTarget(self, action: #selector(selectDate(sender:)), for: .valueChanged)
         
         let doneButton = UIBarButtonItem.init(title: "Done", style: .done, target: self, action: #selector(self.pickerDone))
         let toolBar = UIToolbar.init(frame: CGRect(x: 0, y: 0, width: self.bounds.size.width, height: 44))
         toolBar.setItems([UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil), doneButton], animated: true)
-        deliveryMethod.inputAccessoryView = toolBar
-        deliveryDate.inputAccessoryView = toolBar
-        deliveryTime.inputAccessoryView = toolBar
-        paymentMethod.inputAccessoryView = toolBar
+        [deliveryMethod,deliveryDate,deliveryTime,paymentMethod].forEach {$0.inputAccessoryView = toolBar}
     }
     
     @objc func pickerDone() {
         self.endEditing(true)
 }
-    
     @objc func selectDate(sender: UIDatePicker){
         let dateFormatter = DateFormatter()
               dateFormatter.dateFormat = "dd MMM yyyy"
@@ -211,12 +213,12 @@ class OrderPopup: UIView {
             orderButton.heightAnchor.constraint(equalTo: container.heightAnchor, multiplier: 0.1),
         ])
         
-        container.addSubview(hStack)
+        container.addSubview(vStack)
         NSLayoutConstraint.activate([
-            hStack.topAnchor.constraint(equalTo: closeButton.bottomAnchor, constant: 10),
-//            hStack.bottomAnchor.constraint(equalTo: orderButton.topAnchor, constant: -10),
-            hStack.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 10),
-            hStack.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -10)
+            vStack.topAnchor.constraint(equalTo: closeButton.bottomAnchor, constant: 10),
+            vStack.bottomAnchor.constraint(equalTo: orderButton.topAnchor, constant: -10),
+            vStack.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 10),
+            vStack.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -10)
         ])
         
     }
@@ -275,7 +277,12 @@ extension OrderPopup: UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldD
         if textField == deliveryDate{
             let dateFormatter = DateFormatter()
                   dateFormatter.dateFormat = "dd MMM yyyy"
-            deliveryDate.text = "Дата доставки: \(dateFormatter.string(from: Date()))"
+            let today = Date()
+            let startDay: Date = {
+                let components = DateComponents(day: +7)
+                return Calendar.current.date(byAdding: components, to: today)!
+            }()
+            deliveryDate.text = "Дата доставки: \(dateFormatter.string(from: startDay))"
         }
         if textField == deliveryTime{
             self.deliveryTimePicker.selectRow(0, inComponent: 0, animated: true)
@@ -286,9 +293,13 @@ extension OrderPopup: UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldD
             self.pickerView(paymentMethodPicker, didSelectRow: 0, inComponent: 0)
         }
     }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+       
+        return self.endEditing(true)
+       
+        }
 }
-
-
 
 // MARK: - SwiftUI
 import SwiftUI

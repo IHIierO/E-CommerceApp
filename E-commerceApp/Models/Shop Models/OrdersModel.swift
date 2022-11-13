@@ -10,7 +10,7 @@ import UIKit
 struct OrdersModel: Identifiable{
     var id = UUID()
     var deliveryStatus: Bool
-    var deliveryDate: Date
+    var deliveryDate: String
     var deliveryTime: String
     var recipientName: String
     var recipientNumber: String

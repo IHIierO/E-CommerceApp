@@ -60,6 +60,19 @@ extension Orders: UITableViewDelegate, UITableViewDataSource{
         return view.bounds.height / 7
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+       
+        let curentOrder = CurentOrder()
+        let number = "№ \(Persons.ksenia.orders[indexPath.row].id)"
+        curentOrder.orderNumber.text = String(number.prefix(8))
+        curentOrder.deliveryStatus.text = "\(Persons.ksenia.orders[indexPath.row].deliveryStatus)"
+        curentOrder.recipientName.text = "\(Persons.ksenia.name)"
+        curentOrder.deliveryMethod.text = "\(Persons.ksenia.orders[indexPath.row].deliveryMethod)"
+        curentOrder.deliveryAdress.text = "\(Persons.ksenia.orders[indexPath.row].deliveryAdress)"
+        curentOrder.deliveryDate.text = "\(Persons.ksenia.orders[indexPath.row].deliveryDate)"
+        curentOrder.deliveryTime.text = "\(Persons.ksenia.orders[indexPath.row].deliveryTime)"
+        navigationController?.pushViewController(curentOrder, animated: true)
+    }
 }
 
 

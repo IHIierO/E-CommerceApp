@@ -10,17 +10,13 @@ import UIKit
 class DefaultUITextField: UITextField {
     
     let placeholderText: String
-    let height: CGFloat
     
-    init(placeholderText: String, height: CGFloat){
+    init(placeholderText: String){
         self.placeholderText = placeholderText
-        self.height = height
         super.init(frame: .zero)
         
         self.placeholder = placeholderText
         self.borderStyle = .roundedRect
-        self.translatesAutoresizingMaskIntoConstraints = false
-        self.heightAnchor.constraint(equalToConstant: height).isActive = true
     }
     
     required init?(coder: NSCoder) {
@@ -43,4 +39,24 @@ class DefaultUIPickerView: UIPickerView{
         fatalError("init(coder:) has not been implemented")
     }
     
+}
+
+class DefaultUILabel: UILabel {
+    
+    let inputText: String
+    let fontSize: CGFloat
+    let fontWeight: UIFont.Weight
+    
+    init(inputText: String, fontSize: CGFloat, fontWeight: UIFont.Weight){
+        self.inputText = inputText
+        self.fontSize = fontSize
+        self.fontWeight = fontWeight
+        super.init(frame: .zero)
+        self.text = inputText
+        self.font = .systemFont(ofSize: fontSize, weight: fontWeight)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
