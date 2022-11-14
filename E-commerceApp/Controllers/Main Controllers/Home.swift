@@ -134,6 +134,7 @@ struct Home_Previews: PreviewProvider {
             let vc = TabBar()
             return vc
         }.edgesIgnoringSafeArea(.all)
+            
     }
 }
 

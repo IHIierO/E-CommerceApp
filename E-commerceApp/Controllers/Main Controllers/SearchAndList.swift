@@ -112,7 +112,7 @@ extension SearchAndList: UITableViewDelegate, UITableViewDataSource {
             print("you dont select catigories")
         case [0,2]:
             let filters = Filter(id: "2", names: ["Delete filters", "50ml", "125ml",])
-            ViewControllersHelper.pushToProductsViewController(indexPath: indexPath, category: "для рук", menuTextData: menuTextData, navigationController: navigationController, filters: filters)
+            ViewControllersHelper.pushToProductsViewController(indexPath: indexPath, category: "for hands", menuTextData: menuTextData, navigationController: navigationController, filters: filters)
         case [0,3]:
             let filters = Filter(id: "3", names: ["Delete filters", "100ml", "200ml",])
             ViewControllersHelper.pushToProductsViewController(indexPath: indexPath, category: "для волос", menuTextData: menuTextData, navigationController: navigationController, filters: filters)

@@ -52,7 +52,7 @@ class NotificationPopup: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .clear
-        self.frame = CGRect(x: 0, y: UIScreen.main.bounds.maxY - 200, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width / 2)
+        self.frame = CGRect(x: 0, y: UIScreen.main.bounds.height / 1.3, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width / 2)
         setConstraints()
         animateIn()
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {

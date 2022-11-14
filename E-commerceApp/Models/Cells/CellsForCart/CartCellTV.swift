@@ -128,8 +128,8 @@ class CartCellTV: UITableViewCell {
     }
     
     func configure(indexPath: IndexPath, products: [Product]){
-        productImage.image = UIImage(named: products[indexPath.row].productImage)
-        nameLabel.text = "\(products[indexPath.row].productName) | \(products[indexPath.row].volume)ml"
+        productImage.image = UIImage(named: products[indexPath.row].productImage[0])
+        nameLabel.text = products[indexPath.row].productName
         
         if products[indexPath.row].discount != nil {
             let discontPrice = (products[indexPath.row].price * (100 - (products[indexPath.row].discount ?? 100))/100)

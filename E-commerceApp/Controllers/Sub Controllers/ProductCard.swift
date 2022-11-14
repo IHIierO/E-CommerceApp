@@ -11,7 +11,31 @@ class ProductCard: UIViewController {
     
     var products = [Product]()
     var indexPath = IndexPath()
-    var scrollView = UIScrollView()
+    let imageScrollView: UIScrollView = {
+        let imageScrollView = UIScrollView()
+        imageScrollView.showsHorizontalScrollIndicator = false
+        imageScrollView.isPagingEnabled = true
+        imageScrollView.showsHorizontalScrollIndicator = true
+        imageScrollView.flashScrollIndicators()
+        imageScrollView.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 20, bottom: 10, right: 20)
+        return imageScrollView
+    }()
+    let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
+    let vStack: UIStackView = {
+       let vStack = UIStackView()
+        vStack.translatesAutoresizingMaskIntoConstraints = false
+        vStack.axis = .vertical
+        vStack.distribution = .equalSpacing
+        vStack.alignment = .fill
+        vStack.spacing = 2
+        vStack.isLayoutMarginsRelativeArrangement = true
+        vStack.layoutMargins = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        return vStack
+    }()
     var productImages = [UIImage]()
     
     let productName: UILabel = {
@@ -51,7 +75,6 @@ class ProductCard: UIViewController {
     let productDiscription: UITextView = {
        let label = UITextView()
         label.backgroundColor = .systemMint
-        label.text = "With calogen"
         label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         label.isScrollEnabled = false
         label.isUserInteractionEnabled = false
@@ -60,7 +83,6 @@ class ProductCard: UIViewController {
     }()
     let pageControl: UIPageControl = {
        let pageControl = UIPageControl()
-        pageControl.numberOfPages = 3
         pageControl.backgroundColor = .lightGray.withAlphaComponent(0.1)
         pageControl.pageIndicatorTintColor = .black
         pageControl.currentPageIndicatorTintColor = .blue
@@ -73,13 +95,13 @@ class ProductCard: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupProductCard()
-        setupScrollView()
         setConstraints()
+        setupProductCard()
+        setupImageScrollView()
+        
     }
     
     @objc func addToCartButtonTap(){
-        
         ViewControllersHelper.addToCart(products: products, indexPath: indexPath, view: view, tabBarController: self.tabBarController!)
         addToCartButton.configuration?.title = !Persons.ksenia.productsInCart.contains(where: { product in
             product.id == products[indexPath.row].id
@@ -95,77 +117,55 @@ class ProductCard: UIViewController {
             product.id == products[indexPath.row].id
         }) ? "Добавить в корзину" : "В корзине"
     }
-    func setupScrollView(){
-        view.addSubview(scrollView)
-        scrollView.frame = CGRect(x: 0, y: 50, width: view.frame.width, height: view.frame.height * 0.45)
-        scrollView.showsHorizontalScrollIndicator = false
-        scrollView.isPagingEnabled = true
-        scrollView.delegate = self
+    func setupImageScrollView(){
+        imageScrollView.frame = CGRect(x: 0, y: 50, width: view.frame.width, height: view.frame.height * 0.45)
+        
+        imageScrollView.delegate = self
         
         blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView.frame = self.view.bounds
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
-        for i in 0...2 {
+        for i in 0..<products[indexPath.row].productImage.count {
             let imageView = UIImageView()
             let fullScreenTap = UITapGestureRecognizer(target: self, action: #selector(fullScreenTap(_:)))
-            productImages.append(UIImage(named: "cream_for_hands_\(i + 1)")!)
+            productImages.append(UIImage(named: products[indexPath.row].productImage[i])!)
             imageView.image = productImages[i]
             imageView.frame = CGRect(x: view.frame.width*CGFloat(i), y: 0, width: view.frame.width, height: view.frame.height * 0.45)
             imageView.contentMode = .scaleAspectFill
             imageView.isUserInteractionEnabled = true
             imageView.addGestureRecognizer(fullScreenTap)
-            scrollView.contentSize.width = scrollView.frame.width * CGFloat(i + 1)
-            scrollView.addSubview(imageView)
+            imageScrollView.contentSize.width = imageScrollView.frame.width * CGFloat(i + 1)
+            imageScrollView.addSubview(imageView)
+            
         }
         pageControl.addTarget(self, action: #selector(pageControlDidChange(_:)), for: .valueChanged)
+        pageControl.numberOfPages = products[indexPath.row].productImage.count
     }
+    
     private func setConstraints(){
-        
-        view.addSubview(pageControl)
+        view.addSubview(scrollView)
         NSLayoutConstraint.activate([
-            pageControl.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: 0),
-            pageControl.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
-            pageControl.widthAnchor.constraint(equalToConstant: view.bounds.width - 20),
-            pageControl.heightAnchor.constraint(equalToConstant: 50)
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+        ])
+        scrollView.addSubview(vStack)
+        NSLayoutConstraint.activate([
+            vStack.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 0),
+            vStack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 0),
+            vStack.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: 0),
+            vStack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: 0),
+            vStack.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
         ])
         
-        view.addSubview(productName)
-        NSLayoutConstraint.activate([
-            productName.topAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: 0),
-            productName.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
-            productName.widthAnchor.constraint(equalToConstant: view.bounds.width - 20),
-            productName.heightAnchor.constraint(equalToConstant: 50)
-        ])
-        view.addSubview(productPrice)
-        NSLayoutConstraint.activate([
-            productPrice.topAnchor.constraint(equalTo: productName.bottomAnchor, constant: 0),
-            productPrice.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            productPrice.widthAnchor.constraint(equalToConstant: view.bounds.width - 20),
-            productPrice.heightAnchor.constraint(equalToConstant: 50)
-        ])
-        view.addSubview(addToCartButton)
-        NSLayoutConstraint.activate([
-            addToCartButton.topAnchor.constraint(equalTo: productPrice.bottomAnchor, constant: 10),
-            addToCartButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            addToCartButton.widthAnchor.constraint(equalToConstant: view.bounds.width - 20),
-            addToCartButton.heightAnchor.constraint(equalToConstant: 60)
-        ])
-        view.addSubview(descriptionHead)
-        NSLayoutConstraint.activate([
-            descriptionHead.topAnchor.constraint(equalTo: addToCartButton.bottomAnchor, constant: 10),
-            descriptionHead.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            descriptionHead.widthAnchor.constraint(equalToConstant: view.bounds.width - 20),
-            descriptionHead.heightAnchor.constraint(equalToConstant: 50)
-        ])
-        view.addSubview(productDiscription)
-        NSLayoutConstraint.activate([
-            productDiscription.topAnchor.constraint(equalTo: descriptionHead.bottomAnchor, constant: 0),
-            productDiscription.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            productDiscription.widthAnchor.constraint(equalToConstant: view.bounds.width - 20),
-            productDiscription.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
-        ])
-        
+        [imageScrollView, pageControl, productName, productPrice, addToCartButton, descriptionHead, productDiscription].forEach {vStack.addArrangedSubview($0)}
+        imageScrollView.heightAnchor.constraint(equalTo: scrollView.heightAnchor, multiplier: 0.45).isActive = true
+        productName.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        productPrice.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        addToCartButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        descriptionHead.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
     
     @objc func fullScreenTap(_ sender: UITapGestureRecognizer) {
@@ -193,7 +193,7 @@ class ProductCard: UIViewController {
     
     @objc func pageControlDidChange(_ sender: UIPageControl){
         let currentPage = sender.currentPage
-        scrollView.setContentOffset(CGPoint(x: CGFloat(currentPage) * view.frame.size.width, y: 0), animated: true)
+        imageScrollView.setContentOffset(CGPoint(x: CGFloat(currentPage) * view.frame.size.width, y: 0), animated: true)
     }
 }
 
@@ -220,7 +220,7 @@ import SwiftUI
 struct ProductsCard_Previews: PreviewProvider {
     static var previews: some View {
         UIViewControllerPreview {
-            let vc = ProductCard()
+            let vc = TabBar()
             return vc
         }.edgesIgnoringSafeArea(.all)
     }

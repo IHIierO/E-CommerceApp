@@ -17,76 +17,42 @@ struct Product: Identifiable{
     var count: Int = 1
     var price: Int = 0
     var discount: Int?
-    var productImage: String = ""
+    var productImage: [String] = []
     var rating: Int = 0
-    var favorite: Bool = false
-    var shoppingCart: Bool = false
-    var volume: String = ""
+    var volume: String?
     var newest: Bool = false
     
 }
 
 class Products {
     static var products: [Product] = [
-        .init(productName: "Крем для лица Нивея",
-              productDescription: "С пептидами",
-              productCategory: "для лица",
-              productSecondCategory: "крем",
-              price: 98,
-              discount: nil,
-              productImage: "cream_for_face_1",
-              rating: 0,
-              volume: "50ml",
-              newest: true),
-        .init(productName: "Cream for hands 1",
-              productDescription: "with calogen",
-              productCategory: "для рук",
-              productSecondCategory: "крем",
-              price: 29,
-              discount: 30,
-              productImage: "cream_for_hands_1",
-              rating: 10,
-              volume: "50ml",
-              newest: true),
-        .init(productName: "Cream for hands 2",
-              productDescription: "with calogen",
-              productCategory: "для рук",
-              productSecondCategory: "крем",
-              price: 40,
-              discount: 0,
-              productImage: "cream_for_hands_2",
-              rating: 0,
-              volume: "125ml",
-              newest: true),
-        .init(productName: "Cream for hands 3",
-              productDescription: "with calogen",
-              productCategory: "для рук",
-              productSecondCategory: "крем",
-              price: 45,
+        .init(productName: "Гель для рук \"8018\" (60мл)",
+             productDescription: "Антибактериальный гель для рук «8018». Используется для дезинфекции кожи рук. Убивает 99,9% болезнетворных бактерий, грибов и вирусов.",
+             productCategory: "for hands",
+             productSecondCategory: "gel",
+             price: 720,
+             productImage: ["gel_for_hands_8018_60ml_1", "gel_for_hands_8018_60ml_2", "gel_for_hands_8018_60ml_3", "gel_for_hands_8018_60ml_4"],
+             volume: "60ml"),
+        .init(productName: "Гель для рук \"8018\" (300мл)",
+              productDescription: """
+                                    Гель для рук с алоэ вера и витамином Е. Гель для обработки рук на основе этилового спирта, который убивает 99,9% болезнетворных бактерий, грибков и вирусов.
+                                    
+                                    Способ применения: выдавите небольшое количество геля на ладонь и тщательно разотрите руки до полного высыхания.
+                                    
+                                    Внимание! Легко воспламеняется, беречь от огня и чрезмерного нагревания. Только для наружного применения. В случае попадания в глаза немедленно промыть водой, при необходимости обратиться к врачу.
+                                    
+                                    Хранить в сухом, защищенном от света и недоступном для детей месте при температуре от -5С до +30С.
+                                    
+                                    Ingredients (INCI): Ethyl alcohol 66,2% vol., Aqua, Glycerin, Propylene Glycol, Acrylates/C10-30 Alkyl Acrylate Crosspolymer, Triethanolamine (TEA), Perfume, Тocopherol, Aloe barbadensis (aloe vera) leaf gel, Linallol, Citronellol, Geraniol, Lilial, Alpha-Isomethyl ionnone, Eugenol, Hexyl Cinnamaldehyde, Amyl Cinnamaldehyde, Benzyl Salicylate, Coumarin, D-Limonene, Citral, Benzyl Alcohol, Amyl Cinnamyl Alcohol, Benzyl Benzoate, Cinnamyl Alcohol, Isoeugenol.
+                                    
+                                    Срок годности: 3 года
+                                    """,
+              productCategory: "for hands",
+              productSecondCategory: "gel",
+              price: 2650,
               discount: 10,
-              productImage: "cream_for_hands_3",
-              rating: 20,
-              volume: "125ml",
-              newest: true),
-        .init(productName: "Shampo 1",
-              productDescription: "with calogen",
-              productCategory: "для волос",
-              productSecondCategory: "шампунь",
-              price: 99,
-              discount: 20,
-              productImage: "shampo_1",
-              rating: 23,
-              volume: "100ml"),
-        .init(productName: "Shampo 2",
-              productDescription: "with calogen",
-              productCategory: "для волос",
-              productSecondCategory: "шампунь",
-              price: 89,
-              discount: 10,
-              productImage: "shampo_2",
-              rating: 5,
-              volume: "200ml",
-              newest: true),
+              productImage: ["gel_for_hands_8018_300ml_1", "gel_for_hands_8018_300ml_2", "gel_for_hands_8018_300ml_3"],
+              volume: "300ml")
     ]
     
     private init(){

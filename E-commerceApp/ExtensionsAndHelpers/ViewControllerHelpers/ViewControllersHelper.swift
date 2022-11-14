@@ -96,13 +96,6 @@ class ViewControllersHelper{
     static func pushToProductCard(navigationController: UINavigationController?, products: [Product], indexPath: IndexPath){
         let productCard = ProductCard()
         
-//        for image in 0...2 {
-//            let imageToDisplay = UIImage(named: "cream_for_hands_\(image + 1)")
-//            productCard.productImage.image = imageToDisplay
-//            productCard.scrollView.addSubview(productCard.productImage)
-//        }
-        
-//        productCard.productImage.image = UIImage(named: products[indexPath.row].productImage)
         productCard.products = products
         productCard.indexPath = indexPath
         productCard.productName.text = "\(products[indexPath.row].productName)"
@@ -166,7 +159,7 @@ class ViewControllersHelper{
                 let imageView = UIImageView()
                 imageView.contentMode = .scaleAspectFill
                 imageView.clipsToBounds = true
-                imageView.image = UIImage(named: Persons.ksenia.orders[indexPath.row].productsInOrder[i].productImage)
+                imageView.image = UIImage(named: Persons.ksenia.orders[indexPath.row].productsInOrder[i].productImage[1])
                 imageView.translatesAutoresizingMaskIntoConstraints = false
                 imageView.widthAnchor.constraint(equalToConstant: 40).isActive = true
                 hStack.addArrangedSubview(imageView)
@@ -176,7 +169,7 @@ class ViewControllersHelper{
                 let imageView = UIImageView()
                 imageView.contentMode = .scaleAspectFill
                 imageView.clipsToBounds = true
-                imageView.image = UIImage(named: Persons.ksenia.orders[indexPath.row].productsInOrder[i].productImage)
+                imageView.image = UIImage(named: Persons.ksenia.orders[indexPath.row].productsInOrder[i].productImage[1])
                 imageView.translatesAutoresizingMaskIntoConstraints = false
                 imageView.widthAnchor.constraint(equalToConstant: 40).isActive = true
                 hStack.addArrangedSubview(imageView)
