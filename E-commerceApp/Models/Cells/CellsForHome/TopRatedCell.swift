@@ -15,8 +15,8 @@ class TopRatedCell: UICollectionViewCell, SelfConfiguringCell {
        let topRatedImage = UIImageView(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
         topRatedImage.image = UIImage(named: "topRated")
         topRatedImage.contentMode = .scaleAspectFill
-//        flowerImage.layer.cornerRadius = 15
-//        flowerImage.clipsToBounds = true
+        topRatedImage.layer.cornerRadius = 8
+        topRatedImage.clipsToBounds = true
         
         topRatedImage.translatesAutoresizingMaskIntoConstraints = false
         return topRatedImage
@@ -49,7 +49,14 @@ class TopRatedCell: UICollectionViewCell, SelfConfiguringCell {
     }()
     
     func configure(with itemIdentifier: Int, indexPath: IndexPath, products: [Product]) {
-        topRatedImage.image = UIImage(named: products[indexPath.row].productImage[1])
+        self.layer.cornerRadius = 8
+        self.layer.shadowColor = UIColor.black.withAlphaComponent(0.6).cgColor
+        self.layer.shadowOpacity = 0.8
+        self.layer.shadowOffset = .zero
+        self.layer.shadowRadius = 5
+        self.clipsToBounds = false
+        
+        topRatedImage.image = UIImage(named: products[indexPath.row].productImage[0])
         nameLabel.text = products[indexPath.row].productName
         priceLabel.text = "\(products[indexPath.row].price) руб."
         

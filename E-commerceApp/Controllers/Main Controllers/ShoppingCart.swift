@@ -30,7 +30,7 @@ class ShoppingCartTV: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(hexString: "#FDFAF3")
         title = "Корзина"
         setupTableView()
         setConstraints()

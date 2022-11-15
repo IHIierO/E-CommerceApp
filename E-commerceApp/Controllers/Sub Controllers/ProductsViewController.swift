@@ -42,7 +42,7 @@ class ProductsViewController: UIViewController{
     private func setupCollectionView(){
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        collectionView.backgroundColor = UIColor(hexString: "#f5f5dc")
+        collectionView.backgroundColor = UIColor(hexString: "#FDFAF3")
         view.addSubview(collectionView)
         collectionView.register(ProductsMenuCell.self, forCellWithReuseIdentifier: ProductsMenuCell.reuseId)
         collectionView.register(ProductsCell.self, forCellWithReuseIdentifier: ProductsCell.reuseId)

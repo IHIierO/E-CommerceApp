@@ -39,7 +39,7 @@ class Home: UIViewController {
     private func setupCollectionView(){
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        collectionView.backgroundColor = UIColor(hexString: "#f5f5dc")
+        collectionView.backgroundColor = UIColor(hexString: "#FDFAF3")
         view.addSubview(collectionView)
         collectionView.register(DiscountsCell.self, forCellWithReuseIdentifier: DiscountsCell.reuseId)
         collectionView.register(NewestCell.self, forCellWithReuseIdentifier: NewestCell.reuseId)

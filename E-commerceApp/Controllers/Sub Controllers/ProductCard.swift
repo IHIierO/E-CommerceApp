@@ -33,6 +33,7 @@ class ProductCard: UIViewController {
         vStack.alignment = .fill
         vStack.spacing = 2
         vStack.isLayoutMarginsRelativeArrangement = true
+        #warning("фото сдвигается за 10 поинтов")
         vStack.layoutMargins = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         return vStack
     }()
@@ -161,7 +162,7 @@ class ProductCard: UIViewController {
         ])
         
         [imageScrollView, pageControl, productName, productPrice, addToCartButton, descriptionHead, productDiscription].forEach {vStack.addArrangedSubview($0)}
-        imageScrollView.heightAnchor.constraint(equalTo: scrollView.heightAnchor, multiplier: 0.45).isActive = true
+        imageScrollView.heightAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         productName.heightAnchor.constraint(equalToConstant: 50).isActive = true
         productPrice.heightAnchor.constraint(equalToConstant: 50).isActive = true
         addToCartButton.heightAnchor.constraint(equalToConstant: 60).isActive = true

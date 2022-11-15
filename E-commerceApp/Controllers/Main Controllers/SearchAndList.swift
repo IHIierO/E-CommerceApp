@@ -22,7 +22,7 @@ class SearchAndList: UIViewController {
     }
 
     private func setupViewController(){
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(hexString: "#FDFAF3")
         setupNavigationBar()
     }
     
@@ -111,7 +111,7 @@ extension SearchAndList: UITableViewDelegate, UITableViewDataSource {
         case [0,1]:
             print("you dont select catigories")
         case [0,2]:
-            let filters = Filter(id: "2", names: ["Delete filters", "50ml", "125ml",])
+            let filters = Filter(id: "2", names: ["Delete filters", "gel_for_hands", "solid_soap", "hand_cream"])
             ViewControllersHelper.pushToProductsViewController(indexPath: indexPath, category: "for hands", menuTextData: menuTextData, navigationController: navigationController, filters: filters)
         case [0,3]:
             let filters = Filter(id: "3", names: ["Delete filters", "100ml", "200ml",])

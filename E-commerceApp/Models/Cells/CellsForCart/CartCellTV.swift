@@ -58,6 +58,7 @@ class CartCellTV: UITableViewCell {
     let discontLabel: UIImageView = {
        let label = UIImageView(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
         label.image = UIImage(systemName: "percent")
+        label.alpha = 0
         
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -134,8 +135,10 @@ class CartCellTV: UITableViewCell {
         if products[indexPath.row].discount != nil {
             let discontPrice = (products[indexPath.row].price * (100 - (products[indexPath.row].discount ?? 100))/100)
             priceLabel.attributedText = "\(products[indexPath.row].price)  \(discontPrice) руб.".createAttributedString(stringtToStrike: "\(products[indexPath.row].price)")
+            discontLabel.alpha = 1
         }else{
             priceLabel.text = "\(products[indexPath.row].price) руб."
+            discontLabel.alpha = 0
         }
         
         if Persons.ksenia.favoriteProducts.contains(where: { product in
