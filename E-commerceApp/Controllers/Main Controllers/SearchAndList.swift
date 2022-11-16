@@ -8,11 +8,13 @@
 
 import UIKit
 
-class SearchAndList: UIViewController {
+class SearchAndList: UIViewController, UISearchControllerDelegate {
     
-    private let searchBar = UISearchController(searchResultsController: nil)
+    var resultsTableViewController = ResultsTableViewController()
+    
+    var searchBar: UISearchController!
     private let tableView = UITableView()
-    private var menuTextData:[String] = []
+    var menuTextData:[String] = []
     private var search = false
 
     override func viewDidLoad() {
@@ -28,9 +30,14 @@ class SearchAndList: UIViewController {
     
     private func setupNavigationBar(){
         title = "Categories"
-        
-        searchBar.searchResultsUpdater = self
-        searchBar.searchBar.delegate = self
+        searchBar = UISearchController(searchResultsController: resultsTableViewController)
+        searchBar.delegate = self
+        searchBar.searchBar.delegate = resultsTableViewController
+        searchBar.searchResultsUpdater = resultsTableViewController
+        searchBar.obscuresBackgroundDuringPresentation = false
+                definesPresentationContext = true
+        resultsTableViewController.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "searchCell")
+        resultsTableViewController.tableView.delegate = self
         navigationItem.searchController = searchBar
         navigationItem.hidesSearchBarWhenScrolling = false
     }
@@ -104,24 +111,11 @@ extension SearchAndList: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch indexPath{
-        case [0,0]:
-            let filters = Filter(id: "0", names: ["Delete filters",])
-            ViewControllersHelper.pushToProductsViewController(indexPath: indexPath, category: "для лица", menuTextData: menuTextData, navigationController: navigationController, filters: filters)
-        case [0,1]:
-            print("you dont select catigories")
-        case [0,2]:
-            let filters = Filter(id: "2", names: ["Delete filters", "gel_for_hands", "solid_soap", "hand_cream"])
-            ViewControllersHelper.pushToProductsViewController(indexPath: indexPath, category: "for hands", menuTextData: menuTextData, navigationController: navigationController, filters: filters)
-        case [0,3]:
-            let filters = Filter(id: "3", names: ["Delete filters", "100ml", "200ml",])
-            ViewControllersHelper.pushToProductsViewController(indexPath: indexPath, category: "для волос", menuTextData: menuTextData, navigationController: navigationController, filters: filters)
-        case [0,4]:
-            print("you dont select catigories")
-        default:
-            print("you dont select catigories")
-        }
+        
+        ViewControllersHelper.pushToProductsViewController(indexPath: indexPath, category: "", menuTextData: menuTextData, navigationController: self.navigationController, filters: nil, tableView: tableView, resultsTableViewController: resultsTableViewController)
     }
+    
+    
 }
 
 // MARK: - SwiftUI

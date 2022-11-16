@@ -21,6 +21,7 @@
 		39074563291D477F004AE0BA /* DefaultUIClasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39074562291D477F004AE0BA /* DefaultUIClasses.swift */; };
 		390745652921100E004AE0BA /* CurentOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 390745642921100E004AE0BA /* CurentOrder.swift */; };
 		3907456729211E1E004AE0BA /* UIlabel_EasyLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3907456629211E1E004AE0BA /* UIlabel_EasyLayout.swift */; };
+		390745692924ED92004AE0BA /* ResultsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 390745682924ED92004AE0BA /* ResultsTableViewController.swift */; };
 		390ED14228FEC06900F45C27 /* FavoriteProducts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 390ED14128FEC06900F45C27 /* FavoriteProducts.swift */; };
 		390ED1442900386900F45C27 /* ViewControllerPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 390ED1432900386900F45C27 /* ViewControllerPreview.swift */; };
 		390ED1462901454500F45C27 /* CollectionViewManageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 390ED1452901454500F45C27 /* CollectionViewManageData.swift */; };
@@ -68,6 +69,7 @@
 		39074562291D477F004AE0BA /* DefaultUIClasses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultUIClasses.swift; sourceTree = "<group>"; };
 		390745642921100E004AE0BA /* CurentOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurentOrder.swift; sourceTree = "<group>"; };
 		3907456629211E1E004AE0BA /* UIlabel_EasyLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIlabel_EasyLayout.swift; sourceTree = "<group>"; };
+		390745682924ED92004AE0BA /* ResultsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsTableViewController.swift; sourceTree = "<group>"; };
 		390ED14128FEC06900F45C27 /* FavoriteProducts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteProducts.swift; sourceTree = "<group>"; };
 		390ED1432900386900F45C27 /* ViewControllerPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerPreview.swift; sourceTree = "<group>"; };
 		390ED1452901454500F45C27 /* CollectionViewManageData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewManageData.swift; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 				39074556291A72B7004AE0BA /* NotificationPopup.swift */,
 				39074558291A842C004AE0BA /* OrderPopup.swift */,
 				39074546290FEE6F004AE0BA /* ImageScrollView.swift */,
+				390745682924ED92004AE0BA /* ResultsTableViewController.swift */,
 			);
 			path = "Sub Views";
 			sourceTree = "<group>";
@@ -386,6 +389,7 @@
 				39074557291A72B7004AE0BA /* NotificationPopup.swift in Sources */,
 				3907454C2916CA92004AE0BA /* StrikeString.swift in Sources */,
 				3907455E291AA117004AE0BA /* Orders.swift in Sources */,
+				390745692924ED92004AE0BA /* ResultsTableViewController.swift in Sources */,
 				390ED14B2902B0FE00F45C27 /* ProductsCell.swift in Sources */,
 				3907456729211E1E004AE0BA /* UIlabel_EasyLayout.swift in Sources */,
 				3907455129187790004AE0BA /* CartCellTV.swift in Sources */,

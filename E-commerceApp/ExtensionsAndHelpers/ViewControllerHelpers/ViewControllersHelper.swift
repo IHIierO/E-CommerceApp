@@ -26,7 +26,7 @@ class ViewControllersHelper{
                     let curentDiscount = Products.products.filter({$0.discount == discont})
                     var curentFilters = Filter(names: ["Delete filters"])
                     for product in curentDiscount {
-                        let filters = Filter(names: ["для лица", "для тела", "for hands", "для волос", "для дома", "наборы"])
+                        let filters = Filter(names: ["для лица", "для тела", "для рук", "для волос", "для дома", "наборы"])
                         if filters.names.contains(product.productCategory) {
                             curentFilters.names.append(product.productCategory)
                         }
@@ -41,13 +41,89 @@ class ViewControllersHelper{
         }
     }
     
-    static func pushToProductsViewController(indexPath: IndexPath, category: String, menuTextData: [String], navigationController: UINavigationController?, filters: Filter) {
-        let curentCategory = Products.products.filter({$0.productCategory == category})
-        let productsViewController = ProductsViewController()
-        productsViewController.title = "\(menuTextData[indexPath.row])"
-        productsViewController.curentProducts = curentCategory
-        productsViewController.filters = filters
-        navigationController?.pushViewController(productsViewController, animated: true)
+    static func pushToProductsViewController(indexPath: IndexPath, category: String, menuTextData: [String], navigationController: UINavigationController?, filters: Filter?, tableView: UITableView, resultsTableViewController: ResultsTableViewController) {
+        
+        
+        if tableView == resultsTableViewController.tableView {
+            for i in resultsTableViewController.arrayFilter {
+                let productCategory = ["для лица","для тела","для рук","для волос","для дома","наборы"]
+                let productSecondCategory = ["крем", "гель", "мыло"]
+                if productCategory.contains(i){
+                    let index = resultsTableViewController.arrayFilter.firstIndex(of: i)
+                    switch indexPath {
+                    case [0,Int(index!)]:
+                        
+                        let curentCategory = Products.products.filter({$0.productCategory == i.lowercased()})
+                        var filterNames: [String] = ["Delete filters"]
+                        for filterForProducts in curentCategory {
+                            if !filterNames.contains(filterForProducts.productSecondCategory){
+                                filterNames.append(filterForProducts.productSecondCategory)
+                            }
+                        }
+                        let filters = Filter(id: "0", names: filterNames)
+                        let productsViewController = ProductsViewController()
+                        productsViewController.title = "\(resultsTableViewController.arrayFilter[indexPath.row])"
+                        productsViewController.curentProducts = curentCategory
+                        productsViewController.filters = filters
+                        navigationController?.pushViewController(productsViewController, animated: true)
+                        
+                    default:
+                        print("\(indexPath)")
+                    }
+                }
+                if productSecondCategory.contains(i){
+                    let index = resultsTableViewController.arrayFilter.firstIndex(of: i)
+                    switch indexPath {
+                    case [0,Int(index!)]:
+                        let filters = Filter(id: "0", names: ["Delete filters",])
+                        let curentCategory = Products.products.filter({$0.productSecondCategory == i.lowercased()})
+                        let productsViewController = ProductsViewController()
+                        productsViewController.title = "\(resultsTableViewController.arrayFilter[indexPath.row])"
+                        productsViewController.curentProducts = curentCategory
+                        productsViewController.filters = filters
+                        navigationController?.pushViewController(productsViewController, animated: true)
+                        
+                    default:
+                        print("\(indexPath)")
+                    }
+                }
+                
+            }
+        } else {
+            for i in menuTextData {
+                
+                let index = menuTextData.firstIndex(of: i)
+                switch indexPath{
+                case [0,Int(index!)]:
+                    
+                    let curentCategory = Products.products.filter({$0.productCategory == i.lowercased()})
+                    var filterNames: [String] = ["Delete filters"]
+                    for filterForProducts in curentCategory {
+                        if !filterNames.contains(filterForProducts.productSecondCategory){
+                            filterNames.append(filterForProducts.productSecondCategory)
+                        }
+                    }
+                    let filters = Filter(id: "0", names: filterNames)
+                    let productsViewController = ProductsViewController()
+                    productsViewController.title = "\(menuTextData[indexPath.row])"
+                    productsViewController.curentProducts = curentCategory
+                    productsViewController.filters = filters
+                    navigationController?.pushViewController(productsViewController, animated: true)
+                default:
+                    print("you dont select catigories")
+                }
+            }
+            
+        }
+        
+        
+        //MARK: - old pushToProductVC
+//        let curentCategory = Products.products.filter({$0.productCategory == category})
+//        let productsViewController = ProductsViewController()
+//        productsViewController.title = "\(menuTextData[indexPath.row])"
+//        productsViewController.curentProducts = curentCategory
+//        productsViewController.filters = filters
+//        navigationController?.pushViewController(productsViewController, animated: true)
     }
     
     static func didSelectCurentFilter(filters: Filter, indexPath: IndexPath, collectionViewManageData: ProductsCollectionViewManageData, collectionView: UICollectionView, view: UIView, tabBarController: UITabBarController, curentProducts: [Product], vc: ProductsViewController) {
@@ -58,16 +134,16 @@ class ViewControllersHelper{
             case [0,Int(index!)]:
                 collectionViewManageData.setupDataSource(collectionView: collectionView, view: view, tabBarColtroller: tabBarController, curentProducts: curentProducts, filters: filters)
                 collectionViewManageData.reloadData(curentProducts: curentProducts, filters: filters)
-                vc.filteredProducts = curentProducts
+                break
             default:
-                print("error1")
+                break
             }
         }
         
         for name in filters.names {
             let filterForMl = ["50ml","100ml","125ml","200ml"]
-            let filterForCategory = ["для лица", "для тела", "for hands", "для волос", "для дома", "наборы"]
-            let filterForSecondCategory = ["gel_for_hands", "solid_soap", "hand_cream"]
+            let filterForCategory = ["для лица", "для тела", "для рук", "для волос", "для дома", "наборы"]
+            let filterForSecondCategory = ["гель", "мыло", "крем"]
             if filters.names.contains(name) && name != "Delete filters" && filterForMl.contains(name){
                 let index = filters.names.firstIndex(of: name)
                 switch indexPath {
@@ -77,7 +153,7 @@ class ViewControllersHelper{
                     collectionViewManageData.reloadData(curentProducts: curentMl, filters: filters)
                     vc.filteredProducts = curentMl
                 default:
-                    print("error2")
+                    print("filterForMl")
                 }
             }else if filters.names.contains(name) && name != "Delete filters" && filterForCategory.contains(name){
                 let index = filters.names.firstIndex(of: name)
@@ -88,18 +164,21 @@ class ViewControllersHelper{
                     collectionViewManageData.reloadData(curentProducts: curentCategory, filters: filters)
                     vc.filteredProducts = curentCategory
                 default:
-                    print("error3")
+                    print("filterForCategory")
                 }
             }else if filters.names.contains(name) && name != "Delete filters" && filterForSecondCategory.contains(name){
                 let index = filters.names.firstIndex(of: name)
+                
                 switch indexPath {
                 case [0,Int(index!)]:
                     let curentCategory = curentProducts.filter({$0.productSecondCategory == name})
                     collectionViewManageData.setupDataSource(collectionView: collectionView, view: view, tabBarColtroller: tabBarController, curentProducts: curentCategory, filters: filters)
                     collectionViewManageData.reloadData(curentProducts: curentCategory, filters: filters)
                     vc.filteredProducts = curentCategory
+                    break
                 default:
-                    print("error3")
+                    
+                    break
                 }
             }
         }

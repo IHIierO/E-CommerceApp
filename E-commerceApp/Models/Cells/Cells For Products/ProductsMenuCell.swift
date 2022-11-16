@@ -18,7 +18,7 @@ class ProductsMenuCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setConstraints()
@@ -43,5 +43,12 @@ class ProductsMenuCell: UICollectionViewCell {
             menuLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0),
         ])
     }
+    
+    override var isHighlighted: Bool {
+            didSet {
+
+                self.backgroundColor = isSelected ? .lightGray : .red
+            }
+        }
 }
 

@@ -34,7 +34,7 @@ class ProductCard: UIViewController {
         vStack.spacing = 2
         vStack.isLayoutMarginsRelativeArrangement = true
         #warning("фото сдвигается за 10 поинтов")
-        vStack.layoutMargins = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        vStack.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
         return vStack
     }()
     var productImages = [UIImage]()

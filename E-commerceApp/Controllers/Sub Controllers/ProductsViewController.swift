@@ -104,12 +104,15 @@ extension ProductsViewController: UICollectionViewDelegate{
         switch section {
         case .menu:
             ViewControllersHelper.didSelectCurentFilter(filters: filters, indexPath: indexPath, collectionViewManageData: collectionViewManageData, collectionView: collectionView, view: view, tabBarController: self.tabBarController!, curentProducts: curentProducts, vc: self)
+            #warning("Изменить цвет ячейки когда она выбрана")
+            collectionView.deselectItem(at: indexPath, animated: true)
         case .products:
             ViewControllersHelper.pushToProductCard(navigationController: navigationController, products: filteredProducts, indexPath: indexPath)
         case .none:
             print("error")
         }
     }
+    
 }
 
 // MARK: - SwiftUI
