@@ -48,8 +48,8 @@ class Products {
                                     
                                     Срок годности: 3 года
                                     """,
-              productCategory: "гель",
-              productSecondCategory: "gel_for_hands",
+              productCategory: "для рук",
+              productSecondCategory: "гель",
               price: 2650,
               discount: 10,
               productImage: ["gel_for_hands_8018_300ml_1", "gel_for_hands_8018_300ml_2", "gel_for_hands_8018_300ml_3"],

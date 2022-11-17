@@ -46,6 +46,12 @@ class ProductsCollectionViewManageData {
             case .menu:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductsMenuCell.reuseId, for: indexPath) as! ProductsMenuCell
                 cell.configure(with: itemIdentifier, indexPath: indexPath, filters: filters)
+                if cell.isSelected {
+                    cell.backgroundColor = .red
+                }else{
+                    cell.backgroundColor = .lightGray
+                }
+                cell.tag = indexPath.row
                 return cell
             case .products:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductsCell.reuseId, for: indexPath) as! ProductsCell

@@ -22,7 +22,6 @@ class ProductsMenuCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setConstraints()
-        self.backgroundColor = .lightGray
         self.layer.cornerRadius = 5
     }
     
@@ -44,11 +43,5 @@ class ProductsMenuCell: UICollectionViewCell {
         ])
     }
     
-    override var isHighlighted: Bool {
-            didSet {
-
-                self.backgroundColor = isSelected ? .lightGray : .red
-            }
-        }
 }
 
