@@ -9,16 +9,8 @@ import UIKit
 
 class ResultsTableViewController: UITableViewController, UISearchResultsUpdating, UISearchBarDelegate {
     
-    var array = ["крем", "гель", "мыло","для лица","для тела","для рук","для волос","для дома","наборы"]
+    let array = ["крем", "гель", "мыло","для лица","для тела","для рук","для волос","для дома","наборы"]
     var arrayFilter = [String]()
-    var menuTextData = [
-    "Для лица",
-    "Для тела",
-    "Для рук",
-    "Для волос",
-    "Для дома",
-    "Наборы"
-    ]
 
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -40,8 +32,16 @@ class ResultsTableViewController: UITableViewController, UISearchResultsUpdating
 
         if let text = searchController.searchBar.text {
             for string in array {
+            #warning("добавить поиск только по первой букве")
                 if string.contains(text.lowercased()) {
                     arrayFilter.append(string)
+                }
+            }
+            
+            #warning("добавить поиск по названию продуктов")
+            for string in Products.products {
+                if string.productName.lowercased().contains(text.lowercased()) {
+                    arrayFilter.append(string.productName)
                 }
             }
         }

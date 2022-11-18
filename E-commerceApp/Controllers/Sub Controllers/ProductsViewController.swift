@@ -103,7 +103,7 @@ extension ProductsViewController: UICollectionViewDelegate{
         
         switch section {
         case .menu:
-            ViewControllersHelper.didSelectCurentFilter2(filters: filters, indexPath: indexPath, collectionViewManageData: collectionViewManageData, collectionView: collectionView, view: view, tabBarController: self.tabBarController!, curentProducts: curentProducts, vc: self)
+            ViewControllersHelper.didSelectCurentFilter(filters: filters, indexPath: indexPath, collectionViewManageData: collectionViewManageData, collectionView: collectionView, view: view, tabBarController: self.tabBarController!, curentProducts: curentProducts, vc: self)
             #warning("Изменить цвет ячейки когда она выбрана")
         case .products:
             ViewControllersHelper.pushToProductCard(navigationController: navigationController, products: filteredProducts, indexPath: indexPath)

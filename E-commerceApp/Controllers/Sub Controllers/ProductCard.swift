@@ -90,6 +90,24 @@ class ProductCard: UIViewController {
         pageControl.translatesAutoresizingMaskIntoConstraints = false
         return pageControl
     }()
+    let recentlyViewedHead: UILabel = {
+        let label = UILabel()
+        label.text = "Вы недавно смотрели"
+        label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+        label.backgroundColor = .systemMint
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    let collectionView: UICollectionView = {
+       let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.sectionInset = .init(top: 0, left: 30, bottom: 0, right: 30)
+        
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.register(ProductsCell.self, forCellWithReuseIdentifier: ProductsCell.reuseId)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        return collectionView
+    }()
     
     let blurEffect = UIBlurEffect(style: .dark)
     lazy var blurEffectView = UIVisualEffectView()
@@ -117,6 +135,8 @@ class ProductCard: UIViewController {
         addToCartButton.configuration?.title = !Persons.ksenia.productsInCart.contains(where: { product in
             product.id == products[indexPath.row].id
         }) ? "Добавить в корзину" : "В корзине"
+        collectionView.delegate = self
+        collectionView.dataSource = self
     }
     func setupImageScrollView(){
         imageScrollView.frame = CGRect(x: 0, y: 50, width: view.frame.width, height: view.frame.height * 0.45)
@@ -161,12 +181,14 @@ class ProductCard: UIViewController {
             vStack.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
         ])
         
-        [imageScrollView, pageControl, productName, productPrice, addToCartButton, descriptionHead, productDiscription].forEach {vStack.addArrangedSubview($0)}
+        [imageScrollView, pageControl, productName, productPrice, addToCartButton, descriptionHead, productDiscription, recentlyViewedHead, collectionView].forEach {vStack.addArrangedSubview($0)}
         imageScrollView.heightAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         productName.heightAnchor.constraint(equalToConstant: 50).isActive = true
         productPrice.heightAnchor.constraint(equalToConstant: 50).isActive = true
         addToCartButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
         descriptionHead.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        recentlyViewedHead.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        collectionView.heightAnchor.constraint(equalToConstant: view.bounds.size.width / 1.8).isActive = true
     }
     
     @objc func fullScreenTap(_ sender: UITapGestureRecognizer) {
@@ -197,7 +219,7 @@ class ProductCard: UIViewController {
         imageScrollView.setContentOffset(CGPoint(x: CGFloat(currentPage) * view.frame.size.width, y: 0), animated: true)
     }
 }
-
+//MARK: - UITextViewDelegate
 extension ProductCard: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         let size = CGSize(width: view.frame.width, height: .infinity)
@@ -209,10 +231,31 @@ extension ProductCard: UITextViewDelegate {
         }
     }
 }
-
+//MARK: - UIScrollViewDelegate
 extension ProductCard: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         pageControl.currentPage = Int(floorf(Float(scrollView.contentOffset.x)/Float(scrollView.frame.size.width)))
+    }
+}
+//MARK: - UICollectionViewDelegateFlowLayout, UICollectionViewDataSource
+extension ProductCard: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return Persons.ksenia.recentlyViewedProducts.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductsCell.reuseId, for: indexPath) as! ProductsCell
+        cell.configure(with: 0, indexPath: indexPath, products: Persons.ksenia.recentlyViewedProducts)
+        return cell
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: view.bounds.size.width / 3, height: view.bounds.size.width / 2)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if Persons.ksenia.recentlyViewedProducts[indexPath.row].id != products[self.indexPath.row].id {
+            ViewControllersHelper.pushToProductCard(navigationController: navigationController, products: Persons.ksenia.recentlyViewedProducts, indexPath: indexPath)
+        }
     }
 }
 
