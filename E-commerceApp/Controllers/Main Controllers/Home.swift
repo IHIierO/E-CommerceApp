@@ -12,8 +12,8 @@ class Home: UIViewController {
     var collectionView: UICollectionView! = nil
     let collectionViewManageData = HomeCollectionViewManageData()
     
-    var curentTopRated = Products.products.filter({$0.rating >= 10})
-    var curentNewest = Products.products.filter({$0.newest == true})
+   lazy var curentTopRated = Products.products.filter({$0.rating >= 10})
+   lazy var curentNewest = Products.products.filter({$0.newest == true})
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -73,7 +73,7 @@ class Home: UIViewController {
         return layout
     }
     private func createDiscountSection() -> NSCollectionLayoutSection {
-        let item = CreateSection.createItem(width: .fractionalWidth(1), height: .fractionalHeight(1), spacing: 8)
+        let item = CreateSection.createItem(width: .fractionalWidth(1), height: .fractionalHeight(1), contentInsets: .init(top: 8, leading: 8, bottom: 8, trailing: 8))
         let group = CreateSection.createGroup(alignment: .horizontal, width: .fractionalWidth(1), height: .fractionalWidth(0.5), item: [item])
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .groupPaging
@@ -84,7 +84,7 @@ class Home: UIViewController {
         return section
     }
     private func createNewestSection() -> NSCollectionLayoutSection {
-        let item = CreateSection.createItem(width: .fractionalWidth(1), height: .fractionalHeight(1), spacing: 8)
+        let item = CreateSection.createItem(width: .fractionalWidth(1), height: .fractionalHeight(1), contentInsets: .init(top: 8, leading: 8, bottom: 8, trailing: 8))
         let group = CreateSection.createGroup(alignment: .horizontal, width: .fractionalWidth(0.45), height: .fractionalWidth(0.7), item: [item])
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuous
@@ -95,7 +95,7 @@ class Home: UIViewController {
         return section
     }
     private func createTopRatedSection() -> NSCollectionLayoutSection {
-        let item = CreateSection.createItem(width: .fractionalWidth(1), height: .fractionalHeight(1), spacing: 8)
+        let item = CreateSection.createItem(width: .fractionalWidth(1), height: .fractionalHeight(1), contentInsets: .init(top: 8, leading: 8, bottom: 8, trailing: 8))
         let group = CreateSection.createGroup(alignment: .horizontal, width: .fractionalWidth(0.93), height: .fractionalWidth(0.6), item: [item])
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .groupPaging

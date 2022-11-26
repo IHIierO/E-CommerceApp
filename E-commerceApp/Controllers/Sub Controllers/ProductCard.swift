@@ -135,6 +135,7 @@ class ProductCard: UIViewController {
         addToCartButton.configuration?.title = !Persons.ksenia.productsInCart.contains(where: { product in
             product.id == products[indexPath.row].id
         }) ? "Добавить в корзину" : "В корзине"
+        collectionView.reloadData()
         collectionView.delegate = self
         collectionView.dataSource = self
     }
@@ -245,7 +246,8 @@ extension ProductCard: UICollectionViewDelegateFlowLayout, UICollectionViewDataS
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductsCell.reuseId, for: indexPath) as! ProductsCell
-        cell.configure(with: 0, indexPath: indexPath, products: Persons.ksenia.recentlyViewedProducts)
+        #warning("сделать сортировку от последнего добавленного к первому") // complite
+        cell.configure(with: 0, indexPath: indexPath, products: Persons.ksenia.recentlyViewedProducts.reversed())
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -253,8 +255,9 @@ extension ProductCard: UICollectionViewDelegateFlowLayout, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if Persons.ksenia.recentlyViewedProducts[indexPath.row].id != products[self.indexPath.row].id {
-            ViewControllersHelper.pushToProductCard(navigationController: navigationController, products: Persons.ksenia.recentlyViewedProducts, indexPath: indexPath)
+        if Persons.ksenia.recentlyViewedProducts.reversed()[indexPath.row].id != products[self.indexPath.row].id {
+            ViewControllersHelper.pushToProductCard(navigationController: navigationController, products: Persons.ksenia.recentlyViewedProducts.reversed(), indexPath: indexPath)
+            #warning("неверный индекс последних добавленных")
         }
     }
 }

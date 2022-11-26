@@ -26,22 +26,23 @@ class ResultsTableViewController: UITableViewController, UISearchResultsUpdating
         cell.textLabel?.text = arrayFilter[indexPath.row]
         return cell
     }
-
+    
     func updateSearchResults(for searchController: UISearchController) {
         arrayFilter.removeAll()
 
         if let text = searchController.searchBar.text {
-            for string in array {
-            #warning("добавить поиск только по первой букве")
-                if string.contains(text.lowercased()) {
-                    arrayFilter.append(string)
-                }
-            }
             
-            #warning("добавить поиск по названию продуктов")
-            for string in Products.products {
-                if string.productName.lowercased().contains(text.lowercased()) {
-                    arrayFilter.append(string.productName)
+            if text.count > 2 {
+                for string in array {
+#warning("добавить поиск только по первой букве")
+                    if string.contains(text.lowercased()) {
+                        arrayFilter.append(string)
+                    }
+                }
+                for string in Products.products {
+                    if string.productName.lowercased().contains(text.lowercased()) {
+                        arrayFilter.append(string.productName)
+                    }
                 }
             }
         }
@@ -52,9 +53,17 @@ class ResultsTableViewController: UITableViewController, UISearchResultsUpdating
         arrayFilter.removeAll()
 
         if let text = searchBar.text {
-            for string in array {
-                if string.contains(text.lowercased()) {
-                    arrayFilter.append(string)
+            
+            if text.count > 2 {
+                for string in array {
+                    if string.contains(text.lowercased()) {
+                        arrayFilter.append(string)
+                    }
+                }
+                for string in Products.products {
+                    if string.productName.lowercased().contains(text.lowercased()) {
+                        arrayFilter.append(string.productName)
+                    }
                 }
             }
         }

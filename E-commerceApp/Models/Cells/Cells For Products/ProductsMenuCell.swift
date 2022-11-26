@@ -9,7 +9,7 @@ import UIKit
 
 class ProductsMenuCell: UICollectionViewCell {
     
-    static var reuseId: String = "Menu"
+    static var reuseId: String = "ProductsMenuCell"
     
     let menuLabel: UILabel = {
        let label = UILabel()

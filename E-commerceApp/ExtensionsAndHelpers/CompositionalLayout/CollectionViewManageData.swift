@@ -13,7 +13,7 @@ case menu, products
     var columnCount: Int {
         switch self {
         case .menu:
-            return 4
+            return 3
         case .products:
             return 10
         }
@@ -34,18 +34,23 @@ case discounts, newest, topRated
         }
     }
 }
-
+//MARK: - ProductsCollectionViewManageData
 class ProductsCollectionViewManageData {
     
     var dataSource: UICollectionViewDiffableDataSource<ProductsSectionKind, Int>! = nil
     
     func setupDataSource(collectionView: UICollectionView, view: UIView, tabBarColtroller: UITabBarController, curentProducts: [Product], filters: Filter){
         dataSource = UICollectionViewDiffableDataSource<ProductsSectionKind, Int>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, itemIdentifier) -> UICollectionViewCell? in
+            let queue = DispatchQueue.global(qos: .utility)
             let section = ProductsSectionKind(rawValue: indexPath.section)!
             switch section {
             case .menu:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductsMenuCell.reuseId, for: indexPath) as! ProductsMenuCell
-                cell.configure(with: itemIdentifier, indexPath: indexPath, filters: filters)
+                queue.async {
+                    DispatchQueue.main.async {
+                        cell.configure(with: itemIdentifier, indexPath: indexPath, filters: filters)
+                    }
+                }
                 if cell.isSelected {
                     cell.backgroundColor = .red
                 }else{
@@ -55,7 +60,11 @@ class ProductsCollectionViewManageData {
                 return cell
             case .products:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductsCell.reuseId, for: indexPath) as! ProductsCell
-                cell.configure(with: itemIdentifier, indexPath: indexPath, products: curentProducts)
+                queue.async {
+                    DispatchQueue.main.async {
+                        cell.configure(with: itemIdentifier, indexPath: indexPath, products: curentProducts)
+                    }
+                }
                 cell.addToShoppingCardCallback = { () in
                     ViewControllersHelper.addToCart(products: curentProducts, indexPath: indexPath, view: view, tabBarController: tabBarColtroller)
                     collectionView.reloadData()
@@ -96,23 +105,24 @@ class ProductsCollectionViewManageData {
                 snapshot.appendSections([.menu])
                 snapshot.appendItems(Array(itemOffset..<itemUpperbount))
             case .products:
-                    let itemPerSection = curentProducts.count
-                    let itemOffset = sectionKind.columnCount * itemPerSection
-                    let itemUpperbount = itemOffset + itemPerSection
+                let itemPerSection = curentProducts.count
+                let itemOffset = sectionKind.columnCount * itemPerSection
+                let itemUpperbount = itemOffset + itemPerSection
                 snapshot.appendSections([.products])
-                    snapshot.appendItems(Array(itemOffset..<itemUpperbount))
+                snapshot.appendItems(Array(itemOffset..<itemUpperbount))
             }
         }
         dataSource.applySnapshotUsingReloadData(snapshot)
     }
 }
-
+//MARK: - HomeCollectionViewManageData
 class HomeCollectionViewManageData {
     
     var dataSource: UICollectionViewDiffableDataSource<HomeSectionKind, Int>! = nil
     
     func setupDataSource(collectionView: UICollectionView, view: UIView, tabBarColtroller: UITabBarController, products: [Product], curentNewest: [Product], curentTopRated: [Product]){
         dataSource = UICollectionViewDiffableDataSource<HomeSectionKind, Int>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, itemIdentifier) -> UICollectionViewCell? in
+            let queue = DispatchQueue.global(qos: .utility)
             let section = HomeSectionKind(rawValue: indexPath.section)!
             let discountsCell = collectionView.dequeueReusableCell(withReuseIdentifier: DiscountsCell.reuseId, for: indexPath) as! DiscountsCell
             let newestCell = collectionView.dequeueReusableCell(withReuseIdentifier: NewestCell.reuseId, for: indexPath) as! NewestCell
@@ -120,10 +130,18 @@ class HomeCollectionViewManageData {
             switch section {
                 
             case .discounts:
-                discountsCell.configure(with: itemIdentifier, indexPath: indexPath)
+                queue.async {
+                    DispatchQueue.main.async {
+                        discountsCell.configure(with: itemIdentifier, indexPath: indexPath)
+                    }
+                }
                 return discountsCell
             case .newest:
-                newestCell.configure(with: itemIdentifier, indexPath: indexPath, products: curentNewest)
+                queue.async {
+                    DispatchQueue.main.async {
+                        newestCell.configure(with: itemIdentifier, indexPath: indexPath, products: curentNewest)
+                    }
+                }
                 newestCell.favoriteButtonTapAction = { () in
                     ViewControllersHelper.addToFavorite(products: curentNewest, indexPath: indexPath)
                     collectionView.reloadData()}
@@ -132,7 +150,11 @@ class HomeCollectionViewManageData {
                     collectionView.reloadData()}
                 return newestCell
             case .topRated:
-                topRatedCell.configure(with: itemIdentifier, indexPath: indexPath, products: curentTopRated)
+                queue.async {
+                    DispatchQueue.main.async {
+                        topRatedCell.configure(with: itemIdentifier, indexPath: indexPath, products: curentTopRated)
+                    }
+                }
                 topRatedCell.favoriteButtonTapAction = {() in
                     ViewControllersHelper.addToFavorite(products: curentTopRated, indexPath: indexPath)
                     collectionView.reloadData()}

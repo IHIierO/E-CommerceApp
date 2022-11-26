@@ -19,21 +19,20 @@ struct Product: Identifiable{
     var discount: Int?
     var productImage: [String] = []
     var rating: Int = 0
-    var volume: String?
     var newest: Bool = false
     
 }
 
 class Products {
     static var products: [Product] = [
-        // "gel_for_hands"
+   //MARK: - for hands
+        // "gel"
         .init(productName: "Гель для рук \"8018\" (60мл)",
              productDescription: "Антибактериальный гель для рук «8018». Используется для дезинфекции кожи рук. Убивает 99,9% болезнетворных бактерий, грибов и вирусов.",
              productCategory: "для рук",
              productSecondCategory: "гель",
              price: 720,
-             productImage: ["gel_for_hands_8018_60ml_1", "gel_for_hands_8018_60ml_2", "gel_for_hands_8018_60ml_3", "gel_for_hands_8018_60ml_4"],
-             volume: "60ml"),
+             productImage: ["gel_for_hands_8018_60ml_1", "gel_for_hands_8018_60ml_2", "gel_for_hands_8018_60ml_3"]),
         .init(productName: "Гель для рук \"8018\" (300мл)",
               productDescription: """
                                     Гель для рук с алоэ вера и витамином Е. Гель для обработки рук на основе этилового спирта, который убивает 99,9% болезнетворных бактерий, грибков и вирусов.
@@ -52,9 +51,37 @@ class Products {
               productSecondCategory: "гель",
               price: 2650,
               discount: 10,
-              productImage: ["gel_for_hands_8018_300ml_1", "gel_for_hands_8018_300ml_2", "gel_for_hands_8018_300ml_3"],
-              volume: "300ml"),
-        // "solid_soap"
+              productImage: ["gel_for_hands_8018_300ml_1", "gel_for_hands_8018_300ml_2", "gel_for_hands_8018_300ml_3"]),
+        .init(productName: "Гель для рук Ветивер, Лимон, Бергамот (300мл)",
+              productDescription: """
+                                    Гель для рук с алоэ вера и витамином Е. Гель для обработки рук на основе этилового спирта, который убивает 99,9% болезнетворных бактерий, грибков и вирусов.
+
+                                    Способ применения: выдавите небольшое количество геля на ладонь и тщательно разотрите руки до полного высыхания.
+
+                                    Внимание! Легко воспламеняется, беречь от огня и чрезмерного нагревания. Только для наружного применения. В случае попадания в глаза немедленно промыть водой, при необходимости обратиться к врачу.
+
+                                    Хранить в сухом, защищенном от света и недоступном для детей месте при температуре от -5С до +30С.
+
+                                    Ingredients (INCI): Ethyl alcohol 66,2% vol., Aqua, Glycerin, Propylene Glycol, Acrylates/C10-30 Alkyl Acrylate Crosspolymer, Triethanolamine (TEA), Perfume, Тocopherol, Aloe barbadensis (aloe vera) leaf gel, Linallol, Citronellol, Geraniol, Lilial, Alpha-Isomethyl ionnone, Eugenol, Hexyl Cinnamaldehyde, Amyl Cinnamaldehyde, Benzyl Salicylate, Coumarin, D-Limonene, Citral, Benzyl Alcohol, Amyl Cinnamyl Alcohol, Benzyl Benzoate, Cinnamyl Alcohol, Isoeugenol.
+
+                                    Срок годности: 3 года
+                                    """,
+              productCategory: "для рук",
+              productSecondCategory: "гель",
+              price: 2650,
+              discount: 30,
+              productImage: ["gel_for_hands_vetiver_lemon_bergamot_300ml_1"]),
+        .init(productName: "Гель для рук Нероли, Грейпфрут, Ветивер (60мл)",
+              productDescription: """
+                                    Антибактериальный гель для рук «Нероли, Грейпфрут, Ветивер». Используется для дезинфекции кожи рук. Убивает 99,9% болезнетворных бактерий, грибов и вирусов.
+                                    """,
+              productCategory: "для рук",
+              productSecondCategory: "гель",
+              price: 720,
+              discount: 10,
+              productImage: ["gel_for_hands_neroli_grapefruit_vetiver_60ml_1", "gel_for_hands_neroli_grapefruit_vetiver_60ml_2", "gel_for_hands_neroli_grapefruit_vetiver_60ml_3", "gel_for_hands_neroli_grapefruit_vetiver_60ml_4"],
+             newest: true),
+        // "soap"
         .init(productName: "Твердое мыло в алюминиевой мыльнице Fiction (100гр)",
               productDescription: """
                                 А ещё идеально для подарка, как знак внимания!
@@ -96,7 +123,6 @@ class Products {
              productSecondCategory: "мыло",
              price: 702,
              productImage: ["solid_soap_oakmoss_amber_75gr"]),
-        // "hand_soap"
         .init(productName: "Жидкое мыло Ванильный Бленд (300мл)",
               productDescription: """
                                 Мягко и эффективно очищает кожу от жира и других видов загрязнений. Подходит для ежедневного умывания, мытья рук и тела. Нанести немного мыла на влажную кожу, вспенить и тщательно смыть водой.
@@ -108,8 +134,8 @@ class Products {
              productCategory: "для рук",
              productSecondCategory: "мыло",
              price: 1818,
-             productImage: ["hand_soap_vanill_blend_300ml_1", "hand_soap_vanill_blend_300ml_2", "hand_soap_vanill_blend_300ml_3"],
-             volume: "300ml"),
+              productImage: ["hand_soap_vanill_blend_300ml_1", "hand_soap_vanill_blend_300ml_2", "hand_soap_vanill_blend_300ml_3"],
+             newest: true),
         .init(productName: "Жидкое мыло Дубовый мох, Амбра (300мл)",
               productDescription: """
                                 Мягко и эффективно очищает кожу от жира и других видов загрязнений. Подходит для ежедневного умывания, мытья рук и тела. Нанести немного мыла на влажную кожу, вспенить и тщательно смыть водой.
@@ -122,9 +148,8 @@ class Products {
              productSecondCategory: "мыло",
              price: 1818,
               discount: 10,
-             productImage: ["hand_soap_oakmoss_amber_300ml_1", "hand_soap_oakmoss_amber_300ml_2"],
-             volume: "300ml"),
-        // "hand_cream"
+             productImage: ["hand_soap_oakmoss_amber_300ml_1", "hand_soap_oakmoss_amber_300ml_2"]),
+        // "cream"
         .init(productName: "Крем для рук Дубовый мох, Амбра (50мл)",
               productDescription: """
                                 Интенсивно питает и смягчает кожу рук, надолго придавая ей упругость и эластичность. Крем с мягкой текстурой легко впитывается.
@@ -138,8 +163,7 @@ class Products {
              productCategory: "для рук",
              productSecondCategory: "крем",
              price: 1368,
-             productImage: ["hand_cream_oakmoss_amber_50ml"],
-             volume: "50ml"),
+             productImage: ["hand_cream_oakmoss_amber_50ml"]),
         .init(productName: "Крем для рук Кедр, Сандал, Амбра, Пачули (50мл)",
               productDescription: """
                                 Интенсивно питает и смягчает кожу рук, надолго придавая ей упругость и эластичность. Крем с мягкой текстурой легко впитывается.
@@ -153,8 +177,7 @@ class Products {
              productCategory: "для рук",
              productSecondCategory: "крем",
              price: 1368,
-             productImage: ["hand_cream_cadarwood_sandalwood_amber_patchouli_50ml"],
-             volume: "50ml"),
+             productImage: ["hand_cream_cadarwood_sandalwood_amber_patchouli_50ml"]),
         .init(productName: "Крем для рук Ванильный Бленд (50мл)",
               productDescription: """
                                 Интенсивно питает и смягчает кожу рук, надолго придавая ей упругость и эластичность. Крем с мягкой текстурой легко впитывается.
@@ -170,7 +193,7 @@ class Products {
              price: 1368,
              productImage: ["hand_cream_vanilablend_50ml"],
               rating: 17,
-             volume: "50ml"),
+             newest: true),
         .init(productName: "Крем для рук Ваниль, Амбра, Лаванда (125мл)",
               productDescription: """
                                 Интенсивно питает и смягчает кожу рук, надолго придавая ей упругость и эластичность. Крем с мягкой текстурой легко впитывается.
@@ -185,8 +208,7 @@ class Products {
              productSecondCategory: "крем",
              price: 2871,
               discount: 30,
-             productImage: ["hand_cream_vanila_amber_lavanda_125ml"],
-             volume: "125ml"),
+             productImage: ["hand_cream_vanila_amber_lavanda_125ml"]),
         .init(productName: "Крем для рук Дубовый мох, Амбра (125мл)",
               productDescription: """
                                 Интенсивно питает и смягчает кожу рук, надолго придавая ей упругость и эластичность. Крем с мягкой текстурой легко впитывается.
@@ -200,8 +222,7 @@ class Products {
              productCategory: "для рук",
              productSecondCategory: "крем",
              price: 2871,
-             productImage: ["hand_cream_oakmoss_amber_125ml"],
-             volume: "125ml"),
+             productImage: ["hand_cream_oakmoss_amber_125ml"]),
         .init(productName: "Крем для рук Табак, Амбра, Пачули (125мл)",
               productDescription: """
                                 Интенсивно питает и смягчает кожу рук, надолго придавая ей упругость и эластичность. Крем с мягкой текстурой легко впитывается.
@@ -216,8 +237,239 @@ class Products {
              productSecondCategory: "крем",
              price: 2871,
              productImage: ["hand_cream_tabacco_amber_patchouli_125ml"],
-              rating: 28,
-             volume: "125ml"),
+              rating: 28),
+        //MARK: - for face
+        // "cream"
+        .init(productName: "Крем для лица Питательный : Универсальный (10мл)",
+                productDescription: """
+                                Способ применения
+                                
+                                Разогрейте небольшое количество крема в руках и нанесите на кожу. Через 15-20 минут можно наносить средство с SPF и делать макияж.
+                                """,
+                productCategory: "для лица",
+                productSecondCategory: "крем",
+                price: 693,
+                productImage: ["cream_for_face_nourishing_10ml_1"]),
+        .init(productName: "Крем для лица Питательный : Универсальный (50мл)",
+            productDescription: """
+                            Способ применения
+                            
+                            Разогрейте небольшое количество крема в руках и нанесите на кожу. Через 15-20 минут можно наносить средство с SPF и делать макияж.
+                            """,
+            productCategory: "для лица",
+            productSecondCategory: "крем",
+            price: 3348,
+            discount: 10,
+            productImage: ["cream_for_face_nourishing_50ml_1", "cream_for_face_nourishing_50ml_2", "cream_for_face_nourishing_50ml_3"]),
+        .init(productName: "Крем для лица Увлажняющий : Универсальный (10мл)",
+            productDescription: """
+                            Способ применения
+                            
+                            Разогрейте небольшое количество крема в руках и нанесите на кожу. Через 15-20 минут можно наносить средство с SPF и делать макияж.
+                            """,
+            productCategory: "для лица",
+            productSecondCategory: "крем",
+            price: 693,
+            productImage: ["cream_for_face_universal_10ml_1", "cream_for_face_universal_10ml_2", "cream_for_face_universal_10ml_3"]),
+        .init(productName: "Крем для лица Увлажняющий : Универсальный (50мл)",
+            productDescription: """
+                            Способ применения
+                            
+                            Разогрейте небольшое количество крема в руках и нанесите на кожу. Через 15-20 минут можно наносить средство с SPF и делать макияж.
+                            """,
+            productCategory: "для лица",
+            productSecondCategory: "крем",
+            price: 3348,
+            productImage: ["cream_for_face_universal_50ml_1", "cream_for_face_universal_50ml_2", "cream_for_face_universal_50ml_3"]),
+        //MARK: - for body
+        // "gel"
+        .init(productName: "Гель для душа Кожа, Сандал, Амбра (200мл)",
+                productDescription: """
+                                Способ применения:
+                                Нанесите небольшое количество геля на влажную кожу, вспеньте руками или с помощью мочалки, а затем смойте.
+                                
+                                Подходит для любого типа кожи.
+                                В состав всех продуктов входят натуральные масла. Возможна аллергическая реакция.
+                                """,
+                productCategory: "для тела",
+                productSecondCategory: "гель",
+                price: 1575,
+                discount: 30,
+                productImage: ["gel_for_body_leather_sandal_amber_200ml_1"],
+                newest: true),
+        .init(productName: "Гель для душа Ваниль, Амбра, Лаванда (300мл)",
+                productDescription: """
+                                Способ применения:
+                                Нанесите небольшое количество геля на влажную кожу, вспеньте руками или с помощью мочалки, а затем смойте.
+                                
+                                Подходит для любого типа кожи.
+                                В состав всех продуктов входят натуральные масла. Возможна аллергическая реакция.
+                                """,
+                productCategory: "для тела",
+                productSecondCategory: "гель",
+                price: 1917,
+                productImage: ["gel_for_body_vanilla_amber_lavanda_300ml_1"]),
+        .init(productName: "Гель для душа Иланг-иланг, Ветивер, Мускус (300мл)",
+                productDescription: """
+                                Способ применения:
+                                Нанесите небольшое количество геля на влажную кожу, вспеньте руками или с помощью мочалки, а затем смойте.
+                                
+                                Подходит для любого типа кожи.
+                                В состав всех продуктов входят натуральные масла. Возможна аллергическая реакция.
+                                """,
+                productCategory: "для тела",
+                productSecondCategory: "гель",
+                price: 1917,
+                productImage: ["gel_for_body_ylang-ylang_vetiver_mouscus_300ml_1"]),
+        // "cream"
+        .init(productName: "Крем для тела Кедр, Сандал, Амбра, Пачули (200мл)",
+                productDescription: """
+                                Способ применения
+
+                                Нанесите крем на сухую или слегка влажную кожу и распределите легкими массажными движениями до полного впитывания.
+                                Подходит для любого типа кожи.
+                                В состав всех продуктов входят натуральные масла. Возможна аллергическая реакция.
+                                """,
+                productCategory: "для тела",
+                productSecondCategory: "крем",
+                price: 3294,
+                productImage: ["body_cream_cadarwood_sandalwood_amber_patchouli_200ml"]),
+        .init(productName: "Крем для тела Дубовый мох, Амбра (195мл)",
+                productDescription: """
+                                Способ применения
+
+                                Нанесите крем на сухую или слегка влажную кожу и распределите легкими массажными движениями до полного впитывания.
+                                Подходит для любого типа кожи.
+                                В состав всех продуктов входят натуральные масла. Возможна аллергическая реакция.
+                                """,
+                productCategory: "для тела",
+                productSecondCategory: "крем",
+                price: 3294,
+                productImage: ["body_cream_oakmoss_amber_195ml_1", "body_cream_oakmoss_amber_195ml_2"]),
+        .init(productName: "Крем для тела Зеленый чай (195мл)",
+                productDescription: """
+                                Способ применения
+
+                                Нанесите крем на сухую или слегка влажную кожу и распределите легкими массажными движениями до полного впитывания.
+                                Подходит для любого типа кожи.
+                                В состав всех продуктов входят натуральные масла. Возможна аллергическая реакция.
+                                """,
+                productCategory: "для тела",
+                productSecondCategory: "крем",
+                price: 3294,
+                discount: 10,
+                productImage: ["body_cream_green-tea_195ml_1"]),
+        .init(productName: "Крем для тела Зеленый чай (200мл)",
+                productDescription: """
+                                Способ применения
+
+                                Нанесите крем на сухую или слегка влажную кожу и распределите легкими массажными движениями до полного впитывания.
+                                Подходит для любого типа кожи.
+                                В состав всех продуктов входят натуральные масла. Возможна аллергическая реакция.
+                                """,
+                productCategory: "для тела",
+                productSecondCategory: "крем",
+                price: 3294,
+                productImage: ["body_cream_green-tea_200ml_1"]),
+        .init(productName: "Крем для тела Кожа, Сандал, Амбра (200мл)",
+                productDescription: """
+                                Способ применения
+
+                                Нанесите крем на сухую или слегка влажную кожу и распределите легкими массажными движениями до полного впитывания.
+                                Подходит для любого типа кожи.
+                                В состав всех продуктов входят натуральные масла. Возможна аллергическая реакция.
+                                """,
+                productCategory: "для тела",
+                productSecondCategory: "крем",
+                price: 3294,
+                productImage: ["body_cream_leather_sandal_amber_200ml_1"]),
+        // "oil"
+        .init(productName: "Масло для тела Ванильный Бленд (100мл)",
+                    productDescription: """
+                                    Способ применения
+
+                                    Нанесите масло на кожу и распределите легкими массажными движениями до полного впитывания.
+                                    Подходит для любого типа кожи.
+                                    В состав всех продуктов входят натуральные масла. Возможна аллергическая реакция.
+                                    """,
+                    productCategory: "для тела",
+                    productSecondCategory: "масло",
+                    price: 2484,
+                    productImage: ["body_oil_vanilla_blend_100ml_1", "body_oil_vanilla_blend_100ml_2"]),
+        .init(productName: "Масло для тела Дубовый мох, Амбра (100мл)",
+                    productDescription: """
+                                    Способ применения
+
+                                    Нанесите масло на кожу и распределите легкими массажными движениями до полного впитывания.
+                                    Подходит для любого типа кожи.
+                                    В состав всех продуктов входят натуральные масла. Возможна аллергическая реакция.
+                                    """,
+                    productCategory: "для тела",
+                    productSecondCategory: "масло",
+                    price: 2484,
+                    productImage: ["body_oil_oakmoss_amber_100ml"]),
+        .init(productName: "Масло для тела \"717\" (100мл)",
+                    productDescription: """
+                                    Способ применения
+
+                                    Нанесите масло на кожу и распределите легкими массажными движениями до полного впитывания.
+                                    Подходит для любого типа кожи.
+                                    В состав всех продуктов входят натуральные масла. Возможна аллергическая реакция.
+                                    """,
+                    productCategory: "для тела",
+                    productSecondCategory: "масло",
+                    price: 2484,
+                    productImage: ["body_oil_717_100ml_1", "body_oil_717_100ml_2"]),
+        // "scrab"
+        .init(productName: "Скраб для тела Черный Перец, Амбра, Нероли (70мл)",
+                    productDescription: """
+                                    Способ применения
+
+                                    Нанесите нужное количество скраба на кожу легкими массажными движениями, а затем смойте водой.
+                                    Подходит для любого типа кожи.
+                                    В состав всех продуктов входят натуральные масла. Возможна аллергическая реакция.
+                                    """,
+                    productCategory: "для тела",
+                    productSecondCategory: "скраб",
+                    price: 855,
+                    discount: 10,
+                    productImage: ["body_scrab_black-pepper_amber_neroli_70ml"]),
+        .init(productName: "Скраб для тела Апельсин, Жасмин, Ваниль (70мл)",
+                    productDescription: """
+                                    Способ применения
+
+                                    Нанесите нужное количество скраба на кожу легкими массажными движениями, а затем смойте водой.
+                                    Подходит для любого типа кожи.
+                                    В состав всех продуктов входят натуральные масла. Возможна аллергическая реакция.
+                                    """,
+                    productCategory: "для тела",
+                    productSecondCategory: "скраб",
+                    price: 855,
+                    productImage: ["body_scrab_orange_jasmine_vanilla_70ml"]),
+        .init(productName: "Скраб для тела Ванильный Бленд (200мл)",
+                    productDescription: """
+                                    Способ применения
+
+                                    Нанесите нужное количество скраба на кожу легкими массажными движениями, а затем смойте водой.
+                                    Подходит для любого типа кожи.
+                                    В состав всех продуктов входят натуральные масла. Возможна аллергическая реакция.
+                                    """,
+                    productCategory: "для тела",
+                    productSecondCategory: "скраб",
+                    price: 2781,
+                    productImage: ["body_scrab_vanilla-blend_200ml_1", "body_scrab_vanilla-blend_200ml_2", "body_scrab_vanilla-blend_200ml_3"]),
+        .init(productName: "Скраб для тела Кедр, Сандал, Амбра, Пачули (200мл)",
+                    productDescription: """
+                                    Способ применения
+
+                                    Нанесите нужное количество скраба на кожу легкими массажными движениями, а затем смойте водой.
+                                    Подходит для любого типа кожи.
+                                    В состав всех продуктов входят натуральные масла. Возможна аллергическая реакция.
+                                    """,
+                    productCategory: "для тела",
+                    productSecondCategory: "скраб",
+                    price: 2781,
+                    productImage: ["body_scrab_cadarwood_sandalwood_amber_patchouli_200ml"]),
     ]
     
     private init(){

@@ -10,7 +10,8 @@ import UIKit
 class ProductsViewController: UIViewController{
     var curentProducts: [Product] = []
     var filteredProducts: [Product] = []
-    var filters: Filter! = nil
+    var filters = Filter(names: ["Все"])
+    private var lastSelectedIndexPath: IndexPath?
     
     var collectionView: UICollectionView! = nil
     
@@ -73,8 +74,8 @@ class ProductsViewController: UIViewController{
         return layout
     }
     private func createMenuSection() -> NSCollectionLayoutSection {
-        let item = CreateSection.createItem(width: .fractionalWidth(1), height: .fractionalHeight(1), spacing: 8)
-        let group = CreateSection.createGroup(alignment: .horizontal, width: .fractionalWidth(0.3), height: .fractionalWidth(0.125), item: [item])
+        let item = CreateSection.createItem(width: .fractionalWidth(1), height: .fractionalHeight(1), contentInsets: .init(top: 0, leading: 2, bottom: 0, trailing: 2))
+        let group = CreateSection.createGroup(alignment: .horizontal, width: .fractionalWidth(0.3), height: .fractionalWidth(0.08), item: [item])
         group.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 4, bottom: 8, trailing: 4)
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuous
@@ -85,7 +86,7 @@ class ProductsViewController: UIViewController{
         return section
     }
     private func createProductsSection() -> NSCollectionLayoutSection {
-        let item = CreateSection.createItem(width: .fractionalWidth(1), height: .fractionalHeight(1), spacing: 4)
+        let item = CreateSection.createItem(width: .fractionalWidth(1), height: .fractionalHeight(1), contentInsets: .init(top: 8, leading: 2, bottom: 8, trailing: 2))
         let group = CreateSection.createGroup(alignment: .horizontal, width: .fractionalWidth(1), height: .fractionalHeight(0.35), item: item, count: 2)
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
@@ -98,13 +99,14 @@ class ProductsViewController: UIViewController{
 
 // MARK: - UICollectionViewDelegate
 extension ProductsViewController: UICollectionViewDelegate{
+   
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let section = ProductsSectionKind(rawValue: indexPath.section)
         
         switch section {
         case .menu:
             ViewControllersHelper.didSelectCurentFilter(filters: filters, indexPath: indexPath, collectionViewManageData: collectionViewManageData, collectionView: collectionView, view: view, tabBarController: self.tabBarController!, curentProducts: curentProducts, vc: self)
-            #warning("Изменить цвет ячейки когда она выбрана")
+            
         case .products:
             ViewControllersHelper.pushToProductCard(navigationController: navigationController, products: filteredProducts, indexPath: indexPath)
         case .none:

@@ -16,10 +16,10 @@ struct CreateSection {
     
     static func createItem (width: NSCollectionLayoutDimension,
                             height: NSCollectionLayoutDimension,
-                            spacing: CGFloat
+                            contentInsets: NSDirectionalEdgeInsets
     ) -> NSCollectionLayoutItem {
         let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: width, heightDimension: height))
-        item.contentInsets = NSDirectionalEdgeInsets(top: spacing, leading: spacing, bottom: spacing, trailing: spacing)
+        item.contentInsets = contentInsets
         return item
     }
     
