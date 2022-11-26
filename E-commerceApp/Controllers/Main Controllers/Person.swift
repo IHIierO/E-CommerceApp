@@ -26,6 +26,7 @@ class Person: UIViewController {
     }()
     let tableView: UITableView = {
        let tableView = UITableView()
+        tableView.backgroundColor = .clear
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()

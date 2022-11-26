@@ -108,16 +108,10 @@ class ViewControllersHelper{
                 collectionViewManageData.reloadData(curentProducts: curentCategory, filters: filters)
                 vc.filteredProducts = curentCategory
             
-            collectionView.scrollToItem(at: indexPath, at: .right, animated: true)
-            
-            let cell = collectionView.cellForItem(at: indexPath) as! ProductsMenuCell
+            collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)
+            guard let cell = collectionView.cellForItem(at: indexPath) as? ProductsMenuCell else { return }
             cell.isSelected = true
             cell.backgroundColor = .red
-            
-            //print("\(collectionView.visibleCells.description)")
-       
-#warning("неверный индекс последнего фильтра")
-            
         }
         
         if filterForCategory.contains(filters.names[indexPath.row]){
@@ -140,11 +134,11 @@ class ViewControllersHelper{
                 Persons.ksenia.recentlyViewedProducts.append(products[indexPath.row])
             }
         }else{
-            Persons.ksenia.recentlyViewedProducts.removeLast()
             if !Persons.ksenia.recentlyViewedProducts.contains(where: { product in
                 product.id == products[indexPath.row].id
             }){
                 Persons.ksenia.recentlyViewedProducts.append(products[indexPath.row])
+                Persons.ksenia.recentlyViewedProducts.removeFirst()
             }
         }
         

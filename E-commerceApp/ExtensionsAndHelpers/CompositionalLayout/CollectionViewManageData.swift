@@ -46,6 +46,7 @@ class ProductsCollectionViewManageData {
             switch section {
             case .menu:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductsMenuCell.reuseId, for: indexPath) as! ProductsMenuCell
+                cell.tag = indexPath.row
                 queue.async {
                     DispatchQueue.main.async {
                         cell.configure(with: itemIdentifier, indexPath: indexPath, filters: filters)
@@ -56,7 +57,7 @@ class ProductsCollectionViewManageData {
                 }else{
                     cell.backgroundColor = .lightGray
                 }
-                cell.tag = indexPath.row
+               
                 return cell
             case .products:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductsCell.reuseId, for: indexPath) as! ProductsCell

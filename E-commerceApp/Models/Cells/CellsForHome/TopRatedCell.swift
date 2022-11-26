@@ -72,15 +72,10 @@ class TopRatedCell: UICollectionViewCell, SelfConfiguringCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .red
-        
         self.layer.cornerRadius = 10
         self.clipsToBounds = true
-        
         favoriteButton.addTarget(self, action: #selector(addToFavorite), for: .touchUpInside)
-        
         setConstraints()
-        
-        
     }
     
     @objc func addToFavorite(){

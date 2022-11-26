@@ -13,7 +13,7 @@ class DiscountsCell: UICollectionViewCell{
     
     let discontImage: UIImageView = {
        let discontImage = UIImageView(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
-//        discontImage.image = UIImage(named: "discont")
+        discontImage.image = UIImage(named: "sale")
         discontImage.contentMode = .scaleAspectFill
 //        flowerImage.layer.cornerRadius = 15
 //        flowerImage.clipsToBounds = true
@@ -30,7 +30,7 @@ class DiscountsCell: UICollectionViewCell{
     ]
     
     func configure(with itemIdentifier: Int, indexPath: IndexPath) {
-        discontImage.image = UIImage(named: "\(discontImageDate[indexPath.row])")
+       // discontImage.image = UIImage(named: "\(discontImageDate[indexPath.row])")
     }
     
     override init(frame: CGRect) {

@@ -15,9 +15,6 @@ class ProductCard: UIViewController {
         let imageScrollView = UIScrollView()
         imageScrollView.showsHorizontalScrollIndicator = false
         imageScrollView.isPagingEnabled = true
-        imageScrollView.showsHorizontalScrollIndicator = true
-        imageScrollView.flashScrollIndicators()
-        imageScrollView.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 20, bottom: 10, right: 20)
         return imageScrollView
     }()
     let scrollView: UIScrollView = {
@@ -30,11 +27,8 @@ class ProductCard: UIViewController {
         vStack.translatesAutoresizingMaskIntoConstraints = false
         vStack.axis = .vertical
         vStack.distribution = .equalSpacing
-        vStack.alignment = .fill
-        vStack.spacing = 2
-        vStack.isLayoutMarginsRelativeArrangement = true
-        #warning("фото сдвигается за 10 поинтов")
-        vStack.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
+        vStack.alignment = .center
+        vStack.spacing = UIStackView.spacingUseSystem
         return vStack
     }()
     var productImages = [UIImage]()
@@ -45,6 +39,7 @@ class ProductCard: UIViewController {
         label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         label.textAlignment = .left
         label.backgroundColor = .lightGray
+        label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -92,7 +87,7 @@ class ProductCard: UIViewController {
     }()
     let recentlyViewedHead: UILabel = {
         let label = UILabel()
-        label.text = "Вы недавно смотрели"
+        label.text = "Вы недавно смотрели:"
         label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         label.backgroundColor = .systemMint
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -114,10 +109,9 @@ class ProductCard: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setConstraints()
         setupProductCard()
+        setConstraints()
         setupImageScrollView()
-        
     }
     
     @objc func addToCartButtonTap(){
@@ -129,6 +123,10 @@ class ProductCard: UIViewController {
     
     func setupProductCard(){
         view.backgroundColor = .white
+        view.addSubview(scrollView)
+        scrollView.addSubview(vStack)
+        [imageScrollView, productName, productPrice, addToCartButton, descriptionHead, productDiscription, recentlyViewedHead, collectionView].forEach {vStack.addArrangedSubview($0)}
+        vStack.addSubview(pageControl)
         productDiscription.delegate = self
         textViewDidChange(productDiscription)
         addToCartButton.addTarget(self, action: #selector(addToCartButtonTap), for: .touchUpInside)
@@ -159,37 +157,43 @@ class ProductCard: UIViewController {
             imageView.addGestureRecognizer(fullScreenTap)
             imageScrollView.contentSize.width = imageScrollView.frame.width * CGFloat(i + 1)
             imageScrollView.addSubview(imageView)
-            
         }
         pageControl.addTarget(self, action: #selector(pageControlDidChange(_:)), for: .valueChanged)
         pageControl.numberOfPages = products[indexPath.row].productImage.count
     }
-    
     private func setConstraints(){
-        view.addSubview(scrollView)
+        // constraint scrollView, vStack and pageControl
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-        ])
-        scrollView.addSubview(vStack)
-        NSLayoutConstraint.activate([
+            
             vStack.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 0),
             vStack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 0),
             vStack.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: 0),
             vStack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: 0),
-            vStack.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
+            vStack.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            
+            pageControl.heightAnchor.constraint(equalToConstant: 40),
+            pageControl.bottomAnchor.constraint(equalTo: imageScrollView.bottomAnchor)
         ])
-        
-        [imageScrollView, pageControl, productName, productPrice, addToCartButton, descriptionHead, productDiscription, recentlyViewedHead, collectionView].forEach {vStack.addArrangedSubview($0)}
+        // constraint imageScrollView
+        imageScrollView.widthAnchor.constraint(equalToConstant: view.frame.size.width).isActive = true
         imageScrollView.heightAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
-        productName.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        productPrice.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        addToCartButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        descriptionHead.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        recentlyViewedHead.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        collectionView.heightAnchor.constraint(equalToConstant: view.bounds.size.width / 1.8).isActive = true
+        // constraint products info
+        [pageControl, productName, productPrice, addToCartButton, descriptionHead, productDiscription, recentlyViewedHead].forEach {
+            NSLayoutConstraint.activate([
+                $0.trailingAnchor.constraint(equalTo: vStack.trailingAnchor, constant: -10),
+                $0.leadingAnchor.constraint(equalTo: vStack.leadingAnchor, constant: 10),
+            ])
+        }
+        [productPrice, addToCartButton, descriptionHead, recentlyViewedHead].forEach {
+            $0.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        }
+        // constraint collectionView
+        collectionView.widthAnchor.constraint(equalToConstant: view.frame.size.width).isActive = true
+        collectionView.heightAnchor.constraint(equalToConstant: view.frame.size.width / 1.8).isActive = true
     }
     
     @objc func fullScreenTap(_ sender: UITapGestureRecognizer) {
@@ -246,8 +250,7 @@ extension ProductCard: UICollectionViewDelegateFlowLayout, UICollectionViewDataS
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductsCell.reuseId, for: indexPath) as! ProductsCell
-        #warning("сделать сортировку от последнего добавленного к первому") // complite
-        cell.configure(with: 0, indexPath: indexPath, products: Persons.ksenia.recentlyViewedProducts.reversed())
+        cell.configure(with: indexPath.row, indexPath: indexPath, products: Persons.ksenia.recentlyViewedProducts.reversed())
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -257,7 +260,6 @@ extension ProductCard: UICollectionViewDelegateFlowLayout, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if Persons.ksenia.recentlyViewedProducts.reversed()[indexPath.row].id != products[self.indexPath.row].id {
             ViewControllersHelper.pushToProductCard(navigationController: navigationController, products: Persons.ksenia.recentlyViewedProducts.reversed(), indexPath: indexPath)
-            #warning("неверный индекс последних добавленных")
         }
     }
 }
