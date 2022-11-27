@@ -34,6 +34,7 @@ class Home: UIViewController {
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.navigationBar.tintColor = UIColor(hexString: "#393C39")
         self.navigationController?.view.backgroundColor = .clear
+        #warning("transparent tab bar")
     }
 
     private func setupCollectionView(){
@@ -96,7 +97,7 @@ class Home: UIViewController {
     }
     private func createTopRatedSection() -> NSCollectionLayoutSection {
         let item = CreateSection.createItem(width: .fractionalWidth(1), height: .fractionalHeight(1), contentInsets: .init(top: 8, leading: 8, bottom: 8, trailing: 8))
-        let group = CreateSection.createGroup(alignment: .horizontal, width: .fractionalWidth(0.93), height: .fractionalWidth(0.6), item: [item])
+        let group = CreateSection.createGroup(alignment: .horizontal, width: .fractionalWidth(0.7), height: .fractionalWidth(0.6), item: [item])
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .groupPaging
         section.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)

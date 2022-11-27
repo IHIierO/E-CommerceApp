@@ -15,6 +15,7 @@ class DiscountsPopup: UIView {
         let label = UILabel()
         label.text = "Акция 30%"
         label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+        label.textColor = UIColor(hexString: "#324B3A")
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -25,6 +26,7 @@ class DiscountsPopup: UIView {
         label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         label.textAlignment = .center
         label.numberOfLines = 4
+        label.textColor = UIColor(hexString: "#324B3A")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -38,8 +40,8 @@ class DiscountsPopup: UIView {
     
     private let container: UIView = {
        let container = UIView()
-        container.backgroundColor = .white
-        container.layer.cornerRadius = 24
+        container.backgroundColor = UIColor(hexString: "#FDFAF3")
+        container.layer.cornerRadius = 8
         container.layer.shadowColor = UIColor(hexString: "#6A6F6A").cgColor
         container.layer.shadowOpacity = 0.8
         container.layer.shadowOffset = .zero
@@ -54,21 +56,24 @@ class DiscountsPopup: UIView {
          config.imagePadding = 4
          config.image = UIImage(systemName: "xmark.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .regular, scale: .large))
          button.configuration = config
-         button.tintColor = .black
+         button.tintColor = UIColor(hexString: "#324B3A")
          
          button.translatesAutoresizingMaskIntoConstraints = false
          return button
     }()
     private let moreInfoButton: UIButton = {
         let button = UIButton()
-        button.configuration = .gray()
+        button.configuration = .filled()
         button.configuration?.title = "Подробнее"
-        button.configuration?.baseForegroundColor = .black
+        button.configuration?.baseForegroundColor = UIColor(hexString: "#FDFAF3")
+        button.configuration?.baseBackgroundColor = UIColor(hexString: "#324B3A")
         button.configuration?.cornerStyle = .capsule
         
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+    let blurEffect = UIBlurEffect(style: .regular)
+    lazy var blurEffectView = UIVisualEffectView()
     
     @objc func animateOut(){
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
@@ -99,8 +104,14 @@ class DiscountsPopup: UIView {
         self.backgroundColor = .clear
         self.frame = UIScreen.main.bounds
         
+        blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = UIScreen.main.bounds
+        blurEffectView.alpha = 0.9
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        self.addSubview(blurEffectView)
+        
         setConstraints()
-//        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(animateOut)))
+        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(animateOut)))
         closeButton.addTarget(self, action: #selector(animateOut), for: .touchUpInside)
         moreInfoButton.addTarget(self, action: #selector(moreInfoButtonTapped), for: .touchUpInside)
         animateIn()
@@ -126,8 +137,8 @@ class DiscountsPopup: UIView {
         
         container.addSubview(closeButton)
         NSLayoutConstraint.activate([
-            closeButton.topAnchor.constraint(equalTo: container.topAnchor, constant: 10),
-            closeButton.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -10),
+            closeButton.topAnchor.constraint(equalTo: container.topAnchor, constant: 15),
+            closeButton.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -15),
             closeButton.widthAnchor.constraint(equalToConstant: 20),
             closeButton.heightAnchor.constraint(equalToConstant: 20)
         ])

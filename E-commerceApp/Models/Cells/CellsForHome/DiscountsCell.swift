@@ -15,8 +15,8 @@ class DiscountsCell: UICollectionViewCell{
        let discontImage = UIImageView(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
         discontImage.image = UIImage(named: "sale")
         discontImage.contentMode = .scaleAspectFill
-//        flowerImage.layer.cornerRadius = 15
-//        flowerImage.clipsToBounds = true
+        discontImage.layer.cornerRadius = 8
+        discontImage.clipsToBounds = true
         
         discontImage.translatesAutoresizingMaskIntoConstraints = false
         return discontImage
@@ -35,10 +35,12 @@ class DiscountsCell: UICollectionViewCell{
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .purple
-        
-        self.layer.cornerRadius = 10
-        self.clipsToBounds = true
+        self.layer.cornerRadius = 8
+        self.layer.shadowColor = UIColor.black.withAlphaComponent(0.6).cgColor
+        self.layer.shadowOpacity = 0.8
+        self.layer.shadowOffset = .zero
+        self.layer.shadowRadius = 5
+        self.clipsToBounds = false
         
         setConstraints()
     }

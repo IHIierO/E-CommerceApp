@@ -12,7 +12,7 @@ class Header: UICollectionReusableView {
     let headerLabel: UILabel = {
        let headerLabel = UILabel()
         headerLabel.textAlignment = .left
-        headerLabel.textColor = UIColor(hexString: "#393C39")
+        headerLabel.textColor = UIColor(hexString: "#324B3A")
         headerLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         
         headerLabel.translatesAutoresizingMaskIntoConstraints = false

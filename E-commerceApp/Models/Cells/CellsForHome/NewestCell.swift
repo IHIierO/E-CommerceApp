@@ -17,7 +17,7 @@ class NewestCell: UICollectionViewCell, SelfConfiguringCell {
        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
         var config = UIButton.Configuration.plain()
         config.imagePadding = 4
-        config.image = UIImage(systemName: "heart", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large))
+        config.image = UIImage(systemName: "heart", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .light, scale: .large))
         button.configuration = config
         button.tintColor = .red
         
@@ -28,18 +28,17 @@ class NewestCell: UICollectionViewCell, SelfConfiguringCell {
        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
         var config = UIButton.Configuration.plain()
         config.imagePadding = 4
-        config.image = UIImage(systemName: "cart", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large))
+        config.image = UIImage(systemName: "cart", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .light))
         button.configuration = config
-        button.tintColor = .black
+        button.tintColor = UIColor(hexString: "#324B3A")
         
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     let productImage: UIImageView = {
        let productImage = UIImageView(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
-        productImage.image = UIImage(named: "topRated")
         productImage.contentMode = .scaleAspectFill
-//        flowerImage.layer.cornerRadius = 15
+        productImage.layer.cornerRadius = 8
         productImage.clipsToBounds = true
         
         productImage.translatesAutoresizingMaskIntoConstraints = false
@@ -47,15 +46,13 @@ class NewestCell: UICollectionViewCell, SelfConfiguringCell {
     }()
     let priceLabel: UILabel = {
        let label = UILabel()
-        label.text = "$125"
-        
+        label.textColor = UIColor(hexString: "#324B3A")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     let nameLabel: UILabel = {
        let label = UILabel()
-        label.text = "Куртка Женская"
-        
+        label.textColor = UIColor(hexString: "#324B3A")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -64,32 +61,37 @@ class NewestCell: UICollectionViewCell, SelfConfiguringCell {
         
         productImage.image = UIImage(named: "\(products[indexPath.row].productImage[0])")
         nameLabel.text = "\(products[indexPath.row].productName)"
-        priceLabel.text = "\(products[indexPath.row].price)"
+        priceLabel.text = "\(products[indexPath.row].price) ₽"
         
         if Persons.ksenia.favoriteProducts.contains(where: { product in
             product.id == products[indexPath.row].id
         }){
-            favoriteButton.configuration?.image = UIImage(systemName: "heart.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large))
+            favoriteButton.configuration?.image = UIImage(systemName: "heart.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .light, scale: .large))
         }else{
-            favoriteButton.configuration?.image = UIImage(systemName: "heart", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large))
+            favoriteButton.configuration?.image = UIImage(systemName: "heart", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .light, scale: .large))
         }
         
         if Persons.ksenia.productsInCart.contains(where: { product in
             product.id == products[indexPath.row].id
         }){
-            addToShoppingCard.configuration?.image = UIImage(systemName: "cart.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large))
+            addToShoppingCard.configuration?.image = UIImage(systemName: "cart.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .light, scale: .large))
         }else{
-            addToShoppingCard.configuration?.image = UIImage(systemName: "cart", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large))
+            addToShoppingCard.configuration?.image = UIImage(systemName: "cart", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .light, scale: .large))
         }
     }
     
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .white
         
-        self.layer.cornerRadius = 10
-        self.clipsToBounds = true
+        self.backgroundColor = UIColor(hexString: "#FDFAF3")
+        
+        self.layer.cornerRadius = 8
+        self.layer.shadowColor = UIColor.black.withAlphaComponent(0.6).cgColor
+        self.layer.shadowOpacity = 0.8
+        self.layer.shadowOffset = .zero
+        self.layer.shadowRadius = 5
+        self.clipsToBounds = false
         
         favoriteButton.addTarget(self, action: #selector(addToFavorite), for: .touchUpInside)
         addToShoppingCard.addTarget(self, action: #selector(addToShoppingCardTap), for: .touchUpInside)
@@ -114,7 +116,7 @@ class NewestCell: UICollectionViewCell, SelfConfiguringCell {
             productImage.topAnchor.constraint(equalTo: self.topAnchor, constant: 0),
             productImage.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0),
             productImage.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0),
-            productImage.heightAnchor.constraint(equalToConstant: self.frame.height - 40),
+            productImage.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.8)
         ])
         
         self.addSubview(nameLabel)
@@ -122,12 +124,12 @@ class NewestCell: UICollectionViewCell, SelfConfiguringCell {
             nameLabel.heightAnchor.constraint(equalToConstant: 20),
             nameLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 4),
             nameLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0),
-            nameLabel.topAnchor.constraint(equalTo: productImage.bottomAnchor, constant: 0),
+            nameLabel.topAnchor.constraint(equalTo: productImage.bottomAnchor, constant: 4),
         ])
         
         self.addSubview(priceLabel)
         NSLayoutConstraint.activate([
-            priceLabel.heightAnchor.constraint(equalToConstant: 20),
+            priceLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 6),
             priceLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 4),
             priceLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0),
             priceLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 0),

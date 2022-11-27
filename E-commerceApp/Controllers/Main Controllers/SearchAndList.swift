@@ -42,9 +42,12 @@ class SearchAndList: UIViewController, UISearchControllerDelegate {
         navigationItem.hidesSearchBarWhenScrolling = false
     }
     private func setupTableView(){
+        tableView.backgroundColor = UIColor(hexString: "#FDFAF3")
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.separatorStyle = .none
+        tableView.bounces = false
+        tableView.register(SearchAndListMenuCell.self, forCellReuseIdentifier: "cell")
         menuTextData = [
         "Для лица",
         "Для тела",
@@ -93,10 +96,11 @@ extension SearchAndList: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.backgroundColor = .red
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SearchAndListMenuCell
+        
         cell.accessoryType = .disclosureIndicator
         cell.selectionStyle = .none
+        cell.configuration(indexPath: indexPath)
         //        if search {
         //            let searchText = searchBar.searchBar.text!
         //            let filterMenuTextData = menuTextData.filter({ $0.lowercased().contains(searchText.lowercased()) })
@@ -104,10 +108,14 @@ extension SearchAndList: UITableViewDelegate, UITableViewDataSource {
         //            configure.text = "\(filterMenuTextData[indexPath.row])"
         //            cell.contentConfiguration = configure
         //        }else{ }
-        cell.textLabel?.text = "\(menuTextData[indexPath.row])"
+        // cell.textLabel?.text = "\(menuTextData[indexPath.row])"
         
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 66
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

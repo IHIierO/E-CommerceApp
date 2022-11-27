@@ -159,6 +159,9 @@ class HomeCollectionViewManageData {
                 topRatedCell.favoriteButtonTapAction = {() in
                     ViewControllersHelper.addToFavorite(products: curentTopRated, indexPath: indexPath)
                     collectionView.reloadData()}
+                topRatedCell.addToShoppingCardCallback = { () in
+                    ViewControllersHelper.addToCart(products: curentTopRated, indexPath: indexPath, view: view, tabBarController: tabBarColtroller)
+                    collectionView.reloadData()}
                 return topRatedCell
             }
         })

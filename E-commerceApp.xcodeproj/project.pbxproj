@@ -49,7 +49,7 @@
 		399AAB5D28F72BCF003B2037 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399AAB5C28F72BCF003B2037 /* Person.swift */; };
 		399AAB5F28F84477003B2037 /* Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399AAB5E28F84477003B2037 /* Header.swift */; };
 		399AAB6328F9782B003B2037 /* DiscountsPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399AAB6228F9782B003B2037 /* DiscountsPopup.swift */; };
-		399AAB6928FD99D7003B2037 /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399AAB6828FD99D7003B2037 /* MenuCell.swift */; };
+		399AAB6928FD99D7003B2037 /* SearchAndListMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399AAB6828FD99D7003B2037 /* SearchAndListMenuCell.swift */; };
 		399AAB6E28FDA02A003B2037 /* ProductsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399AAB6D28FDA02A003B2037 /* ProductsViewController.swift */; };
 		399AAB7028FEA8C5003B2037 /* ProductModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399AAB6F28FEA8C5003B2037 /* ProductModel.swift */; };
 /* End PBXBuildFile section */
@@ -99,7 +99,7 @@
 		399AAB5C28F72BCF003B2037 /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		399AAB5E28F84477003B2037 /* Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Header.swift; sourceTree = "<group>"; };
 		399AAB6228F9782B003B2037 /* DiscountsPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscountsPopup.swift; sourceTree = "<group>"; };
-		399AAB6828FD99D7003B2037 /* MenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCell.swift; sourceTree = "<group>"; };
+		399AAB6828FD99D7003B2037 /* SearchAndListMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAndListMenuCell.swift; sourceTree = "<group>"; };
 		399AAB6D28FDA02A003B2037 /* ProductsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsViewController.swift; sourceTree = "<group>"; };
 		399AAB6F28FEA8C5003B2037 /* ProductModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -307,7 +307,7 @@
 		399AAB6728FD998A003B2037 /* CellsFor SearchAndList */ = {
 			isa = PBXGroup;
 			children = (
-				399AAB6828FD99D7003B2037 /* MenuCell.swift */,
+				399AAB6828FD99D7003B2037 /* SearchAndListMenuCell.swift */,
 			);
 			path = "CellsFor SearchAndList";
 			sourceTree = "<group>";
@@ -422,7 +422,7 @@
 				399AAB6328F9782B003B2037 /* DiscountsPopup.swift in Sources */,
 				399AAB5528F7091A003B2037 /* TopRatedCell.swift in Sources */,
 				390ED1482901778B00F45C27 /* FiltersModel.swift in Sources */,
-				399AAB6928FD99D7003B2037 /* MenuCell.swift in Sources */,
+				399AAB6928FD99D7003B2037 /* SearchAndListMenuCell.swift in Sources */,
 				390ED1522902E82B00F45C27 /* ViewControllersHelper.swift in Sources */,
 				399AAB5328F708EF003B2037 /* NewestCell.swift in Sources */,
 			);
