@@ -53,8 +53,10 @@ class ProductsCollectionViewManageData {
                     }
                 }
                 if cell.isSelected {
-                    cell.backgroundColor = .red
+                    cell.menuLabel.textColor = UIColor(hexString: "#FDFAF3")
+                    cell.backgroundColor = UIColor(hexString: "#324B3A")
                 }else{
+                    cell.menuLabel.textColor = UIColor(hexString: "#324B3A")
                     cell.backgroundColor = .lightGray
                 }
                

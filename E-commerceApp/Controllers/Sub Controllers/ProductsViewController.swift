@@ -13,10 +13,6 @@ class ProductsViewController: UIViewController{
     var filters = Filter(names: ["Все"])
     
     var collectionView: UICollectionView! = nil
-    
-    private let searchBar = UISearchController(searchResultsController: nil)
-    private var search = false
-    
     let collectionViewManageData = ProductsCollectionViewManageData()
     
     override func viewWillAppear(_ animated: Bool) {
@@ -28,7 +24,7 @@ class ProductsViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
-        setupNavigationController()
+        //setupNavigationController()
     }
     
     private func setupNavigationController(){
@@ -37,7 +33,6 @@ class ProductsViewController: UIViewController{
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.navigationBar.tintColor = UIColor(hexString: "#393C39")
         self.navigationController?.view.backgroundColor = .clear
-        navigationItem.searchController = searchBar
     }
     private func setupCollectionView(){
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
@@ -74,7 +69,7 @@ class ProductsViewController: UIViewController{
     }
     private func createMenuSection() -> NSCollectionLayoutSection {
         let item = CreateSection.createItem(width: .fractionalWidth(1), height: .fractionalHeight(1), contentInsets: .init(top: 0, leading: 2, bottom: 0, trailing: 2))
-        let group = CreateSection.createGroup(alignment: .horizontal, width: .fractionalWidth(0.3), height: .fractionalWidth(0.08), item: [item])
+        let group = CreateSection.createGroup(alignment: .horizontal, width: .fractionalWidth(0.3), height: .fractionalWidth(0.1), item: [item])
         group.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 4, bottom: 8, trailing: 4)
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuous

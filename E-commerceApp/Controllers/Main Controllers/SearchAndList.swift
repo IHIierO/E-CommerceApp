@@ -29,8 +29,11 @@ class SearchAndList: UIViewController, UISearchControllerDelegate {
     }
     
     private func setupNavigationBar(){
-        title = "Categories"
+        navigationItem.title = "Каталог"
+        //navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 24)]
         searchBar = UISearchController(searchResultsController: resultsTableViewController)
+        searchBar.searchBar.placeholder = "Поиск"
         searchBar.delegate = self
         searchBar.searchBar.delegate = resultsTableViewController
         searchBar.searchResultsUpdater = resultsTableViewController
@@ -54,7 +57,8 @@ class SearchAndList: UIViewController, UISearchControllerDelegate {
         "Для рук",
         "Для волос",
         "Для дома",
-        "Наборы"
+        "Наборы",
+        "all"
         ]
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -100,7 +104,7 @@ extension SearchAndList: UITableViewDelegate, UITableViewDataSource {
         
         cell.accessoryType = .disclosureIndicator
         cell.selectionStyle = .none
-        cell.configuration(indexPath: indexPath)
+        cell.menuLabel.text = menuTextData[indexPath.row]
         //        if search {
         //            let searchText = searchBar.searchBar.text!
         //            let filterMenuTextData = menuTextData.filter({ $0.lowercased().contains(searchText.lowercased()) })
@@ -120,7 +124,16 @@ extension SearchAndList: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        ViewControllersHelper.pushToProductsViewController(indexPath: indexPath, category: "", menuTextData: menuTextData, navigationController: self.navigationController, filters: nil, tableView: tableView, resultsTableViewController: resultsTableViewController)
+        switch indexPath {
+        case [0,6]:
+            let productsViewController = ProductsViewController()
+            productsViewController.curentProducts = Products.products
+            navigationController?.pushViewController(productsViewController, animated: true)
+        default:
+            ViewControllersHelper.pushToProductsViewController(indexPath: indexPath, category: "", menuTextData: menuTextData, navigationController: self.navigationController, filters: nil, tableView: tableView, resultsTableViewController: resultsTableViewController)
+        }
+        
+       
     }
     
     

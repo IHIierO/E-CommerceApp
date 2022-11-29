@@ -67,7 +67,6 @@ class DiscountsPopup: UIView {
         button.configuration?.title = "Подробнее"
         button.configuration?.baseForegroundColor = UIColor(hexString: "#FDFAF3")
         button.configuration?.baseBackgroundColor = UIColor(hexString: "#324B3A")
-        button.configuration?.cornerStyle = .capsule
         
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -106,7 +105,7 @@ class DiscountsPopup: UIView {
         
         blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView.frame = UIScreen.main.bounds
-        blurEffectView.alpha = 0.9
+       // blurEffectView.alpha = 0.9
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.addSubview(blurEffectView)
         

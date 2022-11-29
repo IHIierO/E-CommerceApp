@@ -36,10 +36,10 @@ class ViewControllersHelper{
     static func pushToProductsViewController(indexPath: IndexPath, category: String, menuTextData: [String], navigationController: UINavigationController?, filters: Filter?, tableView: UITableView, resultsTableViewController: ResultsTableViewController) {
         
         if tableView == resultsTableViewController.tableView {
-            let productCategory = ["для лица","для тела","для рук","для волос","для дома","наборы"]
-            let productSecondCategory = ["крем", "гель", "мыло", "масло", "скраб"]
+            let productCategory = ["Для лица","Для тела","Для рук","Для волос","Для дома","Наборы"]
+            let productSecondCategory = ["Крем", "Гель", "Мыло", "Масло", "Скраб"]
             if productCategory.contains(resultsTableViewController.arrayFilter[indexPath.row]){
-                let curentCategory = Products.products.filter({$0.productCategory == resultsTableViewController.arrayFilter[indexPath.row].lowercased()})
+                let curentCategory = Products.products.filter({$0.productCategory == resultsTableViewController.arrayFilter[indexPath.row]})
                 var filterNames: [String] = ["Все"]
                 for filterForProducts in curentCategory {
                     if !filterNames.contains(filterForProducts.productSecondCategory){
@@ -54,7 +54,7 @@ class ViewControllersHelper{
                 navigationController?.pushViewController(productsViewController, animated: true)
             }
             if productSecondCategory.contains(resultsTableViewController.arrayFilter[indexPath.row]){
-                let curentSecondCategory = Products.products.filter({$0.productSecondCategory == resultsTableViewController.arrayFilter[indexPath.row].lowercased()})
+                let curentSecondCategory = Products.products.filter({$0.productSecondCategory == resultsTableViewController.arrayFilter[indexPath.row]})
                 var filterNames: [String] = ["Все"]
                 for filterForProducts in curentSecondCategory {
                     if !filterNames.contains(filterForProducts.productCategory){
@@ -74,7 +74,7 @@ class ViewControllersHelper{
                 self.pushToProductCard(navigationController: navigationController, products: products11, indexPath: [0,0])
             }
         } else {
-            let curentCategory = Products.products.filter({$0.productCategory == menuTextData[indexPath.row].lowercased()})
+            let curentCategory = Products.products.filter({$0.productCategory == menuTextData[indexPath.row]})
             var filterNames: [String] = ["Все"]
             for filterForProducts in curentCategory {
                 if !filterNames.contains(filterForProducts.productSecondCategory){
@@ -98,8 +98,8 @@ class ViewControllersHelper{
             vc.filteredProducts = curentProducts
         }
         
-        let filterForCategory = ["для лица", "для тела", "для рук", "для волос", "для дома", "наборы"]
-        let filterForSecondCategory = ["крем", "гель", "тест", "мыло", "масло", "скраб"]
+        let filterForCategory = ["Для лица", "Для тела", "Для рук", "Для волос", "Для дома", "Наборы"]
+        let filterForSecondCategory = ["Крем", "Гель", "Мыло", "Масло", "Скраб"]
         
         if filterForSecondCategory.contains(filters.names[indexPath.row]){
             
@@ -111,7 +111,8 @@ class ViewControllersHelper{
             collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)
             guard let cell = collectionView.cellForItem(at: indexPath) as? ProductsMenuCell else { return }
             cell.isSelected = true
-            cell.backgroundColor = .red
+            cell.menuLabel.textColor = UIColor(hexString: "#FDFAF3")
+            cell.backgroundColor = UIColor(hexString: "#324B3A")
         }
         
         if filterForCategory.contains(filters.names[indexPath.row]){
@@ -121,7 +122,8 @@ class ViewControllersHelper{
                 vc.filteredProducts = curentCategory
                 let cell = collectionView.cellForItem(at: indexPath) as! ProductsMenuCell
                 cell.isSelected = true
-                cell.backgroundColor = .red
+            cell.menuLabel.textColor = UIColor(hexString: "#FDFAF3")
+            cell.backgroundColor = UIColor(hexString: "#324B3A")
         }
     }
     //MARK: - pushToProductCard
@@ -150,9 +152,14 @@ class ViewControllersHelper{
         
         if products[indexPath.row].discount != nil {
             let discontPrice = (products[indexPath.row].price * (100 - (products[indexPath.row].discount ?? 100))/100)
-            productCard.productPrice.attributedText = "\(products[indexPath.row].price)  \(discontPrice) руб.".createAttributedString(stringtToStrike: "\(products[indexPath.row].price)")
+            let discontPriceLabel = "\(discontPrice) \(products[indexPath.row].price) ₽"
+            let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: discontPriceLabel)
+            attributedString.createStringtToStrike(stringtToStrike: "\(products[indexPath.row].price)")
+            attributedString.createStringtToColor(stringtToColor: "\(discontPrice)", color: .red)
+            attributedString.createStringtToColor(stringtToColor: "₽", color: UIColor(hexString: "#324B3A"))
+            productCard.productPrice.attributedText = attributedString
         }else{
-            productCard.productPrice.text = "\(products[indexPath.row].price) руб."
+            productCard.productPrice.text = "\(products[indexPath.row].price) ₽"
         }
         navigationController?.pushViewController(productCard, animated: true)
     }

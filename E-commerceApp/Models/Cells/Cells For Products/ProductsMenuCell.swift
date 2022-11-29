@@ -22,7 +22,7 @@ class ProductsMenuCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setConstraints()
-        self.layer.cornerRadius = 5
+        self.layer.cornerRadius = 4
     }
     
     required init?(coder: NSCoder) {

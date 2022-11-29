@@ -37,7 +37,7 @@ class ProductsCell: UICollectionViewCell, SelfConfiguringCell {
     let productImage: UIImageView = {
        let productImage = UIImageView(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
         productImage.image = UIImage(named: "topRated")
-        productImage.contentMode = .scaleAspectFill
+        productImage.contentMode = .scaleAspectFit
         productImage.layer.cornerRadius = 8
         productImage.clipsToBounds = true
         
@@ -46,15 +46,13 @@ class ProductsCell: UICollectionViewCell, SelfConfiguringCell {
     }()
     let priceLabel: UILabel = {
        let label = UILabel()
-        label.text = "$125"
-        
+        label.textColor = UIColor(hexString: "#324B3A")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     let nameLabel: UILabel = {
        let label = UILabel()
-        label.text = "Куртка Женская"
-        
+        label.textColor = UIColor(hexString: "#324B3A")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -62,7 +60,13 @@ class ProductsCell: UICollectionViewCell, SelfConfiguringCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setConstraints()
-        self.backgroundColor = .red
+        self.backgroundColor = UIColor(hexString: "#FDFAF3")
+        self.layer.cornerRadius = 8
+        self.layer.shadowColor = UIColor.black.withAlphaComponent(0.6).cgColor
+        self.layer.shadowOpacity = 0.8
+        self.layer.shadowOffset = .zero
+        self.layer.shadowRadius = 5
+        self.clipsToBounds = false
         
         favoriteButton.addTarget(self, action: #selector(addToFavorite), for: .touchUpInside)
         addToShoppingCard.addTarget(self, action: #selector(addToShoppingCardTap), for: .touchUpInside)
@@ -81,32 +85,35 @@ class ProductsCell: UICollectionViewCell, SelfConfiguringCell {
     }
     
     func configure(with itemIdentifier: Int, indexPath: IndexPath, products: [Product]) {
-        
-        self.layer.cornerRadius = 8
-        self.layer.shadowColor = UIColor.black.withAlphaComponent(0.6).cgColor
-        self.layer.shadowOpacity = 0.8
-        self.layer.shadowOffset = .zero
-        self.layer.shadowRadius = 5
-        self.clipsToBounds = false
-        
         productImage.image = UIImage(named: "\(products[indexPath.row].productImage[0])")
         nameLabel.text = "\(products[indexPath.row].productName)"
-        priceLabel.text = "\(products[indexPath.row].price) руб."
+        
+        if products[indexPath.row].discount != nil {
+            let discontPrice = (products[indexPath.row].price * (100 - (products[indexPath.row].discount ?? 100))/100)
+            let discontPriceLabel = "\(discontPrice) \(products[indexPath.row].price) ₽"
+            let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: discontPriceLabel)
+            attributedString.createStringtToStrike(stringtToStrike: "\(products[indexPath.row].price)")
+            attributedString.createStringtToColor(stringtToColor: "\(discontPrice)", color: .red)
+            attributedString.createStringtToColor(stringtToColor: "₽", color: UIColor(hexString: "#324B3A"))
+            priceLabel.attributedText = attributedString
+        }else{
+            priceLabel.text = "\(products[indexPath.row].price) ₽"
+        }
         
         if Persons.ksenia.favoriteProducts.contains(where: { product in
             product.id == products[indexPath.row].id
         }) {
-            favoriteButton.configuration?.image = UIImage(systemName: "heart.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large))
+            favoriteButton.configuration?.image = UIImage(systemName: "heart.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .light))
         }else{
-            favoriteButton.configuration?.image = UIImage(systemName: "heart", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large))
+            favoriteButton.configuration?.image = UIImage(systemName: "heart", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .light))
         }
         
         if Persons.ksenia.productsInCart.contains(where: { product in
             product.id == products[indexPath.row].id
         }){
-            addToShoppingCard.configuration?.image = UIImage(systemName: "cart.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large))
+            addToShoppingCard.configuration?.image = UIImage(systemName: "cart.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .light))
         }else{
-            addToShoppingCard.configuration?.image = UIImage(systemName: "cart", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large))
+            addToShoppingCard.configuration?.image = UIImage(systemName: "cart", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .light))
         }
     }
     
@@ -116,7 +123,7 @@ class ProductsCell: UICollectionViewCell, SelfConfiguringCell {
             productImage.topAnchor.constraint(equalTo: self.topAnchor, constant: 0),
             productImage.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0),
             productImage.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0),
-            productImage.heightAnchor.constraint(equalToConstant: self.frame.height - 40),
+            productImage.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.8),
         ])
         
         self.addSubview(nameLabel)
@@ -129,7 +136,7 @@ class ProductsCell: UICollectionViewCell, SelfConfiguringCell {
         
         self.addSubview(priceLabel)
         NSLayoutConstraint.activate([
-            priceLabel.heightAnchor.constraint(equalToConstant: 20),
+            priceLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -6),
             priceLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 4),
             priceLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0),
             priceLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 0),

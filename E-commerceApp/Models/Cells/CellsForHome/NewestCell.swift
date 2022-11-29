@@ -61,7 +61,18 @@ class NewestCell: UICollectionViewCell, SelfConfiguringCell {
         
         productImage.image = UIImage(named: "\(products[indexPath.row].productImage[0])")
         nameLabel.text = "\(products[indexPath.row].productName)"
-        priceLabel.text = "\(products[indexPath.row].price) ₽"
+        
+        if products[indexPath.row].discount != nil {
+            let discontPrice = (products[indexPath.row].price * (100 - (products[indexPath.row].discount ?? 100))/100)
+            let discontPriceLabel = "\(discontPrice) \(products[indexPath.row].price) ₽"
+            let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: discontPriceLabel)
+            attributedString.createStringtToStrike(stringtToStrike: "\(products[indexPath.row].price)")
+            attributedString.createStringtToColor(stringtToColor: "\(discontPrice)", color: .red)
+            attributedString.createStringtToColor(stringtToColor: "₽", color: UIColor(hexString: "#324B3A"))
+            priceLabel.attributedText = attributedString
+        }else{
+            priceLabel.text = "\(products[indexPath.row].price) ₽"
+        }
         
         if Persons.ksenia.favoriteProducts.contains(where: { product in
             product.id == products[indexPath.row].id
@@ -129,7 +140,7 @@ class NewestCell: UICollectionViewCell, SelfConfiguringCell {
         
         self.addSubview(priceLabel)
         NSLayoutConstraint.activate([
-            priceLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 6),
+            priceLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -6),
             priceLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 4),
             priceLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0),
             priceLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 0),

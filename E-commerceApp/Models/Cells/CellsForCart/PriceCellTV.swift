@@ -14,7 +14,8 @@ class PriceCellTV: UITableViewCell {
     let inAllName: UILabel = {
        let label = UILabel()
         label.text = "Итого"
-        label.backgroundColor = .green
+        //label.font = UIFont.systemFont(ofSize: 20, weight: .regular)
+        label.textColor = UIColor(hexString: "#324B3A")
         label.textAlignment = .left
         
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -28,8 +29,8 @@ class PriceCellTV: UITableViewCell {
     ]
     let inAllSum: UILabel = {
        let label = UILabel()
-        label.text = "236"
-        label.backgroundColor = .yellow
+        label.font = UIFont.systemFont(ofSize: 20, weight: .regular)
+        label.textColor = UIColor(hexString: "#324B3A")
         label.textAlignment = .right
         
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -39,6 +40,7 @@ class PriceCellTV: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setConstraints()
+        self.backgroundColor = .clear
         self.selectionStyle = .none
     }
     required init?(coder: NSCoder) {
@@ -51,13 +53,13 @@ class PriceCellTV: UITableViewCell {
     func setConstraints(){
         self.addSubview(inAllName)
         NSLayoutConstraint.activate([
-            inAllName.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
+            inAllName.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
             inAllName.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             inAllName.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 2/3)
         ])
         self.addSubview(inAllSum)
         NSLayoutConstraint.activate([
-            inAllSum.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
+            inAllSum.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
             inAllSum.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             inAllSum.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1/3)
         ])

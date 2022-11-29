@@ -19,6 +19,7 @@ class ProductCard: UIViewController {
     }()
     let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
+        scrollView.backgroundColor = UIColor(hexString: "#FDFAF3")
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
@@ -29,32 +30,33 @@ class ProductCard: UIViewController {
         vStack.distribution = .equalSpacing
         vStack.alignment = .center
         vStack.spacing = UIStackView.spacingUseSystem
+        vStack.backgroundColor = UIColor(hexString: "#FDFAF3")
         return vStack
     }()
     var productImages = [UIImage]()
     
     let productName: UILabel = {
         let label = UILabel()
-        label.text = "Cream"
-        label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+        label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         label.textAlignment = .left
-        label.backgroundColor = .lightGray
         label.numberOfLines = 0
+        label.textColor = UIColor(hexString: "#324B3A")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     let productPrice: UILabel = {
         let label = UILabel()
-        label.text = "125"
-        label.backgroundColor = .systemCyan
+        label.textColor = UIColor(hexString: "#324B3A")
+        label.font = UIFont.systemFont(ofSize: 20)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     let addToCartButton: UIButton = {
         let button = UIButton()
-        button.configuration = .gray()
+        button.configuration = .filled()
         button.configuration?.title = "Добавить в корзину"
-        button.configuration?.baseForegroundColor = .black
+        button.configuration?.baseForegroundColor = UIColor(hexString: "#FDFAF3")
+        button.configuration?.baseBackgroundColor = UIColor(hexString: "#324B3A")
         button.configuration?.titleAlignment = .center
         
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -63,15 +65,16 @@ class ProductCard: UIViewController {
     let descriptionHead: UILabel = {
         let label = UILabel()
         label.text = "Описание:"
-        label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
-        label.backgroundColor = .systemMint
+        label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        label.textColor = UIColor(hexString: "#324B3A")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     let productDiscription: UITextView = {
        let label = UITextView()
-        label.backgroundColor = .systemMint
-        label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+       label.backgroundColor = UIColor(hexString: "#FDFAF3")
+        label.textColor = UIColor(hexString: "#324B3A")
+        label.font = UIFont.systemFont(ofSize: 18)
         label.isScrollEnabled = false
         label.isUserInteractionEnabled = false
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -79,32 +82,33 @@ class ProductCard: UIViewController {
     }()
     let pageControl: UIPageControl = {
        let pageControl = UIPageControl()
-        pageControl.backgroundColor = .lightGray.withAlphaComponent(0.1)
-        pageControl.pageIndicatorTintColor = .black
-        pageControl.currentPageIndicatorTintColor = .blue
+        //pageControl.backgroundColor = .lightGray.withAlphaComponent(0.1)
+        pageControl.pageIndicatorTintColor = .gray
+        pageControl.currentPageIndicatorTintColor = UIColor(hexString: "#324B3A")
         pageControl.translatesAutoresizingMaskIntoConstraints = false
         return pageControl
     }()
     let recentlyViewedHead: UILabel = {
         let label = UILabel()
         label.text = "Вы недавно смотрели:"
-        label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
-        label.backgroundColor = .systemMint
+        label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        label.textColor = UIColor(hexString: "#324B3A")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     let collectionView: UICollectionView = {
        let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.sectionInset = .init(top: 0, left: 30, bottom: 0, right: 30)
+        layout.sectionInset = .init(top: 0, left: 30, bottom: 20, right: 30)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(ProductsCell.self, forCellWithReuseIdentifier: ProductsCell.reuseId)
+        collectionView.backgroundColor = UIColor(hexString: "#FDFAF3")
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
     
-    let blurEffect = UIBlurEffect(style: .dark)
+    let blurEffect = UIBlurEffect(style: .regular)
     lazy var blurEffectView = UIVisualEffectView()
     
     override func viewDidLoad() {
@@ -122,7 +126,7 @@ class ProductCard: UIViewController {
     }
     
     func setupProductCard(){
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(hexString: "#FDFAF3")
         view.addSubview(scrollView)
         scrollView.addSubview(vStack)
         [imageScrollView, productName, productPrice, addToCartButton, descriptionHead, productDiscription, recentlyViewedHead, collectionView].forEach {vStack.addArrangedSubview($0)}
@@ -145,6 +149,7 @@ class ProductCard: UIViewController {
         blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView.frame = self.view.bounds
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        //blurEffectView.alpha = 0.9
         
         for i in 0..<products[indexPath.row].productImage.count {
             let imageView = UIImageView()
@@ -159,7 +164,10 @@ class ProductCard: UIViewController {
             imageScrollView.addSubview(imageView)
         }
         pageControl.addTarget(self, action: #selector(pageControlDidChange(_:)), for: .valueChanged)
-        pageControl.numberOfPages = products[indexPath.row].productImage.count
+        if products[indexPath.row].productImage.count == 1{
+            pageControl.numberOfPages = 0
+        }else{pageControl.numberOfPages = products[indexPath.row].productImage.count}
+        
     }
     private func setConstraints(){
         // constraint scrollView, vStack and pageControl
@@ -193,7 +201,7 @@ class ProductCard: UIViewController {
         }
         // constraint collectionView
         collectionView.widthAnchor.constraint(equalToConstant: view.frame.size.width).isActive = true
-        collectionView.heightAnchor.constraint(equalToConstant: view.frame.size.width / 1.8).isActive = true
+        collectionView.heightAnchor.constraint(equalToConstant: view.frame.size.width / 1.6).isActive = true
     }
     
     @objc func fullScreenTap(_ sender: UITapGestureRecognizer) {
@@ -254,7 +262,7 @@ extension ProductCard: UICollectionViewDelegateFlowLayout, UICollectionViewDataS
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.bounds.size.width / 3, height: view.bounds.size.width / 2)
+        return CGSize(width: view.bounds.size.width / 3, height: collectionView.frame.height / 1.2 )
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

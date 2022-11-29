@@ -33,10 +33,10 @@ class Person: UIViewController {
     
     let exitButton: UIButton = {
         let button = UIButton()
-        button.configuration = .gray()
+        button.configuration = .filled()
         button.configuration?.title = "Выйти"
-        button.configuration?.baseForegroundColor = .black
-        button.configuration?.cornerStyle = .capsule
+        button.configuration?.baseForegroundColor = UIColor(hexString: "#FDFAF3")
+        button.configuration?.baseBackgroundColor = UIColor(hexString: "#324B3A")
         
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -63,7 +63,8 @@ class Person: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.bounces = false
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.separatorStyle = .none
+        tableView.register(SearchAndListMenuCell.self, forCellReuseIdentifier: "cell")
         profileMenuTextData = [
         "Избранное",
         "Заказы",
@@ -92,16 +93,16 @@ class Person: UIViewController {
         view.addSubview(exitButton)
         NSLayoutConstraint.activate([
             exitButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
-            exitButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
-            exitButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
+            exitButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            exitButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             exitButton.heightAnchor.constraint(equalToConstant: 40)
         ])
         
         view.addSubview(tableView)
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: profileNameLabel.bottomAnchor, constant: 40),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             tableView.bottomAnchor.constraint(equalTo: exitButton.topAnchor, constant: -40)
         ])
     }
@@ -114,14 +115,19 @@ extension Person: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.backgroundColor = .red
-        var config = cell.defaultContentConfiguration()
-        config.text = profileMenuTextData[indexPath.row]
-        cell.contentConfiguration = config
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SearchAndListMenuCell
+        //cell.backgroundColor = .red
+       // var config = cell.defaultContentConfiguration()
+        //config.text = profileMenuTextData[indexPath.row]
+       // cell.contentConfiguration = config
+        cell.menuLabel.text = profileMenuTextData[indexPath.row]
         cell.accessoryType = .disclosureIndicator
         cell.selectionStyle = .none
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 66
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

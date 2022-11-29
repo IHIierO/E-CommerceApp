@@ -25,7 +25,7 @@ class Home: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
-        setupNavigationController()
+       // setupNavigationController()
     }
     
     private func setupNavigationController(){

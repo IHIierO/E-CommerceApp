@@ -11,7 +11,7 @@ class NotificationPopup: UIView {
     
     private let container: UIView = {
        let container = UIView()
-        container.backgroundColor = .white
+        container.backgroundColor = UIColor(hexString: "#FDFAF3")
         container.layer.cornerRadius = 20
         container.layer.shadowColor = UIColor(hexString: "#6A6F6A").cgColor
         container.layer.shadowOpacity = 0.8
@@ -24,6 +24,7 @@ class NotificationPopup: UIView {
     let label: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+        label.textColor = UIColor(hexString: "#324B3A")
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -52,7 +53,7 @@ class NotificationPopup: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .clear
-        self.frame = CGRect(x: 0, y: UIScreen.main.bounds.height / 1.3, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width / 2)
+        self.frame = CGRect(x: 0, y: UIScreen.main.bounds.height / 1.2, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width / 6)
         setConstraints()
         animateIn()
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
@@ -67,7 +68,7 @@ class NotificationPopup: UIView {
     private func setConstraints(){
         self.addSubview(container)
         NSLayoutConstraint.activate([
-            container.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -100),
+            //container.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -100),
             container.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             container.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.7),
             container.heightAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.1)

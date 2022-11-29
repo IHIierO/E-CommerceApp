@@ -91,7 +91,7 @@ class OrderPopup: UIView {
         return vStack
     }()
     
-    let blurEffect = UIBlurEffect(style: .dark)
+    let blurEffect = UIBlurEffect(style: .regular)
     lazy var blurEffectView = UIVisualEffectView()
     
     @objc func animateOut(){
@@ -141,6 +141,7 @@ class OrderPopup: UIView {
         
         blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView.frame = UIScreen.main.bounds
+        //blurEffectView.alpha = 0.9
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.addSubview(blurEffectView)
         

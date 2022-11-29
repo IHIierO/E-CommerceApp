@@ -16,8 +16,14 @@ class CartCellTV: UITableViewCell {
     
     let containerView: UIView = {
        let containerView = UIView()
+        containerView.backgroundColor = UIColor(hexString: "#FDFAF3")
 //        containerView.layer.cornerRadius = 8
-        containerView.backgroundColor = .lightGray
+//        containerView.clipsToBounds = true
+//        containerView.layer.shadowRadius = 8
+//        containerView.layer.shadowOpacity = 0.8
+//        containerView.layer.shadowOffset = .zero
+//        containerView.layer.shadowColor = UIColor.black.withAlphaComponent(0.6).cgColor
+//        containerView.layer.masksToBounds = false
         containerView.translatesAutoresizingMaskIntoConstraints = false
         return containerView
     }()
@@ -25,41 +31,22 @@ class CartCellTV: UITableViewCell {
        let productImage = UIImageView(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
         productImage.image = UIImage(named: "topRated")
         productImage.contentMode = .scaleAspectFill
+        productImage.layer.cornerRadius = 8
         productImage.clipsToBounds = true
         
         productImage.translatesAutoresizingMaskIntoConstraints = false
         return productImage
     }()
-    let favoriteButton: UIButton = {
-       let button = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
-        var config = UIButton.Configuration.plain()
-        config.imagePadding = 4
-        config.image = UIImage(systemName: "heart", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large))
-        button.configuration = config
-        button.tintColor = .red
-        
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
     let nameLabel: UILabel = {
        let label = UILabel()
-        label.text = "Куртка Женская"
-        
+        label.numberOfLines = 0
+        label.textColor = UIColor(hexString: "#324B3A")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     let priceLabel: UILabel = {
        let label = UILabel()
-        label.text = "$125"
-        
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    let discontLabel: UIImageView = {
-       let label = UIImageView(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
-        label.image = UIImage(systemName: "percent")
-        label.alpha = 0
-        
+        label.textColor = UIColor(hexString: "#324B3A")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -74,6 +61,7 @@ class CartCellTV: UITableViewCell {
         var config = UIButton.Configuration.plain()
         config.imagePadding = 4
         config.image = UIImage(systemName: "plus.square.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large))
+        config.baseForegroundColor = UIColor(hexString: "#324B3A")
         button.configuration = config
         button.tintColor = .black
         
@@ -85,6 +73,7 @@ class CartCellTV: UITableViewCell {
         var config = UIButton.Configuration.plain()
         config.imagePadding = 4
         config.image = UIImage(systemName: "minus.square.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large))
+        config.baseForegroundColor = .lightGray
         button.configuration = config
         button.tintColor = .black
         
@@ -94,8 +83,11 @@ class CartCellTV: UITableViewCell {
     let stepperLabel: UILabel = {
        let label = UILabel()
         label.textAlignment = .center
+        label.textColor = UIColor(hexString: "#324B3A")
         label.layer.borderWidth = 1
-        label.layer.borderColor = UIColor.black.cgColor
+        label.layer.borderColor = UIColor(hexString: "#324B3A").cgColor
+        label.layer.cornerRadius = 4
+        
         
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -103,8 +95,10 @@ class CartCellTV: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
         setupCell()
     }
+    
 //    override func layoutSubviews() {
 //        super.layoutSubviews()
 //        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
@@ -116,6 +110,7 @@ class CartCellTV: UITableViewCell {
     
     private func setupCell(){
         self.selectionStyle = .none
+        self.backgroundColor = .clear
         setConstraints()
         stepperPlusButton.addTarget(self, action: #selector(stepperPlusButtonTapped), for: .touchUpInside)
         stepperMinusButton.addTarget(self, action: #selector(stepperMinusButtonTapped), for: .touchUpInside)
@@ -132,35 +127,42 @@ class CartCellTV: UITableViewCell {
         productImage.image = UIImage(named: products[indexPath.row].productImage[0])
         nameLabel.text = products[indexPath.row].productName
         
-        if products[indexPath.row].discount != nil {
-            let discontPrice = (products[indexPath.row].price * (100 - (products[indexPath.row].discount ?? 100))/100)
-            priceLabel.attributedText = "\(products[indexPath.row].price)  \(discontPrice) руб.".createAttributedString(stringtToStrike: "\(products[indexPath.row].price)")
-            discontLabel.alpha = 1
+        if Persons.ksenia.productsInCart[indexPath.row].count != 1 {
+            stepperMinusButton.configuration?.baseForegroundColor = UIColor(hexString: "#324B3A")
         }else{
-            priceLabel.text = "\(products[indexPath.row].price) руб."
-            discontLabel.alpha = 0
+            stepperMinusButton.configuration?.baseForegroundColor = .lightGray
+        }
+        if Persons.ksenia.productsInCart[indexPath.row].count != 10 {
+            stepperPlusButton.configuration?.baseForegroundColor = UIColor(hexString: "#324B3A")
+        }else{
+            stepperPlusButton.configuration?.baseForegroundColor = .lightGray
         }
         
-        if Persons.ksenia.favoriteProducts.contains(where: { product in
-            product.id == products[indexPath.row].id
-        }){
-            favoriteButton.configuration?.image = UIImage(systemName: "heart.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large))
+        if products[indexPath.row].discount != nil {
+            let discontPrice = (products[indexPath.row].price * (100 - (products[indexPath.row].discount ?? 100))/100)
+            let discontPriceLabel = "\(discontPrice) \(products[indexPath.row].price) ₽"
+            let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: discontPriceLabel)
+            attributedString.createStringtToStrike(stringtToStrike: "\(products[indexPath.row].price)")
+            attributedString.createStringtToColor(stringtToColor: "\(discontPrice)", color: .red)
+            attributedString.createStringtToColor(stringtToColor: "₽", color: UIColor(hexString: "#324B3A"))
+            priceLabel.attributedText = attributedString
         }else{
-            favoriteButton.configuration?.image = UIImage(systemName: "heart", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large))
+            priceLabel.text = "\(products[indexPath.row].price) ₽"
         }
+        
     }
     private func setConstraints() {
         self.contentView.addSubview(containerView)
         NSLayoutConstraint.activate([
-            containerView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
-            containerView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
-            containerView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
-            containerView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor)
+            containerView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 8),
+            containerView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 8),
+            containerView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -8),
+            containerView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -8)
         ])
         self.contentView.addSubview(productImage)
         NSLayoutConstraint.activate([
             productImage.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 8),
-            productImage.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 8),
+            productImage.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 18),
             productImage.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -8),
             productImage.widthAnchor.constraint(equalToConstant: self.frame.width / 3)
         ])
@@ -175,20 +177,6 @@ class CartCellTV: UITableViewCell {
             priceLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8),
             priceLabel.leadingAnchor.constraint(equalTo: productImage.trailingAnchor, constant: 8),
             priceLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8)
-        ])
-        self.contentView.addSubview(favoriteButton)
-        NSLayoutConstraint.activate([
-            favoriteButton.topAnchor.constraint(equalTo: productImage.topAnchor, constant: 4),
-            favoriteButton.trailingAnchor.constraint(equalTo: productImage.trailingAnchor, constant: -4),
-            favoriteButton.widthAnchor.constraint(equalToConstant: 40),
-            favoriteButton.heightAnchor.constraint(equalToConstant: 40)
-        ])
-        self.contentView.addSubview(discontLabel)
-        NSLayoutConstraint.activate([
-            discontLabel.topAnchor.constraint(equalTo: favoriteButton.bottomAnchor, constant: 4),
-            discontLabel.trailingAnchor.constraint(equalTo: productImage.trailingAnchor, constant: -12),
-            discontLabel.widthAnchor.constraint(equalToConstant: 20),
-            discontLabel.heightAnchor.constraint(equalToConstant: 20)
         ])
         self.contentView.addSubview(stepperStackView)
         NSLayoutConstraint.activate([

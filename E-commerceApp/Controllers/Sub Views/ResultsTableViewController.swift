@@ -9,7 +9,7 @@ import UIKit
 
 class ResultsTableViewController: UITableViewController, UISearchResultsUpdating, UISearchBarDelegate {
     
-    let array = ["крем", "гель", "мыло","для лица","для тела","для рук","для волос","для дома","наборы"]
+    let array = ["Крем", "Гель", "Мыло", "Скраб", "Масло", "Для лица","Для тела","Для рук","Для волос","Для дома","Наборы"]
     var arrayFilter = [String]()
 
     // MARK: - Table view data source
@@ -35,7 +35,7 @@ class ResultsTableViewController: UITableViewController, UISearchResultsUpdating
             if text.count > 2 {
                 for string in array {
 #warning("добавить поиск только по первой букве")
-                    if string.contains(text.lowercased()) {
+                    if string.lowercased().contains(text) {
                         arrayFilter.append(string)
                     }
                 }

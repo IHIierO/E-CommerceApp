@@ -12,12 +12,11 @@ class ShoppingCartTV: UIViewController {
     
     private let buyButton: UIButton = {
         let button = UIButton()
-        button.configuration = .gray()
+        button.configuration = .filled()
         button.configuration?.title = "Перейти к оформлению"
-        button.configuration?.subtitle = "263 руб."
-        button.configuration?.baseForegroundColor = .black
+        button.configuration?.baseForegroundColor = UIColor(hexString: "#FDFAF3")
+        button.configuration?.baseBackgroundColor = UIColor(hexString: "#324B3A")
         button.configuration?.titleAlignment = .center
-        
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -31,12 +30,12 @@ class ShoppingCartTV: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(hexString: "#FDFAF3")
-        title = "Корзина"
         setupTableView()
         setConstraints()
+        setupNavigationController()
     }
     
-    private func inAllPrice() -> Int {
+    func inAllPrice() -> Int {
         
         var allSum: [Int] = []
         
@@ -53,7 +52,7 @@ class ShoppingCartTV: UIViewController {
         let newSum = allSum.reduce(0, +)
         return newSum
     }
-    private func productsSumPrice() -> Int {
+    func productsSumPrice() -> Int {
         
         var allSum: [Int] = []
         
@@ -66,7 +65,7 @@ class ShoppingCartTV: UIViewController {
         let newSum = allSum.reduce(0, +)
         return newSum
     }
-    private func inAllCount() -> Int {
+    func inAllCount() -> Int {
         
         var allSum: [Int] = []
         
@@ -76,17 +75,29 @@ class ShoppingCartTV: UIViewController {
        let newSum = allSum.reduce(0, +)
         return newSum
     }
-    private func newData() {
+    func newData() {
         inAllSumData[0] = "\(inAllCount()) шт."
-        inAllSumData[1] = "\(productsSumPrice()) руб."
-        inAllSumData[2] = "\(productsSumPrice() - inAllPrice()) руб."
-        inAllSumData[3] = "\(inAllPrice()) руб."
-        buyButton.configuration?.subtitle = "\(inAllPrice()) руб."
+        inAllSumData[1] = "\(productsSumPrice()) ₽"
+        inAllSumData[2] = "\(productsSumPrice() - inAllPrice()) ₽"
+        inAllSumData[3] = "\(inAllPrice()) ₽"
+        buyButton.configuration?.subtitle = "\(inAllPrice()) ₽"
+    }
+    
+    private func setupNavigationController(){
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 24)]
+        navigationItem.title = "Корзина"
+//        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+//        self.navigationController?.navigationBar.shadowImage = UIImage()
+//        self.navigationController?.navigationBar.isTranslucent = true
+//        self.navigationController?.navigationBar.tintColor = UIColor(hexString: "#393C39")
+//        self.navigationController?.view.backgroundColor = .clear
     }
     
     private func setupTableView(){
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.separatorStyle = .none
+        tableView.backgroundColor = .clear
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(CartCellTV.self, forCellReuseIdentifier: CartCellTV.reuseId)
@@ -98,25 +109,26 @@ class ShoppingCartTV: UIViewController {
         
         inAllSumData = [
             "\(inAllCount()) шт.",
-            "\(productsSumPrice()) руб.",
-            "\(productsSumPrice() - inAllPrice()) руб.",
-            "\(inAllPrice()) руб.",
+            "\(productsSumPrice()) ₽",
+            "\(productsSumPrice() - inAllPrice()) ₽",
+            "\(inAllPrice()) ₽",
             ]
     }
     private func setConstraints(){
+        view.addSubview(tableView)
         view.addSubview(buyButton)
         NSLayoutConstraint.activate([
-            buyButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10),
-            buyButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-            buyButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+            buyButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+            buyButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
+            buyButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
             buyButton.heightAnchor.constraint(equalToConstant: 60)
         ])
-        view.addSubview(tableView)
+        
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
-            tableView.bottomAnchor.constraint(equalTo: buyButton.topAnchor, constant: 0)
+            tableView.bottomAnchor.constraint(equalTo: buyButton.topAnchor, constant: -10)
         ])
     }
     
@@ -174,47 +186,21 @@ extension ShoppingCartTV: UITableViewDelegate, UITableViewDataSource {
                 let cell = tableView.dequeueReusableCell(withIdentifier: CartCellTV.reuseId, for: indexPath) as! CartCellTV
                 cell.configure(indexPath: indexPath, products: Persons.ksenia.productsInCart )
                 cell.stepperLabel.text = "\(Persons.ksenia.productsInCart [indexPath.row].count)"
-                cell.plusButtonCallback = { [self]
-                    () in
-                    Persons.ksenia.productsInCart[indexPath.row].count = Persons.ksenia.productsInCart[indexPath.row].count + 1
-                    newData()
-                    cell.stepperLabel.text = "\(Persons.ksenia.productsInCart[indexPath.row].count)"
-                    tableView.reloadSections(NSIndexSet(index: 1) as IndexSet, with: .automatic)
-                }
-                cell.minusButtonCallback = { [self]
-                    () in
-                    if Persons.ksenia.productsInCart[indexPath.row].count > 1 {
-                        Persons.ksenia.productsInCart[indexPath.row].count = Persons.ksenia.productsInCart[indexPath.row].count - 1
-                        newData()
-                        cell.stepperLabel.text = "\(Persons.ksenia.productsInCart[indexPath.row].count)"
-                        tableView.reloadSections(NSIndexSet(index: 1) as IndexSet, with: .automatic)
-                    }else{
-                        Persons.ksenia.productsInCart[indexPath.row].count = Persons.ksenia.productsInCart[indexPath.row].count - 0
-                        cell.stepperLabel.text = "\(Persons.ksenia.productsInCart[indexPath.row].count)"
-                    }
-                }
+                CellsHelpers.stepperHelper(cell: cell, indexPath: indexPath, tableView: tableView, vc: self)
                 return cell
             }else{
                 let cell = tableView.dequeueReusableCell(withIdentifier: "no products", for: indexPath)
-                var content = cell.defaultContentConfiguration()
-                content.text = "Нет товаров в корзине"
-                content.textProperties.alignment = .center
-                content.textProperties.font = .systemFont(ofSize: 28)
-                content.textProperties.adjustsFontSizeToFitWidth = true
-                content.secondaryText = "Пожалуйста выберети товары из каталога"
-                content.secondaryTextProperties.alignment = .center
-                content.secondaryTextProperties.font = .systemFont(ofSize: 18)
-                content.secondaryTextProperties.adjustsFontSizeToFitWidth = true
-                cell.contentConfiguration = content
+                CellsHelpers.configurationCartCellWhenCartIsEmpty(cell: cell)
                 return cell
             }
             
         case 1:
+            tableView.separatorStyle = .singleLine
             let cell = tableView.dequeueReusableCell(withIdentifier: PriceCellTV.reuseId, for: indexPath) as! PriceCellTV
             cell.config(indexPath: indexPath)
             cell.inAllSum.text = inAllSumData[indexPath.row]
             return cell
-        
+            
         default:
             let cell = tableView.dequeueReusableCell(withIdentifier: "no products", for: indexPath)
             cell.backgroundColor = .red
@@ -226,7 +212,7 @@ extension ShoppingCartTV: UITableViewDelegate, UITableViewDataSource {
         case 0:
             return CGFloat(tableView.frame.height / 5)
         case 1:
-            return CGFloat(20)
+            return CGFloat(tableView.frame.width / 10)
         default:
             return CGFloat(20)
         }
@@ -237,7 +223,7 @@ extension ShoppingCartTV: UITableViewDelegate, UITableViewDataSource {
         return true
     }
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, complitionHandler in
+        let deleteAction = UIContextualAction(style: .destructive, title: "Удалить из корзины") { _, _, complitionHandler in
             
             Persons.ksenia.productsInCart.remove(at: indexPath.row)
             self.newData()
@@ -247,24 +233,52 @@ extension ShoppingCartTV: UITableViewDelegate, UITableViewDataSource {
             
             return complitionHandler(true)
         }
-        deleteAction.backgroundColor = .red
+        
         let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
         configuration.performsFirstActionWithFullSwipe = true
         return configuration
     }
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let favoriteAction = UIContextualAction(style: .normal, title: "Add to Favorite") { _, _, complitionHandler in
+        let favoriteAction = UIContextualAction(style: .normal, title: "Отложить покупку") { _, _, complitionHandler in
             
             ViewControllersHelper.addToFavorite(products: Persons.ksenia.productsInCart, indexPath: indexPath)
-            tableView.reloadRows(at: [indexPath], with: .none)
+            Persons.ksenia.productsInCart.remove(at: indexPath.row)
+            self.newData()
+            let tabBar = self.tabBarController as! TabBar
+            tabBar.changeBageValue()
+            let addToFavoritePopup = NotificationPopup()
+            addToFavoritePopup.label.text = "Добавлен в избранное"
+            self.view.addSubview(addToFavoritePopup)
+            tableView.reloadData()
             
             return complitionHandler(true)
         }
-        favoriteAction.backgroundColor = .magenta
+        favoriteAction.backgroundColor = .orange
         let configuration = UISwipeActionsConfiguration(actions: [favoriteAction])
         configuration.performsFirstActionWithFullSwipe = true
         return configuration
     }
+    
+//  func tableView(_ tableView: UITableView, willBeginEditingRowAt indexPath: IndexPath) {
+//        if let swipeContainerView = tableView.subviews.first(where: { String(describing: type(of: $0)) == "_UITableViewCellSwipeContainerView" }) {
+//            if let swipeActionPullView = swipeContainerView.subviews.first, String(describing: type(of: swipeActionPullView)) == "UISwipeActionPullView" {
+//                swipeActionPullView.frame.size.height -= 16
+//                swipeActionPullView.frame.origin.y += 8
+//                swipeActionPullView.layer.cornerRadius = 8
+//                swipeActionPullView.clipsToBounds = true
+//                swipeActionPullView.layer.shadowRadius = 8
+//                swipeActionPullView.layer.shadowOpacity = 0.8
+//                swipeActionPullView.layer.shadowOffset = .zero
+//                swipeActionPullView.layer.shadowColor = UIColor.black.withAlphaComponent(0.6).cgColor
+//                swipeActionPullView.layer.masksToBounds = false
+//                if let swipeActionStandardButton = swipeActionPullView.subviews.first, String(describing: type(of: swipeActionStandardButton)) == "UISwipeActionStandardButton" {
+//                    swipeActionStandardButton.layer.cornerRadius = 8
+//                    swipeActionStandardButton.clipsToBounds = true
+//                }
+//            }
+//        }
+//    }
+
 }
 
 // MARK: - SwiftUI
