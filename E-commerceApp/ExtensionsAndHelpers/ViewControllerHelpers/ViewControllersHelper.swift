@@ -154,7 +154,7 @@ class ViewControllersHelper{
             let discontPrice = (products[indexPath.row].price * (100 - (products[indexPath.row].discount ?? 100))/100)
             let discontPriceLabel = "\(discontPrice) \(products[indexPath.row].price) ₽"
             let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: discontPriceLabel)
-            attributedString.createStringtToStrike(stringtToStrike: "\(products[indexPath.row].price)")
+            attributedString.createStringtToStrike(stringtToStrike: "\(products[indexPath.row].price)", size: 14)
             attributedString.createStringtToColor(stringtToColor: "\(discontPrice)", color: .red)
             attributedString.createStringtToColor(stringtToColor: "₽", color: UIColor(hexString: "#324B3A"))
             productCard.productPrice.attributedText = attributedString
@@ -165,6 +165,8 @@ class ViewControllersHelper{
     }
     //MARK: - addToFavorite
     static func addToFavorite(products: [Product], indexPath: IndexPath) {
+        
+        
         
         if !Persons.ksenia.favoriteProducts.contains(where: { product in
             product.id == products[indexPath.row].id

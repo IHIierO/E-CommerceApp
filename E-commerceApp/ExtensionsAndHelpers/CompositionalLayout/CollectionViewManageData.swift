@@ -57,7 +57,7 @@ class ProductsCollectionViewManageData {
                     cell.backgroundColor = UIColor(hexString: "#324B3A")
                 }else{
                     cell.menuLabel.textColor = UIColor(hexString: "#324B3A")
-                    cell.backgroundColor = .lightGray
+                    cell.backgroundColor = .lightGray.withAlphaComponent(0.8)
                 }
                
                 return cell

@@ -38,8 +38,9 @@ class CurentOrder: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(hexString: "#FDFAF3")
         setConstraints()
+        BackButton(vc: self).createBackButton()
     }
     
     private func setConstraints(){

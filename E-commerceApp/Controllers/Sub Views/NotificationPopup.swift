@@ -12,7 +12,7 @@ class NotificationPopup: UIView {
     private let container: UIView = {
        let container = UIView()
         container.backgroundColor = UIColor(hexString: "#FDFAF3")
-        container.layer.cornerRadius = 20
+        container.layer.cornerRadius = 8
         container.layer.shadowColor = UIColor(hexString: "#6A6F6A").cgColor
         container.layer.shadowOpacity = 0.8
         container.layer.shadowOffset = .zero
@@ -23,7 +23,7 @@ class NotificationPopup: UIView {
     }()
     let label: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+        label.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
         label.textColor = UIColor(hexString: "#324B3A")
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false

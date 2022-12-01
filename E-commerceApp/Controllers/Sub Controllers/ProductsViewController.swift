@@ -24,15 +24,16 @@ class ProductsViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
-        //setupNavigationController()
+        setupNavigationController()
     }
     
     private func setupNavigationController(){
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.isTranslucent = true
-        self.navigationController?.navigationBar.tintColor = UIColor(hexString: "#393C39")
-        self.navigationController?.view.backgroundColor = .clear
+        BackButton(vc: self).createBackButton()
+//        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+//        self.navigationController?.navigationBar.shadowImage = UIImage()
+//        self.navigationController?.navigationBar.isTranslucent = true
+//        self.navigationController?.navigationBar.tintColor = UIColor(hexString: "#393C39")
+//        self.navigationController?.view.backgroundColor = .clear
     }
     private func setupCollectionView(){
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())

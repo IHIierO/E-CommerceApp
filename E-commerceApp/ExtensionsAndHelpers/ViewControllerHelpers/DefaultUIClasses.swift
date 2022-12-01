@@ -17,6 +17,8 @@ class DefaultUITextField: UITextField {
         
         self.placeholder = placeholderText
         self.borderStyle = .roundedRect
+        self.backgroundColor = .clear
+        self.textColor = UIColor(hexString: "#324B3A")
     }
     
     required init?(coder: NSCoder) {
@@ -73,5 +75,19 @@ class PaddingLabel: UILabel {
     override var intrinsicContentSize: CGSize {
         let size = super.intrinsicContentSize
         return CGSize(width: size.width + edgeInset.left + edgeInset.right, height: size.height + edgeInset.top + edgeInset.bottom)
+    }
+}
+
+class BackButton {
+    var vc: UIViewController
+    
+    func createBackButton(){
+        let backButton = UIBarButtonItem()
+        backButton.title = "Назад"
+        backButton.tintColor = UIColor(hexString: "#324B3A")
+        vc.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
+    }
+   init(vc: UIViewController){
+        self.vc = vc
     }
 }

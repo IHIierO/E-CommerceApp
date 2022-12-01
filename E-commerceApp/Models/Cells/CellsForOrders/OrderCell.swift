@@ -54,6 +54,7 @@ class OrderCell: UITableViewCell {
             
             setConstraints()
             self.selectionStyle = .none
+            self.backgroundColor = .clear
         }
         required init?(coder: NSCoder) {
             fatalError("init(coder:) has not been implemented")

@@ -35,7 +35,7 @@ class ResultsTableViewController: UITableViewController, UISearchResultsUpdating
             if text.count > 2 {
                 for string in array {
 #warning("добавить поиск только по первой букве")
-                    if string.lowercased().contains(text) {
+                    if string.lowercased().contains(text.lowercased()) {
                         arrayFilter.append(string)
                     }
                 }

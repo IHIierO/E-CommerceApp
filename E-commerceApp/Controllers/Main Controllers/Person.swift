@@ -133,10 +133,21 @@ extension Person: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath{
         case [0,0]:
-            let favoriteProducts = ProductsViewController()
-            favoriteProducts.curentProducts = Persons.ksenia.favoriteProducts
-            favoriteProducts.filters = Filter(names: [""])
-            navigationController?.pushViewController(favoriteProducts, animated: true)
+            if Persons.ksenia.favoriteProducts.isEmpty {
+                navigationController?.pushViewController(EmptyFavoriteProducts(), animated: true)
+            }else{
+                let favoriteProducts = ProductsViewController()
+                favoriteProducts.curentProducts = Persons.ksenia.favoriteProducts
+                var filterNames: [String] = ["Все"]
+                for filterForProducts in Persons.ksenia.favoriteProducts {
+                    if !filterNames.contains(filterForProducts.productSecondCategory){
+                        filterNames.append(filterForProducts.productSecondCategory)
+                    }
+                }
+                let filters = Filter(id: "0", names: filterNames)
+                favoriteProducts.filters = filters
+                navigationController?.pushViewController(favoriteProducts, animated: true)
+            }
         case [0,1]:
             let orders = Orders()
             navigationController?.pushViewController(orders, animated: true)

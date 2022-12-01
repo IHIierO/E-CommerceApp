@@ -84,7 +84,7 @@ class ShoppingCartTV: UIViewController {
     }
     
     private func setupNavigationController(){
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 24)]
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(hexString: "#324B3A"), NSAttributedString.Key.font: UIFont.systemFont(ofSize: 24, weight: .semibold)]
         navigationItem.title = "Корзина"
 //        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
 //        self.navigationController?.navigationBar.shadowImage = UIImage()
@@ -218,6 +218,10 @@ extension ShoppingCartTV: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        ViewControllersHelper.pushToProductCard(navigationController: navigationController, products: Persons.ksenia.productsInCart, indexPath: indexPath)
+    }
+    
     //MARK: - Table View Swipe Actions
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
@@ -258,27 +262,6 @@ extension ShoppingCartTV: UITableViewDelegate, UITableViewDataSource {
         configuration.performsFirstActionWithFullSwipe = true
         return configuration
     }
-    
-//  func tableView(_ tableView: UITableView, willBeginEditingRowAt indexPath: IndexPath) {
-//        if let swipeContainerView = tableView.subviews.first(where: { String(describing: type(of: $0)) == "_UITableViewCellSwipeContainerView" }) {
-//            if let swipeActionPullView = swipeContainerView.subviews.first, String(describing: type(of: swipeActionPullView)) == "UISwipeActionPullView" {
-//                swipeActionPullView.frame.size.height -= 16
-//                swipeActionPullView.frame.origin.y += 8
-//                swipeActionPullView.layer.cornerRadius = 8
-//                swipeActionPullView.clipsToBounds = true
-//                swipeActionPullView.layer.shadowRadius = 8
-//                swipeActionPullView.layer.shadowOpacity = 0.8
-//                swipeActionPullView.layer.shadowOffset = .zero
-//                swipeActionPullView.layer.shadowColor = UIColor.black.withAlphaComponent(0.6).cgColor
-//                swipeActionPullView.layer.masksToBounds = false
-//                if let swipeActionStandardButton = swipeActionPullView.subviews.first, String(describing: type(of: swipeActionStandardButton)) == "UISwipeActionStandardButton" {
-//                    swipeActionStandardButton.layer.cornerRadius = 8
-//                    swipeActionStandardButton.clipsToBounds = true
-//                }
-//            }
-//        }
-//    }
-
 }
 
 // MARK: - SwiftUI

@@ -66,7 +66,7 @@ class NewestCell: UICollectionViewCell, SelfConfiguringCell {
             let discontPrice = (products[indexPath.row].price * (100 - (products[indexPath.row].discount ?? 100))/100)
             let discontPriceLabel = "\(discontPrice) \(products[indexPath.row].price) ₽"
             let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: discontPriceLabel)
-            attributedString.createStringtToStrike(stringtToStrike: "\(products[indexPath.row].price)")
+            attributedString.createStringtToStrike(stringtToStrike: "\(products[indexPath.row].price)", size: 14)
             attributedString.createStringtToColor(stringtToColor: "\(discontPrice)", color: .red)
             attributedString.createStringtToColor(stringtToColor: "₽", color: UIColor(hexString: "#324B3A"))
             priceLabel.attributedText = attributedString

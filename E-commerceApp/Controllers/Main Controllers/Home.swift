@@ -25,15 +25,16 @@ class Home: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
-       // setupNavigationController()
+       //setupNavigationController()
     }
     
     private func setupNavigationController(){
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.isTranslucent = true
-        self.navigationController?.navigationBar.tintColor = UIColor(hexString: "#393C39")
-        self.navigationController?.view.backgroundColor = .clear
+        
+//        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+//        self.navigationController?.navigationBar.shadowImage = UIImage()
+//        self.navigationController?.navigationBar.isTranslucent = true
+//        self.navigationController?.navigationBar.tintColor = UIColor(hexString: "#393C39")
+//        self.navigationController?.view.backgroundColor = .clear
         #warning("transparent tab bar")
     }
 

@@ -42,11 +42,35 @@ class CellsHelpers {
         content.textProperties.alignment = .center
         content.textProperties.font = .systemFont(ofSize: 28)
         content.textProperties.adjustsFontSizeToFitWidth = true
+        content.textProperties.color = UIColor(hexString: "#324B3A")
         content.secondaryText = "Пожалуйста выберети товары из каталога"
         content.secondaryTextProperties.alignment = .center
         content.secondaryTextProperties.font = .systemFont(ofSize: 18)
         content.secondaryTextProperties.adjustsFontSizeToFitWidth = true
+        content.secondaryTextProperties.color = UIColor(hexString: "#324B3A")
         cell.contentConfiguration = content
         cell.backgroundColor = .clear
+    }
+    
+    static func changeSwipeActionSize(){
+        //  func tableView(_ tableView: UITableView, willBeginEditingRowAt indexPath: IndexPath) {
+        //        if let swipeContainerView = tableView.subviews.first(where: { String(describing: type(of: $0)) == "_UITableViewCellSwipeContainerView" }) {
+        //            if let swipeActionPullView = swipeContainerView.subviews.first, String(describing: type(of: swipeActionPullView)) == "UISwipeActionPullView" {
+        //                swipeActionPullView.frame.size.height -= 16
+        //                swipeActionPullView.frame.origin.y += 8
+        //                swipeActionPullView.layer.cornerRadius = 8
+        //                swipeActionPullView.clipsToBounds = true
+        //                swipeActionPullView.layer.shadowRadius = 8
+        //                swipeActionPullView.layer.shadowOpacity = 0.8
+        //                swipeActionPullView.layer.shadowOffset = .zero
+        //                swipeActionPullView.layer.shadowColor = UIColor.black.withAlphaComponent(0.6).cgColor
+        //                swipeActionPullView.layer.masksToBounds = false
+        //                if let swipeActionStandardButton = swipeActionPullView.subviews.first, String(describing: type(of: swipeActionStandardButton)) == "UISwipeActionStandardButton" {
+        //                    swipeActionStandardButton.layer.cornerRadius = 8
+        //                    swipeActionStandardButton.clipsToBounds = true
+        //                }
+        //            }
+        //        }
+        //    }
     }
 }

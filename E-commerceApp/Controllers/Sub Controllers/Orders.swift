@@ -13,13 +13,15 @@ class Orders: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Orders"
+        navigationItem.title = "Заказы"
+        BackButton(vc: self).createBackButton()
         setupTableView()
     }
     
     func setupTableView(){
         view.addSubview(tableView)
         tableView.frame = view.frame
+        tableView.backgroundColor = UIColor(hexString: "#FDFAF3")
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -44,9 +46,11 @@ extension Orders: UITableViewDelegate, UITableViewDataSource{
             let defaultCell = tableView.dequeueReusableCell(withIdentifier: "defaultCell", for: indexPath)
             var content = defaultCell.defaultContentConfiguration()
             content.text = "Нет заказов"
+            content.textProperties.color = UIColor(hexString: "#324B3A")
             content.textProperties.alignment = .center
             content.textProperties.font = .systemFont(ofSize: 40)
             defaultCell.contentConfiguration = content
+            defaultCell.backgroundColor = .clear
             return defaultCell
         }else{
             let orderCell = tableView.dequeueReusableCell(withIdentifier: OrderCell.reuseId, for: indexPath) as! OrderCell

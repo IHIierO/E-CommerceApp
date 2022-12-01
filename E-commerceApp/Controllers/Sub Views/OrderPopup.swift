@@ -13,8 +13,8 @@ class OrderPopup: UIView {
     
     private let container: UIView = {
        let container = UIView()
-        container.backgroundColor = .white
-        container.layer.cornerRadius = 24
+        container.backgroundColor = UIColor(hexString: "#FDFAF3")
+        container.layer.cornerRadius = 8
         container.layer.shadowColor = UIColor(hexString: "#6A6F6A").cgColor
         container.layer.shadowOpacity = 0.8
         container.layer.shadowOffset = .zero
@@ -29,17 +29,17 @@ class OrderPopup: UIView {
          config.imagePadding = 4
          config.image = UIImage(systemName: "xmark.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .regular, scale: .large))
          button.configuration = config
-         button.tintColor = .black
+         button.tintColor = UIColor(hexString: "#324B3A")
          
          button.translatesAutoresizingMaskIntoConstraints = false
          return button
     }()
     private let orderButton: UIButton = {
         let button = UIButton()
-        button.configuration = .gray()
+        button.configuration = .filled()
         button.configuration?.title = "Оформить"
-        button.configuration?.baseForegroundColor = .black
-        button.configuration?.cornerStyle = .capsule
+        button.configuration?.baseForegroundColor = UIColor(hexString: "#FDFAF3")
+        button.configuration?.baseBackgroundColor = UIColor(hexString: "#324B3A")
         
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -55,6 +55,8 @@ class OrderPopup: UIView {
         datePicker.datePickerMode = .date
         datePicker.preferredDatePickerStyle = .inline
         datePicker.timeZone = TimeZone.current
+        datePicker.locale = .current
+        datePicker.calendar = .current
         
         let today = Date()
         let startDay: Date = {

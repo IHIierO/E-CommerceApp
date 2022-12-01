@@ -23,7 +23,7 @@ class ImageScrollView: UIScrollView {
     }
     required init(image: UIImage) {
         super.init(frame: .zero)
-
+       
         imageView.image = image
         imageView.sizeToFit()
         self.imageView.addGestureRecognizer(self.zoomingTap)

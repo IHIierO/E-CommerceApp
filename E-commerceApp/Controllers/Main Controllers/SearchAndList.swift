@@ -30,8 +30,9 @@ class SearchAndList: UIViewController, UISearchControllerDelegate {
     
     private func setupNavigationBar(){
         navigationItem.title = "Каталог"
-        //navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 24)]
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(hexString: "#324B3A"), NSAttributedString.Key.font: UIFont.systemFont(ofSize: 28, weight: .semibold)]
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(hexString: "#324B3A"), NSAttributedString.Key.font: UIFont.systemFont(ofSize: 22, weight: .semibold)]
         searchBar = UISearchController(searchResultsController: resultsTableViewController)
         searchBar.searchBar.placeholder = "Поиск"
         searchBar.delegate = self

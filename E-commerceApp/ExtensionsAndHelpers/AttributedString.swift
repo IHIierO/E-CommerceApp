@@ -25,10 +25,10 @@ import UIKit
 
 
 extension NSMutableAttributedString {
-    func createStringtToStrike(stringtToStrike: String){
+    func createStringtToStrike(stringtToStrike: String, size: CGFloat){
         //let attributedString = NSMutableAttributedString(string: self)
         let range = self.mutableString.range(of: stringtToStrike)
-        self.addAttributes([NSAttributedString.Key.strikethroughStyle : NSUnderlineStyle.single.rawValue], range: range)
+        self.addAttributes([NSAttributedString.Key.strikethroughStyle : NSUnderlineStyle.single.rawValue, NSAttributedString.Key.font: UIFont.systemFont(ofSize: size)], range: range)
     }
     func createStringtToColor(stringtToColor: String, color: UIColor){
        // let attributedString = NSMutableAttributedString(string: self)

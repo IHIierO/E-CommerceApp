@@ -72,6 +72,7 @@ class ProductCard: UIViewController {
     }()
     let productDiscription: UITextView = {
        let label = UITextView()
+        label.textContainerInset = .zero
        label.backgroundColor = UIColor(hexString: "#FDFAF3")
         label.textColor = UIColor(hexString: "#324B3A")
         label.font = UIFont.systemFont(ofSize: 18)
@@ -111,8 +112,11 @@ class ProductCard: UIViewController {
     let blurEffect = UIBlurEffect(style: .regular)
     lazy var blurEffectView = UIVisualEffectView()
     
+    var containerScrollView = UIScrollView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupNavigationBar()
         setupProductCard()
         setConstraints()
         setupImageScrollView()
@@ -125,8 +129,14 @@ class ProductCard: UIViewController {
         }) ? "Добавить в корзину" : "В корзине"
     }
     
+    func setupNavigationBar(){
+        BackButton(vc: self).createBackButton()
+    }
+    
     func setupProductCard(){
         view.backgroundColor = UIColor(hexString: "#FDFAF3")
+        //let backButton = BackButton(vc: self)
+       // backButton.addBackButton()
         view.addSubview(scrollView)
         scrollView.addSubview(vStack)
         [imageScrollView, productName, productPrice, addToCartButton, descriptionHead, productDiscription, recentlyViewedHead, collectionView].forEach {vStack.addArrangedSubview($0)}
@@ -141,34 +151,7 @@ class ProductCard: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
     }
-    func setupImageScrollView(){
-        imageScrollView.frame = CGRect(x: 0, y: 50, width: view.frame.width, height: view.frame.height * 0.45)
-        
-        imageScrollView.delegate = self
-        
-        blurEffectView = UIVisualEffectView(effect: blurEffect)
-        blurEffectView.frame = self.view.bounds
-        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        //blurEffectView.alpha = 0.9
-        
-        for i in 0..<products[indexPath.row].productImage.count {
-            let imageView = UIImageView()
-            let fullScreenTap = UITapGestureRecognizer(target: self, action: #selector(fullScreenTap(_:)))
-            productImages.append(UIImage(named: products[indexPath.row].productImage[i])!)
-            imageView.image = productImages[i]
-            imageView.frame = CGRect(x: view.frame.width*CGFloat(i), y: 0, width: view.frame.width, height: view.frame.height * 0.45)
-            imageView.contentMode = .scaleAspectFill
-            imageView.isUserInteractionEnabled = true
-            imageView.addGestureRecognizer(fullScreenTap)
-            imageScrollView.contentSize.width = imageScrollView.frame.width * CGFloat(i + 1)
-            imageScrollView.addSubview(imageView)
-        }
-        pageControl.addTarget(self, action: #selector(pageControlDidChange(_:)), for: .valueChanged)
-        if products[indexPath.row].productImage.count == 1{
-            pageControl.numberOfPages = 0
-        }else{pageControl.numberOfPages = products[indexPath.row].productImage.count}
-        
-    }
+    
     private func setConstraints(){
         // constraint scrollView, vStack and pageControl
         NSLayoutConstraint.activate([
@@ -204,27 +187,70 @@ class ProductCard: UIViewController {
         collectionView.heightAnchor.constraint(equalToConstant: view.frame.size.width / 1.6).isActive = true
     }
     
+    func setupImageScrollView(){
+        imageScrollView.frame = CGRect(x: 0, y: 50, width: view.frame.width, height: view.frame.height * 0.45)
+        containerScrollView = UIScrollView(frame: UIScreen.main.bounds)
+        containerScrollView.isPagingEnabled = true
+       
+        imageScrollView.delegate = self
+        
+        blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = self.view.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        
+        for i in 0..<products[indexPath.row].productImage.count {
+            
+            let imageView = UIImageView()
+            imageView.tag = i
+            let fullScreenTap = UITapGestureRecognizer(target: self, action: #selector(fullScreenTap(_:)))
+            fullScreenTap.view?.tag = i
+            productImages.append(UIImage(named: products[indexPath.row].productImage[i])!)
+            imageView.image = productImages[i]
+            imageView.frame = CGRect(x: view.frame.width*CGFloat(i), y: 0, width: view.frame.width, height: view.frame.height * 0.45)
+            imageView.contentMode = .scaleAspectFill
+            imageView.isUserInteractionEnabled = true
+            imageView.addGestureRecognizer(fullScreenTap)
+            imageScrollView.contentSize.width = imageScrollView.frame.width * CGFloat(i + 1)
+            imageScrollView.addSubview(imageView)
+        }
+        pageControl.addTarget(self, action: #selector(pageControlDidChange(_:)), for: .valueChanged)
+        if products[indexPath.row].productImage.count == 1{
+            pageControl.numberOfPages = 0
+        }else{pageControl.numberOfPages = products[indexPath.row].productImage.count}
+        
+    }
+    
     @objc func fullScreenTap(_ sender: UITapGestureRecognizer) {
-        let imageView = sender.view as! UIImageView
-        let imageScrollView = ImageScrollView(image: imageView.image!)
-        imageScrollView.frame = UIScreen.main.bounds
-        imageScrollView.contentMode = .scaleAspectFit
-        imageScrollView.isUserInteractionEnabled = true
-        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImage))
-        tap.require(toFail: imageScrollView.zoomingTap)
-        tap.delaysTouchesBegan = true
-        imageScrollView.zoomingTap.delaysTouchesBegan = true
-        imageScrollView.addGestureRecognizer(tap)
+        for i in 0..<products[indexPath.row].productImage.count{
+            let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImage))
+            tap.view?.tag = i
+            let imageScrollView = ImageScrollView(image: UIImage(named: products[indexPath.row].productImage[i])!)
+            imageScrollView.tag = i
+            imageScrollView.frame = CGRect(x: containerScrollView.frame.width*CGFloat(i), y: 0, width: containerScrollView.frame.width, height: containerScrollView.frame.height)
+            imageScrollView.contentMode = .scaleAspectFit
+            imageScrollView.isUserInteractionEnabled = true
+            tap.require(toFail: imageScrollView.zoomingTap)
+            tap.delaysTouchesBegan = true
+            imageScrollView.zoomingTap.delaysTouchesBegan = true
+            imageScrollView.addGestureRecognizer(tap)
+            
+            containerScrollView.contentSize.width = imageScrollView.frame.width * CGFloat(i + 1)
+            containerScrollView.addSubview(imageScrollView)
+        }
+        //containerScrollView.addGestureRecognizer(tap)
         self.view.addSubview(blurEffectView)
-        self.view.addSubview(imageScrollView)
+        self.view.addSubview(containerScrollView)
         self.navigationController?.isNavigationBarHidden = true
         self.tabBarController?.tabBar.isHidden = true
+        containerScrollView.setContentOffset( CGPoint(x: containerScrollView.frame.size.width * CGFloat(sender.view!.tag), y: 0.0), animated: false)
     }
     @objc func dismissFullscreenImage(_ sender: UITapGestureRecognizer) {
         self.blurEffectView.removeFromSuperview()
+        self.containerScrollView.removeFromSuperview()
         self.navigationController?.isNavigationBarHidden = false
         self.tabBarController?.tabBar.isHidden = false
         sender.view?.removeFromSuperview()
+      imageScrollView.setContentOffset( CGPoint(x: imageScrollView.frame.size.width * CGFloat(sender.view!.tag), y: 0.0), animated: true)
     }
     
     @objc func pageControlDidChange(_ sender: UIPageControl){
@@ -259,6 +285,13 @@ extension ProductCard: UICollectionViewDelegateFlowLayout, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductsCell.reuseId, for: indexPath) as! ProductsCell
         cell.configure(with: indexPath.row, indexPath: indexPath, products: Persons.ksenia.recentlyViewedProducts.reversed())
+        cell.addToShoppingCardCallback = { () in
+            ViewControllersHelper.addToCart(products: Persons.ksenia.recentlyViewedProducts.reversed(), indexPath: indexPath, view: self.view, tabBarController: self.tabBarController!)
+            collectionView.reloadData()
+        }
+        cell.favoriteButtonTapAction = {() in
+            ViewControllersHelper.addToFavorite(products: Persons.ksenia.recentlyViewedProducts.reversed(), indexPath: indexPath)
+            collectionView.reloadData()}
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
