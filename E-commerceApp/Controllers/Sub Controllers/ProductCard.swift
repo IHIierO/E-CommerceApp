@@ -47,21 +47,11 @@ class ProductCard: UIViewController {
     let productPrice: UILabel = {
         let label = UILabel()
         label.textColor = UIColor(hexString: "#324B3A")
-        label.font = UIFont.systemFont(ofSize: 20)
+        label.font = UIFont.systemFont(ofSize: 22)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    let addToCartButton: UIButton = {
-        let button = UIButton()
-        button.configuration = .filled()
-        button.configuration?.title = "Добавить в корзину"
-        button.configuration?.baseForegroundColor = UIColor(hexString: "#FDFAF3")
-        button.configuration?.baseBackgroundColor = UIColor(hexString: "#324B3A")
-        button.configuration?.titleAlignment = .center
-        
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+    let addToCartButton = DefaultButton(buttonTitle: "Добавить в корзину")
     let descriptionHead: UILabel = {
         let label = UILabel()
         label.text = "Описание:"

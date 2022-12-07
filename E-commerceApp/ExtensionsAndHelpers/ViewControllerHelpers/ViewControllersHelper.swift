@@ -206,38 +206,6 @@ class ViewControllersHelper{
             tabBar.changeBageValue()
         }
     }
-    //MARK: - ordersProductsImage
-    static func ordersProductsImage(hStack: UIStackView, indexPath: IndexPath){
-        if Persons.ksenia.orders[indexPath.row].productsInOrder.count < 6 {
-            for i in 0..<Persons.ksenia.orders[indexPath.row].productsInOrder.count {
-                let imageView = UIImageView()
-                imageView.contentMode = .scaleAspectFill
-                imageView.clipsToBounds = true
-                imageView.image = UIImage(named: Persons.ksenia.orders[indexPath.row].productsInOrder[i].productImage[0])
-                imageView.translatesAutoresizingMaskIntoConstraints = false
-                imageView.widthAnchor.constraint(equalToConstant: 40).isActive = true
-                hStack.addArrangedSubview(imageView)
-            }
-        }else{
-            for i in 0...4{
-                let imageView = UIImageView()
-                imageView.contentMode = .scaleAspectFill
-                imageView.clipsToBounds = true
-                imageView.image = UIImage(named: Persons.ksenia.orders[indexPath.row].productsInOrder[i].productImage[0])
-                imageView.translatesAutoresizingMaskIntoConstraints = false
-                imageView.widthAnchor.constraint(equalToConstant: 40).isActive = true
-                hStack.addArrangedSubview(imageView)
-            }
-            
-            let label = UILabel()
-            label.text = "+ \(Persons.ksenia.orders[indexPath.row].productsInOrder.count - 5)"
-            label.backgroundColor = .lightGray
-            label.textAlignment = .center
-            label.translatesAutoresizingMaskIntoConstraints = false
-            label.widthAnchor.constraint(equalToConstant: 40).isActive = true
-            hStack.addArrangedSubview(label)
-        }
-    }
     //MARK: - chekingOderButtonTapped
     static func chekingOderButtonTapped(deliveryMethod: DefaultUITextField, deliveryAdress: DefaultUITextField, deliveryDate: DefaultUITextField, deliveryTime: DefaultUITextField, paymentMethod: DefaultUITextField) {
         if deliveryMethod.text == nil || deliveryMethod.text == "" {
@@ -279,6 +247,34 @@ class ViewControllersHelper{
         }else{
             paymentMethod.borderStyle = .roundedRect
             paymentMethod.layer.borderColor = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 0.9).cgColor
+        }
+    }
+    
+    //MARK: - chekingBuyButtonTapped
+    static func chekingBuyButtonTapped(bankCardNumber: DefaultUITextField, bankCardDate: DefaultUITextField, bankCardCVV: DefaultUITextField){
+        if bankCardNumber.text == nil || bankCardNumber.text == "" {
+            bankCardNumber.layer.borderWidth = 1
+            bankCardNumber.layer.cornerRadius = 3
+            bankCardNumber.layer.borderColor = UIColor.red.cgColor
+        }else{
+            bankCardNumber.borderStyle = .roundedRect
+            bankCardNumber.layer.borderColor = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 0.9).cgColor
+        }
+        if bankCardDate.text == nil || bankCardDate.text == "" {
+            bankCardDate.layer.borderWidth = 1
+            bankCardDate.layer.cornerRadius = 3
+            bankCardDate.layer.borderColor = UIColor.red.cgColor
+        }else{
+            bankCardDate.borderStyle = .roundedRect
+            bankCardDate.layer.borderColor = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 0.9).cgColor
+        }
+        if bankCardCVV.text == nil || bankCardCVV.text == "" {
+            bankCardCVV.layer.borderWidth = 1
+            bankCardCVV.layer.cornerRadius = 3
+            bankCardCVV.layer.borderColor = UIColor.red.cgColor
+        }else{
+            bankCardCVV.borderStyle = .roundedRect
+            bankCardCVV.layer.borderColor = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 0.9).cgColor
         }
     }
 }

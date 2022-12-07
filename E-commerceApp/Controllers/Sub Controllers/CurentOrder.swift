@@ -25,6 +25,7 @@ class CurentOrder: UIViewController {
     let deliveryAdress = DefaultUILabel(inputText: "Nikolaya Rubcova 9", fontSize: 16, fontWeight: .regular)
     let deliveryDate = DefaultUILabel(inputText: "11.11.2022", fontSize: 16, fontWeight: .regular)
     let deliveryTime = DefaultUILabel(inputText: "11:00-13:00", fontSize: 16, fontWeight: .regular)
+    let orderAllSum = DefaultUILabel(inputText: "К оплате", fontSize: 16, fontWeight: .regular)
     let vStack: UIStackView = {
        let vStack = UIStackView()
         vStack.translatesAutoresizingMaskIntoConstraints = false
@@ -38,9 +39,16 @@ class CurentOrder: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(hexString: "#FDFAF3")
+        setupViewController()
         setConstraints()
+    }
+    
+    private func setupViewController(){
+        view.backgroundColor = UIColor(hexString: "#FDFAF3")
         BackButton(vc: self).createBackButton()
+        [orderNumber,deliveryStatus, recipientDataHeader, recipientName, recipientNumber, recipientMail, deliveryDataHeader, deliveryMethod, deliveryAdress, deliveryDate, deliveryTime, orderAllSum].forEach {
+            $0.textColor = UIColor(hexString: "#324B3A")
+        }
     }
     
     private func setConstraints(){
@@ -59,7 +67,7 @@ class CurentOrder: UIViewController {
             vStack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             vStack.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
         ])
-        [orderNumber,deliveryStatus, recipientDataHeader, recipientName, recipientNumber, recipientMail, deliveryDataHeader, deliveryMethod, deliveryAdress, deliveryDate, deliveryTime].forEach {vStack.addArrangedSubview($0)}
+        [orderNumber,deliveryStatus, recipientDataHeader, recipientName, recipientNumber, recipientMail, deliveryDataHeader, deliveryMethod, deliveryAdress, deliveryDate, deliveryTime, orderAllSum].forEach {vStack.addArrangedSubview($0)}
 
     }
     

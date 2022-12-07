@@ -7,9 +7,10 @@
 
 import UIKit
 
+//MARK: - DefaultUITextField
 class DefaultUITextField: UITextField {
     
-    let placeholderText: String
+    var placeholderText: String
     
     init(placeholderText: String){
         self.placeholderText = placeholderText
@@ -19,13 +20,18 @@ class DefaultUITextField: UITextField {
         self.borderStyle = .roundedRect
         self.backgroundColor = .clear
         self.textColor = UIColor(hexString: "#324B3A")
+        self.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    func updatePlaceholder(newPlaceholderText: String){
+        self.placeholder = newPlaceholderText
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
-
+//MARK: - DefaultUIPickerView
 class DefaultUIPickerView: UIPickerView{
     
     let tagNumber: Int
@@ -34,7 +40,7 @@ class DefaultUIPickerView: UIPickerView{
         self.tagNumber = tagNumber
         super.init(frame: .zero)
         self.tag = tagNumber
-        
+        //self.inputViewController?.modalPresentationStyle = .popover
     }
     
     required init?(coder: NSCoder) {
@@ -42,7 +48,7 @@ class DefaultUIPickerView: UIPickerView{
     }
     
 }
-
+//MARK: - DefaultUILabel
 class DefaultUILabel: UILabel {
     
     let inputText: String
@@ -56,13 +62,14 @@ class DefaultUILabel: UILabel {
         super.init(frame: .zero)
         self.text = inputText
         self.font = .systemFont(ofSize: fontSize, weight: fontWeight)
+        self.translatesAutoresizingMaskIntoConstraints = false
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
-
+//MARK: - PaddingLabel
 class PaddingLabel: UILabel {
 
     var edgeInset: UIEdgeInsets = .zero
@@ -77,7 +84,7 @@ class PaddingLabel: UILabel {
         return CGSize(width: size.width + edgeInset.left + edgeInset.right, height: size.height + edgeInset.top + edgeInset.bottom)
     }
 }
-
+//MARK: - BackButton
 class BackButton {
     var vc: UIViewController
     
@@ -89,5 +96,29 @@ class BackButton {
     }
    init(vc: UIViewController){
         self.vc = vc
+    }
+}
+//MARK: - DefaultButton
+class DefaultButton: UIButton {
+    
+    let buttonTitle: String
+    
+    init(buttonTitle: String){
+        self.buttonTitle = buttonTitle
+        super.init(frame: .zero)
+        self.configuration = .filled()
+        self.configuration?.title = buttonTitle
+        self.configuration?.baseForegroundColor = UIColor(hexString: "#FDFAF3")
+        self.configuration?.baseBackgroundColor = UIColor(hexString: "#324B3A")
+        self.configuration?.titleAlignment = .center
+        self.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    func updateButtonTitle(newButtonTitle: String){
+        self.configuration?.title = newButtonTitle
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

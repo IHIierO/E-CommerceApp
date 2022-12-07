@@ -115,7 +115,6 @@ class ShoppingCartTV: UIViewController {
             ]
     }
     private func setConstraints(){
-        view.addSubview(tableView)
         view.addSubview(buyButton)
         NSLayoutConstraint.activate([
             buyButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
@@ -139,19 +138,61 @@ class ShoppingCartTV: UIViewController {
             orderPopup.orderButtonTappedCallback = { [self] () in
                 let newOrder = OrdersModel(deliveryStatus: false, deliveryDate: "\(orderPopup.deliveryDate.text!)", deliveryTime: "\(orderPopup.deliveryTime.text!)", recipientName: Persons.ksenia.name, recipientNumber: "+79146948930", deliveryMethod: "\(orderPopup.deliveryMethod.text!)", deliveryAdress: "\(orderPopup.deliveryAdress.text!)", paymentMethod: "\(orderPopup.paymentMethod.text!)", inAllSumData: inAllSumData, productsInOrder: Persons.ksenia.productsInCart)
                 Persons.ksenia.orders.append(newOrder)
-                orderPopup.animateOut()
-                let addToOrder = NotificationPopup()
-                addToOrder.label.text = "Добавлено"
-                view.addSubview(addToOrder)
-                Persons.ksenia.productsInCart.removeAll()
-                let tabBar = tabBarController as! TabBar
-                tabBar.changeBageValue()
-                tableView.reloadData()
-                newData()
-//                #warning("Логика согранения заказа")
                 
+                if orderPopup.paymentMethod.text == "Вид оплаты: Картой на сайте" {
+                    let payView = PayView()
+                    if let presentationController = payView.presentationController as? UISheetPresentationController {
+                        presentationController.prefersGrabberVisible = true
+                        presentationController.detents = [.medium()]
+                    }
+                    self.present(payView, animated: true)
+                    payView.buyButtonTappedCallback = { [self] () in
+                        orderPopup.alpha = 0
+                        orderPopup.animateOut()
+                        dismiss(animated: true)
+                        let addToOrder = NotificationPopup()
+                        addToOrder.label.text = "Добавлено"
+                        self.view.addSubview(addToOrder)
+                        Persons.ksenia.productsInCart.removeAll()
+                        let tabBar = tabBarController as! TabBar
+                        tabBar.changeBageValue()
+                        tableView.reloadData()
+                        newData()
+                    }
+                }else{
+                    orderPopup.alpha = 0
+                    orderPopup.animateOut()
+                    dismiss(animated: true)
+                    let addToOrder = NotificationPopup()
+                    addToOrder.label.text = "Добавлено"
+                    self.view.addSubview(addToOrder)
+                    Persons.ksenia.productsInCart.removeAll()
+                    let tabBar = tabBarController as! TabBar
+                    tabBar.changeBageValue()
+                    tableView.reloadData()
+                    newData()
+                }
             }
             view.addSubview(orderPopup)
+#warning("Логика выбора самовывоза")
+            orderPopup.deliveryAdressTappedCallback = { [self] () in
+
+                let childViewController = PointsOfIssue()
+                addChild(childViewController)
+                view.addSubview(childViewController.view)
+                childViewController.didMove(toParent: self)
+                childViewController.view.translatesAutoresizingMaskIntoConstraints = false
+                childViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
+                childViewController.view.heightAnchor.constraint(equalToConstant: 400).isActive = true
+                childViewController.view.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+                childViewController.doneButtonTappedCallback = {() in
+                    self.children.forEach({ $0.willMove(toParent: nil); $0.view.removeFromSuperview(); $0.removeFromParent() })
+                    
+                }
+                childViewController.deliveryAdressTappedCallback = { () in
+                    orderPopup.deliveryAdress.text = childViewController.saintPetersburg[childViewController.currentIndex.row]
+                }
+            }
         }
     }
 }

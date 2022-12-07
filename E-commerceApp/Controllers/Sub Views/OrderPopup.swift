@@ -10,6 +10,7 @@ import UIKit
 class OrderPopup: UIView {
     
     var orderButtonTappedCallback: (()->())?
+    var deliveryAdressTappedCallback: (()->())?
     
     private let container: UIView = {
        let container = UIView()
@@ -34,30 +35,19 @@ class OrderPopup: UIView {
          button.translatesAutoresizingMaskIntoConstraints = false
          return button
     }()
-    private let orderButton: UIButton = {
-        let button = UIButton()
-        button.configuration = .filled()
-        button.configuration?.title = "Оформить"
-        button.configuration?.baseForegroundColor = UIColor(hexString: "#FDFAF3")
-        button.configuration?.baseBackgroundColor = UIColor(hexString: "#324B3A")
-        
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+    private let orderButton = DefaultButton(buttonTitle: "Перейти к оплате")
     
     let deliveryMethod = DefaultUITextField(placeholderText: "Укажите способ доставки")
     let deliveryMethodPicker = DefaultUIPickerView(tagNumber: 1)
     let deliveryMethodData = ["Курьером", "Самовывоз"]
-    let deliveryAdress = DefaultUITextField(placeholderText: "Укажите адрес доставки")
+    var deliveryAdress = DefaultUITextField(placeholderText: "Укажите адрес доставки")
     let deliveryDate = DefaultUITextField(placeholderText: "Укажите дату доставки")
     let deliveryDatePicker: UIDatePicker = {
         let datePicker = UIDatePicker(frame: .zero)
         datePicker.datePickerMode = .date
-        datePicker.preferredDatePickerStyle = .inline
-        datePicker.timeZone = TimeZone.current
-        datePicker.locale = .current
-        datePicker.calendar = .current
-        
+       datePicker.preferredDatePickerStyle = .inline
+        datePicker.locale = .autoupdatingCurrent
+        datePicker.calendar = Calendar.current
         let today = Date()
         let startDay: Date = {
             let components = DateComponents(day: +7)
@@ -117,12 +107,7 @@ class OrderPopup: UIView {
     }
     
     @objc private func oderButtonTapped(){
-        if deliveryMethod.text != nil &&
-            deliveryAdress.text != nil &&
-            deliveryDate.text != nil &&
-            deliveryTime.text != nil &&
-            paymentMethod.text != nil &&
-            deliveryMethod.text != "" &&
+        if deliveryMethod.text != "" &&
             deliveryAdress.text != "" &&
             deliveryDate.text != "" &&
             deliveryTime.text != "" &&
@@ -140,13 +125,11 @@ class OrderPopup: UIView {
         super.init(frame: frame)
 //        self.backgroundColor = .clear
         self.frame = UIScreen.main.bounds
-        
         blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView.frame = UIScreen.main.bounds
         //blurEffectView.alpha = 0.9
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.addSubview(blurEffectView)
-        
         setConstraints()
         setupVStack()
 //        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(animateOut)))
@@ -176,7 +159,7 @@ class OrderPopup: UIView {
         }
         deliveryDatePicker.addTarget(self, action: #selector(selectDate(sender:)), for: .valueChanged)
         
-        let doneButton = UIBarButtonItem.init(title: "Done", style: .done, target: self, action: #selector(self.pickerDone))
+        let doneButton = UIBarButtonItem.init(title: "Готово", style: .done, target: self, action: #selector(self.pickerDone))
         let toolBar = UIToolbar.init(frame: CGRect(x: 0, y: 0, width: self.bounds.size.width, height: 44))
         toolBar.setItems([UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil), doneButton], animated: true)
         [deliveryMethod,deliveryDate,deliveryTime,paymentMethod].forEach {$0.inputAccessoryView = toolBar}
@@ -184,10 +167,11 @@ class OrderPopup: UIView {
     
     @objc func pickerDone() {
         self.endEditing(true)
-}
+    }
     @objc func selectDate(sender: UIDatePicker){
         let dateFormatter = DateFormatter()
-              dateFormatter.dateFormat = "dd MMM yyyy"
+        dateFormatter.locale = Locale(identifier: "ru")
+              dateFormatter.dateFormat = "dd MMMM yyyy"
         deliveryDate.text = "Дата доставки: \(dateFormatter.string(from: sender.date))"
     }
     
@@ -262,12 +246,23 @@ extension OrderPopup: UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldD
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if pickerView.tag == 1{
             deliveryMethod.text = "Способ доставки: \(deliveryMethodData[row])"
+            if deliveryMethod.text == "Способ доставки: Самовывоз" {
+                deliveryAdress.updatePlaceholder(newPlaceholderText: "Выберете пункт самовывоза")
+            }else{
+                deliveryAdress.text = nil
+                deliveryAdress.updatePlaceholder(newPlaceholderText: "Укажите адрес доставки")
+            }
         }
         if pickerView.tag == 2{
             deliveryTime.text = "Время доставки: \(deliveryTimeData[row])"
         }
         if pickerView.tag == 3{
             paymentMethod.text = "Вид оплаты: \(paymentMethodData[row])"
+            if paymentMethod.text == "Вид оплаты: Картой на сайте"{
+                orderButton.updateButtonTitle(newButtonTitle: "Перейти к оплате")
+            }else{
+                orderButton.updateButtonTitle(newButtonTitle: "Оформить")
+            }
         }
     }
     
@@ -279,13 +274,9 @@ extension OrderPopup: UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldD
         }
         if textField == deliveryDate{
             let dateFormatter = DateFormatter()
-                  dateFormatter.dateFormat = "dd MMM yyyy"
-            let today = Date()
-            let startDay: Date = {
-                let components = DateComponents(day: +7)
-                return Calendar.current.date(byAdding: components, to: today)!
-            }()
-            deliveryDate.text = "Дата доставки: \(dateFormatter.string(from: startDay))"
+            dateFormatter.locale = Locale(identifier: "ru")
+                  dateFormatter.dateFormat = "dd MMMM yyyy"
+            deliveryDate.text = "Дата доставки: \(dateFormatter.string(from: deliveryDatePicker.date))"
         }
         if textField == deliveryTime{
             self.deliveryTimePicker.selectRow(0, inComponent: 0, animated: true)
@@ -294,6 +285,12 @@ extension OrderPopup: UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldD
         if textField == paymentMethod{
             self.paymentMethodPicker.selectRow(0, inComponent: 0, animated: true)
             self.pickerView(paymentMethodPicker, didSelectRow: 0, inComponent: 0)
+        }
+        if textField == deliveryAdress {
+            if deliveryMethod.text == "Способ доставки: Самовывоз" {
+                deliveryAdressTappedCallback?()
+                self.endEditing(true)
+            }
         }
     }
     

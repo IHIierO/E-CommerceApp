@@ -61,16 +61,7 @@ class DiscountsPopup: UIView {
          button.translatesAutoresizingMaskIntoConstraints = false
          return button
     }()
-    private let moreInfoButton: UIButton = {
-        let button = UIButton()
-        button.configuration = .filled()
-        button.configuration?.title = "Подробнее"
-        button.configuration?.baseForegroundColor = UIColor(hexString: "#FDFAF3")
-        button.configuration?.baseBackgroundColor = UIColor(hexString: "#324B3A")
-        
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+    private let moreInfoButton = DefaultButton(buttonTitle: "Подробнее")
     let blurEffect = UIBlurEffect(style: .regular)
     lazy var blurEffectView = UIVisualEffectView()
     

@@ -53,6 +53,10 @@
 		399AAB6E28FDA02A003B2037 /* ProductsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399AAB6D28FDA02A003B2037 /* ProductsViewController.swift */; };
 		399AAB7028FEA8C5003B2037 /* ProductModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399AAB6F28FEA8C5003B2037 /* ProductModel.swift */; };
 		39D67DD12935050D0049D70D /* CellsHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D67DD02935050D0049D70D /* CellsHelpers.swift */; };
+		39D67DD32938EC740049D70D /* LaunchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D67DD22938EC740049D70D /* LaunchScreen.swift */; };
+		39D67DD52938EF4B0049D70D /* PointsOfIssue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D67DD42938EF4B0049D70D /* PointsOfIssue.swift */; };
+		39D67DD7293E052B0049D70D /* PayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D67DD6293E052B0049D70D /* PayView.swift */; };
+		39D67DD9293E25DB0049D70D /* BankCardFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D67DD8293E25DB0049D70D /* BankCardFormatter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -104,6 +108,10 @@
 		399AAB6D28FDA02A003B2037 /* ProductsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsViewController.swift; sourceTree = "<group>"; };
 		399AAB6F28FEA8C5003B2037 /* ProductModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductModel.swift; sourceTree = "<group>"; };
 		39D67DD02935050D0049D70D /* CellsHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellsHelpers.swift; sourceTree = "<group>"; };
+		39D67DD22938EC740049D70D /* LaunchScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreen.swift; sourceTree = "<group>"; };
+		39D67DD42938EF4B0049D70D /* PointsOfIssue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsOfIssue.swift; sourceTree = "<group>"; };
+		39D67DD6293E052B0049D70D /* PayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayView.swift; sourceTree = "<group>"; };
+		39D67DD8293E25DB0049D70D /* BankCardFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankCardFormatter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +133,8 @@
 				39074558291A842C004AE0BA /* OrderPopup.swift */,
 				39074546290FEE6F004AE0BA /* ImageScrollView.swift */,
 				390745682924ED92004AE0BA /* ResultsTableViewController.swift */,
+				39D67DD42938EF4B0049D70D /* PointsOfIssue.swift */,
+				39D67DD6293E052B0049D70D /* PayView.swift */,
 			);
 			path = "Sub Views";
 			sourceTree = "<group>";
@@ -244,6 +254,7 @@
 			children = (
 				399AAB4728F6EB4E003B2037 /* ColorHex.swift */,
 				3907454B2916CA92004AE0BA /* AttributedString.swift */,
+				39D67DD8293E25DB0049D70D /* BankCardFormatter.swift */,
 				3907456629211E1E004AE0BA /* UIlabel_EasyLayout.swift */,
 				390ED14E2902D5AE00F45C27 /* CompositionalLayout */,
 				3907454A2916CA4F004AE0BA /* ViewControllerHelpers */,
@@ -274,6 +285,7 @@
 		399AAB6028F9771F003B2037 /* Main Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				39D67DD22938EC740049D70D /* LaunchScreen.swift */,
 				399AAB4428F6EAF8003B2037 /* TabBar.swift */,
 				399AAB3228F6E82B003B2037 /* Home.swift */,
 				399AAB5828F72B4B003B2037 /* SearchAndList.swift */,
@@ -387,6 +399,8 @@
 			files = (
 				390ED14228FEC06900F45C27 /* EmptyFavoriteProducts.swift in Sources */,
 				391C58872906C76A003E58F6 /* PriceCellCV.swift in Sources */,
+				39D67DD32938EC740049D70D /* LaunchScreen.swift in Sources */,
+				39D67DD7293E052B0049D70D /* PayView.swift in Sources */,
 				399AAB4D28F706F5003B2037 /* SelfConfiguringCell.swift in Sources */,
 				390ED14D2902C1AD00F45C27 /* ProductsMenuCell.swift in Sources */,
 				39074557291A72B7004AE0BA /* NotificationPopup.swift in Sources */,
@@ -401,6 +415,7 @@
 				399AAB5028F70788003B2037 /* DiscountsCell.swift in Sources */,
 				399AAB4828F6EB4E003B2037 /* ColorHex.swift in Sources */,
 				39074559291A842C004AE0BA /* OrderPopup.swift in Sources */,
+				39D67DD52938EF4B0049D70D /* PointsOfIssue.swift in Sources */,
 				390745652921100E004AE0BA /* CurentOrder.swift in Sources */,
 				390ED1462901454500F45C27 /* CollectionViewManageData.swift in Sources */,
 				399AAB5D28F72BCF003B2037 /* Person.swift in Sources */,
@@ -410,6 +425,7 @@
 				3907454929103020004AE0BA /* PersonModel.swift in Sources */,
 				39074561291AA71D004AE0BA /* OrderCell.swift in Sources */,
 				399AAB4A28F6ECA6003B2037 /* ProductCard.swift in Sources */,
+				39D67DD9293E25DB0049D70D /* BankCardFormatter.swift in Sources */,
 				390ED1502902D5FF00F45C27 /* CreateSection.swift in Sources */,
 				3907455329187857004AE0BA /* ShoppingCart.swift in Sources */,
 				399AAB3128F6E82B003B2037 /* SceneDelegate.swift in Sources */,
