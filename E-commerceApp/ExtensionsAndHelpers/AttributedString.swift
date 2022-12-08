@@ -7,23 +7,6 @@
 
 import UIKit
 
-//extension String {
-//    func createStringtToStrike(stringtToStrike: String) -> NSMutableAttributedString {
-//        let attributedString = NSMutableAttributedString(string: self)
-//        let range = attributedString.mutableString.range(of: stringtToStrike)
-//        attributedString.addAttributes([NSAttributedString.Key.strikethroughStyle : NSUnderlineStyle.single.rawValue], range: range)
-//        return attributedString
-//    }
-//    func createStringtToColor(stringtToColor: String, color: UIColor) -> NSMutableAttributedString {
-//        let attributedString = NSMutableAttributedString(string: self)
-//        let range = attributedString.mutableString.range(of: stringtToColor)
-//        attributedString.addAttributes([NSAttributedString.Key.foregroundColor : color], range: range)
-//        return attributedString
-//    }
-//}
-
-
-
 extension NSMutableAttributedString {
     func createStringtToStrike(stringtToStrike: String, size: CGFloat){
         //let attributedString = NSMutableAttributedString(string: self)

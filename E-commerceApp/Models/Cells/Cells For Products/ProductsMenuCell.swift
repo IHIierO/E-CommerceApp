@@ -13,7 +13,6 @@ class ProductsMenuCell: UICollectionViewCell {
     
     let menuLabel: UILabel = {
        let label = UILabel()
-        label.text = "menu"
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label

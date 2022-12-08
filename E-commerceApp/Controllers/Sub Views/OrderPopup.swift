@@ -12,18 +12,9 @@ class OrderPopup: UIView {
     var orderButtonTappedCallback: (()->())?
     var deliveryAdressTappedCallback: (()->())?
     
-    private let container: UIView = {
-       let container = UIView()
-        container.backgroundColor = UIColor(hexString: "#FDFAF3")
-        container.layer.cornerRadius = 8
-        container.layer.shadowColor = UIColor(hexString: "#6A6F6A").cgColor
-        container.layer.shadowOpacity = 0.8
-        container.layer.shadowOffset = .zero
-        container.layer.shadowRadius = 5
-        
-        container.translatesAutoresizingMaskIntoConstraints = false
-        return container
-    }()
+    var animationHelpers: AnimationHelpers!
+    
+    private let container = DefaultContainerView()
     private let closeButton: UIButton = {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
          var config = UIButton.Configuration.plain()
@@ -86,26 +77,6 @@ class OrderPopup: UIView {
     let blurEffect = UIBlurEffect(style: .regular)
     lazy var blurEffectView = UIVisualEffectView()
     
-    @objc func animateOut(){
-        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
-            self.container.transform = CGAffineTransform(translationX: 0, y: -self.frame.height)
-            self.alpha = 0
-        }) { (complite) in
-            if complite {
-                self.removeFromSuperview()
-            }
-        }
-    }
-    @objc private func animateIn(){
-        self.container.transform = CGAffineTransform(translationX: 0, y: -self.frame.height)
-        self.alpha = 0
-        
-        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
-            self.container.transform = .identity
-            self.alpha = 1
-        })
-    }
-    
     @objc private func oderButtonTapped(){
         if deliveryMethod.text != "" &&
             deliveryAdress.text != "" &&
@@ -123,19 +94,19 @@ class OrderPopup: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-//        self.backgroundColor = .clear
         self.frame = UIScreen.main.bounds
         blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView.frame = UIScreen.main.bounds
-        //blurEffectView.alpha = 0.9
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.addSubview(blurEffectView)
         setConstraints()
         setupVStack()
 //        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(animateOut)))
-        closeButton.addTarget(self, action: #selector(animateOut), for: .touchUpInside)
+        
+        animationHelpers = AnimationHelpers(view: self, container: container)
+        closeButton.addTarget(animationHelpers, action: #selector(animationHelpers.animateOut), for: .touchUpInside)
         orderButton.addTarget(self, action: #selector(oderButtonTapped), for: .touchUpInside)
-        animateIn()
+        animationHelpers.animateIn()
     }
     
     required init?(coder: NSCoder) {
@@ -177,39 +148,32 @@ class OrderPopup: UIView {
     
     private func setConstraints(){
         self.addSubview(container)
+        
+        [closeButton, orderButton, vStack].forEach{
+            container.addSubview($0)
+        }
         NSLayoutConstraint.activate([
             container.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             container.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             container.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.9),
-            container.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.65)
-        ])
-        
-        container.addSubview(closeButton)
-        NSLayoutConstraint.activate([
+            container.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.65),
+            
             closeButton.topAnchor.constraint(equalTo: container.topAnchor, constant: 10),
             closeButton.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -10),
             closeButton.widthAnchor.constraint(equalToConstant: 20),
-            closeButton.heightAnchor.constraint(equalToConstant: 20)
-        ])
-        
-        container.addSubview(orderButton)
-        NSLayoutConstraint.activate([
+            closeButton.heightAnchor.constraint(equalToConstant: 20),
+            
             orderButton.centerXAnchor.constraint(equalTo: container.centerXAnchor),
             orderButton.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -10),
             orderButton.widthAnchor.constraint(equalTo: container.widthAnchor, multiplier: 0.8),
             orderButton.heightAnchor.constraint(equalTo: container.heightAnchor, multiplier: 0.1),
-        ])
-        
-        container.addSubview(vStack)
-        NSLayoutConstraint.activate([
+            
             vStack.topAnchor.constraint(equalTo: closeButton.bottomAnchor, constant: 10),
             vStack.bottomAnchor.constraint(equalTo: orderButton.topAnchor, constant: -10),
             vStack.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 10),
             vStack.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -10)
         ])
-        
     }
-    
 }
 // MARK: - UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate
 extension OrderPopup: UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate{

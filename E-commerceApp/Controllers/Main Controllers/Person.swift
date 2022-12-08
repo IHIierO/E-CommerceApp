@@ -31,16 +31,7 @@ class Person: UIViewController {
         return tableView
     }()
     
-    let exitButton: UIButton = {
-        let button = UIButton()
-        button.configuration = .filled()
-        button.configuration?.title = "Выйти"
-        button.configuration?.baseForegroundColor = UIColor(hexString: "#FDFAF3")
-        button.configuration?.baseBackgroundColor = UIColor(hexString: "#324B3A")
-        
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+    let exitButton = DefaultButton(buttonTitle: "Выйти")
     var profileMenuTextData: [String] = []
     
     override func viewDidLoad() {
@@ -51,7 +42,6 @@ class Person: UIViewController {
         
         profileImage.image = UIImage(named: "\(Persons.ksenia.image)")
         profileNameLabel.text = Persons.ksenia.name
-        
     }
     
     override func viewDidLayoutSubviews() {
@@ -73,33 +63,28 @@ class Person: UIViewController {
         "Контакты",
         ]
     }
-
     private func setConstraints(){
         view.addSubview(profileImage)
+        view.addSubview(profileNameLabel)
+        view.addSubview(exitButton)
+        view.addSubview(tableView)
         NSLayoutConstraint.activate([
             profileImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             profileImage.topAnchor.constraint(equalTo: view.topAnchor, constant: 40),
             profileImage.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
             profileImage.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
-        ])
-        view.addSubview(profileNameLabel)
-        NSLayoutConstraint.activate([
+            
             profileNameLabel.topAnchor.constraint(equalTo: profileImage.bottomAnchor, constant: 40),
             profileNameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
             profileNameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
-            profileNameLabel.heightAnchor.constraint(equalToConstant: 30)
-        ])
-        
-        view.addSubview(exitButton)
-        NSLayoutConstraint.activate([
+            profileNameLabel.heightAnchor.constraint(equalToConstant: 30),
+            
             exitButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
             exitButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             exitButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            exitButton.heightAnchor.constraint(equalToConstant: 40)
-        ])
-        
-        view.addSubview(tableView)
-        NSLayoutConstraint.activate([
+            exitButton.heightAnchor.constraint(equalToConstant: 40),
+            
+            
             tableView.topAnchor.constraint(equalTo: profileNameLabel.bottomAnchor, constant: 40),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
@@ -110,25 +95,17 @@ class Person: UIViewController {
 
 // MARK: - UITableViewDelegate, UITableViewDataSource
 extension Person: UITableViewDelegate, UITableViewDataSource{
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return profileMenuTextData.count
-    }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return profileMenuTextData.count }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SearchAndListMenuCell
-        //cell.backgroundColor = .red
-       // var config = cell.defaultContentConfiguration()
-        //config.text = profileMenuTextData[indexPath.row]
-       // cell.contentConfiguration = config
         cell.menuLabel.text = profileMenuTextData[indexPath.row]
         cell.accessoryType = .disclosureIndicator
         cell.selectionStyle = .none
         return cell
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 66
-    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { return 66 }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath{
@@ -161,7 +138,6 @@ extension Person: UITableViewDelegate, UITableViewDataSource{
             print("no menu row")
         }
     }
-    
 }
 
 // MARK: - SwiftUI

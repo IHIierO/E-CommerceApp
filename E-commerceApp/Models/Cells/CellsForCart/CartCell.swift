@@ -1,5 +1,5 @@
 //
-//  CartCell2.swift
+//  CartCell.swift
 //  E-commerceApp
 //
 //  Created by Artem Vorobev on 07.11.2022.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CartCellTV: UITableViewCell {
+class CartCell: UITableViewCell {
     
     static var reuseId: String = "CartCell2"
     
@@ -17,13 +17,6 @@ class CartCellTV: UITableViewCell {
     let containerView: UIView = {
        let containerView = UIView()
         containerView.backgroundColor = UIColor(hexString: "#FDFAF3")
-//        containerView.layer.cornerRadius = 8
-//        containerView.clipsToBounds = true
-//        containerView.layer.shadowRadius = 8
-//        containerView.layer.shadowOpacity = 0.8
-//        containerView.layer.shadowOffset = .zero
-//        containerView.layer.shadowColor = UIColor.black.withAlphaComponent(0.6).cgColor
-//        containerView.layer.masksToBounds = false
         containerView.translatesAutoresizingMaskIntoConstraints = false
         return containerView
     }()
@@ -87,23 +80,15 @@ class CartCellTV: UITableViewCell {
         label.layer.borderWidth = 1
         label.layer.borderColor = UIColor(hexString: "#324B3A").cgColor
         label.layer.cornerRadius = 4
-        
-        
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
         setupCell()
     }
     
-//    override func layoutSubviews() {
-//        super.layoutSubviews()
-//        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
-//        
-//    }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -126,6 +111,7 @@ class CartCellTV: UITableViewCell {
     func configure(indexPath: IndexPath, products: [Product]){
         productImage.image = UIImage(named: products[indexPath.row].productImage[0])
         nameLabel.text = products[indexPath.row].productName
+        CellsHelpers.priceLabelText(indexPath: indexPath, products: products, priceLabel: priceLabel)
         
         if Persons.ksenia.productsInCart[indexPath.row].count != 1 {
             stepperMinusButton.configuration?.baseForegroundColor = UIColor(hexString: "#324B3A")
@@ -137,69 +123,49 @@ class CartCellTV: UITableViewCell {
         }else{
             stepperPlusButton.configuration?.baseForegroundColor = .lightGray
         }
-        
-        if products[indexPath.row].discount != nil {
-            let discontPrice = (products[indexPath.row].price * (100 - (products[indexPath.row].discount ?? 100))/100)
-            let discontPriceLabel = "\(discontPrice) \(products[indexPath.row].price) ₽"
-            let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: discontPriceLabel)
-            attributedString.createStringtToStrike(stringtToStrike: "\(products[indexPath.row].price)", size: 14)
-            attributedString.createStringtToColor(stringtToColor: "\(discontPrice)", color: .red)
-            attributedString.createStringtToColor(stringtToColor: "₽", color: UIColor(hexString: "#324B3A"))
-            priceLabel.attributedText = attributedString
-        }else{
-            priceLabel.text = "\(products[indexPath.row].price) ₽"
-        }
-        
     }
     private func setConstraints() {
-        self.contentView.addSubview(containerView)
+        [containerView, productImage, nameLabel, priceLabel, stepperStackView].forEach{
+            self.contentView.addSubview($0)
+        }
         NSLayoutConstraint.activate([
             containerView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 8),
             containerView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 8),
             containerView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -8),
-            containerView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -8)
-        ])
-        self.contentView.addSubview(productImage)
-        NSLayoutConstraint.activate([
+            containerView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -8),
+            
             productImage.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 8),
             productImage.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 18),
             productImage.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -8),
-            productImage.widthAnchor.constraint(equalToConstant: self.frame.width / 3)
-        ])
-        self.contentView.addSubview(nameLabel)
-        NSLayoutConstraint.activate([
+            productImage.widthAnchor.constraint(equalToConstant: self.frame.width / 3),
+            
             nameLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10),
             nameLabel.leadingAnchor.constraint(equalTo: productImage.trailingAnchor, constant: 8),
-            nameLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8)
-        ])
-        self.contentView.addSubview(priceLabel)
-        NSLayoutConstraint.activate([
+            nameLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8),
+            
             priceLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8),
             priceLabel.leadingAnchor.constraint(equalTo: productImage.trailingAnchor, constant: 8),
-            priceLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8)
-        ])
-        self.contentView.addSubview(stepperStackView)
-        NSLayoutConstraint.activate([
+            priceLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8),
+            
             stepperStackView.topAnchor.constraint(equalTo: priceLabel.bottomAnchor, constant: 8),
             stepperStackView.leadingAnchor.constraint(equalTo: productImage.trailingAnchor, constant: 8),
             stepperStackView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.3)
         ])
-        stepperStackView.addSubview(stepperMinusButton)
+        
+        [stepperMinusButton, stepperLabel, stepperPlusButton].forEach{
+            stepperStackView.addSubview($0)
+        }
         NSLayoutConstraint.activate([
             stepperMinusButton.topAnchor.constraint(equalTo: stepperStackView.topAnchor, constant: 0),
             stepperMinusButton.leadingAnchor.constraint(equalTo: stepperStackView.leadingAnchor, constant: 0),
             stepperMinusButton.bottomAnchor.constraint(equalTo: stepperStackView.bottomAnchor, constant: 0),
-            stepperMinusButton.widthAnchor.constraint(equalTo: stepperStackView.widthAnchor, multiplier: 1/3)
-        ])
-        stepperStackView.addSubview(stepperLabel)
-        NSLayoutConstraint.activate([
+            stepperMinusButton.widthAnchor.constraint(equalTo: stepperStackView.widthAnchor, multiplier: 1/3),
+            
             stepperLabel.topAnchor.constraint(equalTo: stepperStackView.topAnchor, constant: 0),
             stepperLabel.centerXAnchor.constraint(equalTo: stepperStackView.centerXAnchor),
             stepperLabel.bottomAnchor.constraint(equalTo: stepperStackView.bottomAnchor, constant: 0),
-            stepperLabel.widthAnchor.constraint(equalTo: stepperStackView.widthAnchor, multiplier: 1/3)
-        ])
-        stepperStackView.addSubview(stepperPlusButton)
-        NSLayoutConstraint.activate([
+            stepperLabel.widthAnchor.constraint(equalTo: stepperStackView.widthAnchor, multiplier: 1/3),
+            
             stepperPlusButton.topAnchor.constraint(equalTo: stepperStackView.topAnchor, constant: 0),
             stepperPlusButton.trailingAnchor.constraint(equalTo: stepperStackView.trailingAnchor, constant: 0),
             stepperPlusButton.bottomAnchor.constraint(equalTo: stepperStackView.bottomAnchor, constant: 0),

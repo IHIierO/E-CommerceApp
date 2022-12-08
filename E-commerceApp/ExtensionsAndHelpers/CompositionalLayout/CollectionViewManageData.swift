@@ -71,7 +71,6 @@ class ProductsCollectionViewManageData {
                 cell.addToShoppingCardCallback = { () in
                     ViewControllersHelper.addToCart(products: curentProducts, indexPath: indexPath, view: view, tabBarController: tabBarColtroller)
                     collectionView.reloadData()
-                    
                 }
                 cell.favoriteButtonTapAction = {() in
                     ViewControllersHelper.addToFavorite(products: curentProducts, indexPath: indexPath)
@@ -131,7 +130,6 @@ class HomeCollectionViewManageData {
             let newestCell = collectionView.dequeueReusableCell(withReuseIdentifier: NewestCell.reuseId, for: indexPath) as! NewestCell
             let topRatedCell = collectionView.dequeueReusableCell(withReuseIdentifier: TopRatedCell.reuseId, for: indexPath) as! TopRatedCell
             switch section {
-                
             case .discounts:
                 queue.async {
                     DispatchQueue.main.async {

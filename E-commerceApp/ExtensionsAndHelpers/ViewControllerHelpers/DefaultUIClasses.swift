@@ -122,3 +122,57 @@ class DefaultButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
 }
+//MARK: - DefaultContainerView
+class DefaultContainerView: UIView {
+    
+    init(){
+        
+        super.init(frame: .zero)
+        self.backgroundColor = UIColor(hexString: "#FDFAF3")
+        self.layer.cornerRadius = 8
+        self.layer.shadowColor = UIColor(hexString: "#6A6F6A").cgColor
+        self.layer.shadowOpacity = 0.8
+        self.layer.shadowOffset = .zero
+        self.layer.shadowRadius = 5
+        
+        self.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+//MARK: - DefaultFavoriteButton
+class DefaultFavoriteButton: UIButton{
+    
+    init(){
+        super.init(frame: .zero)
+        var config = UIButton.Configuration.plain()
+        config.imagePadding = 4
+        config.image = UIImage(systemName: "heart", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .light, scale: .large))
+        self.configuration = config
+        self.tintColor = .red
+        self.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+//MARK: - DefaultFavoriteButton
+class DefaultAddToShoppingCard: UIButton{
+    
+    init(){
+        super.init(frame: .zero)
+        var config = UIButton.Configuration.plain()
+        config.imagePadding = 4
+        config.image = UIImage(systemName: "cart", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .light))
+        self.configuration = config
+        self.tintColor = UIColor(hexString: "#324B3A")
+        self.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}

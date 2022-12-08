@@ -9,24 +9,20 @@ import UIKit
 
 class EmptyFavoriteProducts: UIViewController {
     
-    
-    let label: UILabel = {
-       let label = UILabel()
-        label.text = "Вы пока не добавили товары в избранное"
-        label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 30)
-        label.textColor = UIColor(hexString: "#324B3A")
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    let label = DefaultUILabel(inputText: "Вы пока не добавили товары в избранное", fontSize: 30, fontWeight: .regular)
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(hexString: "#FDFAF3")
+        setupViewController()
         setConstraints()
     }
     
+    private func setupViewController(){
+        view.backgroundColor = UIColor(hexString: "#FDFAF3")
+        label.numberOfLines = 0
+        label.textColor = UIColor(hexString: "#324B3A")
+        BackButton(vc: self).createBackButton()
+    }
     private func setConstraints(){
         view.addSubview(label)
         NSLayoutConstraint.activate([

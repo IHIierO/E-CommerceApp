@@ -8,8 +8,8 @@
 import UIKit
 
 class CellsHelpers {
-    
-    static func stepperHelper(cell: CartCellTV, indexPath: IndexPath, tableView: UITableView, vc: ShoppingCartTV){
+    //MARK: - stepperHelper
+    static func stepperHelper(cell: CartCell, indexPath: IndexPath, tableView: UITableView, vc: ShoppingCart){
         cell.plusButtonCallback = {
             () in
             if Persons.ksenia.productsInCart[indexPath.row].count != 10 {
@@ -35,7 +35,7 @@ class CellsHelpers {
             }
         }
     }
-    
+    //MARK: - configurationCartCellWhenCartIsEmpty
     static func configurationCartCellWhenCartIsEmpty(cell: UITableViewCell){
         var content = cell.defaultContentConfiguration()
         content.text = "Нет товаров в корзине"
@@ -51,29 +51,6 @@ class CellsHelpers {
         cell.contentConfiguration = content
         cell.backgroundColor = .clear
     }
-    
-    static func changeSwipeActionSize(){
-        //  func tableView(_ tableView: UITableView, willBeginEditingRowAt indexPath: IndexPath) {
-        //        if let swipeContainerView = tableView.subviews.first(where: { String(describing: type(of: $0)) == "_UITableViewCellSwipeContainerView" }) {
-        //            if let swipeActionPullView = swipeContainerView.subviews.first, String(describing: type(of: swipeActionPullView)) == "UISwipeActionPullView" {
-        //                swipeActionPullView.frame.size.height -= 16
-        //                swipeActionPullView.frame.origin.y += 8
-        //                swipeActionPullView.layer.cornerRadius = 8
-        //                swipeActionPullView.clipsToBounds = true
-        //                swipeActionPullView.layer.shadowRadius = 8
-        //                swipeActionPullView.layer.shadowOpacity = 0.8
-        //                swipeActionPullView.layer.shadowOffset = .zero
-        //                swipeActionPullView.layer.shadowColor = UIColor.black.withAlphaComponent(0.6).cgColor
-        //                swipeActionPullView.layer.masksToBounds = false
-        //                if let swipeActionStandardButton = swipeActionPullView.subviews.first, String(describing: type(of: swipeActionStandardButton)) == "UISwipeActionStandardButton" {
-        //                    swipeActionStandardButton.layer.cornerRadius = 8
-        //                    swipeActionStandardButton.clipsToBounds = true
-        //                }
-        //            }
-        //        }
-        //    }
-    }
-    
     //MARK: - ordersProductsImage
     static func ordersProductsImage(hStack: UIStackView, indexPath: IndexPath){
         if Persons.ksenia.orders[indexPath.row].productsInOrder.count < 6 {
@@ -107,6 +84,38 @@ class CellsHelpers {
             label.translatesAutoresizingMaskIntoConstraints = false
             label.widthAnchor.constraint(equalToConstant: 40).isActive = true
             hStack.addArrangedSubview(label)
+        }
+    }
+    //MARK: - priceLabelText
+    static func priceLabelText(indexPath: IndexPath, products: [Product], priceLabel: UILabel){
+        if products[indexPath.row].discount != nil {
+            let discontPrice = (products[indexPath.row].price * (100 - (products[indexPath.row].discount ?? 100))/100)
+            let discontPriceLabel = "\(discontPrice) \(products[indexPath.row].price) ₽"
+            let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: discontPriceLabel)
+            attributedString.createStringtToStrike(stringtToStrike: "\(products[indexPath.row].price)", size: 14)
+            attributedString.createStringtToColor(stringtToColor: "\(discontPrice)", color: .red)
+            attributedString.createStringtToColor(stringtToColor: "₽", color: UIColor(hexString: "#324B3A"))
+            priceLabel.attributedText = attributedString
+        }else{
+            priceLabel.text = "\(products[indexPath.row].price) ₽"
+        }
+    }
+    //MARK: - buttonsImageConfiguration
+    static func buttonsImageConfiguration(indexPath: IndexPath, products: [Product], favoriteButton: DefaultFavoriteButton, addToShoppingCard: DefaultAddToShoppingCard){
+        if Persons.ksenia.favoriteProducts.contains(where: { product in
+            product.id == products[indexPath.row].id
+        }){
+            favoriteButton.configuration?.image = UIImage(systemName: "heart.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .light, scale: .large))
+        }else{
+            favoriteButton.configuration?.image = UIImage(systemName: "heart", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .light, scale: .large))
+        }
+        
+        if Persons.ksenia.productsInCart.contains(where: { product in
+            product.id == products[indexPath.row].id
+        }){
+            addToShoppingCard.configuration?.image = UIImage(systemName: "cart.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .light, scale: .large))
+        }else{
+            addToShoppingCard.configuration?.image = UIImage(systemName: "cart", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .light, scale: .large))
         }
     }
 }

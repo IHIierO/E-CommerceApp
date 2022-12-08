@@ -14,16 +14,13 @@ class Header: UICollectionReusableView {
         headerLabel.textAlignment = .left
         headerLabel.textColor = UIColor(hexString: "#324B3A")
         headerLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
-        
         headerLabel.translatesAutoresizingMaskIntoConstraints = false
         return headerLabel
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         setConstraints()
-        
     }
     
     required init?(coder: NSCoder) {
@@ -41,8 +38,6 @@ class Header: UICollectionReusableView {
             headerLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -5),
             headerLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0)
         ])
-
     }
-    
 }
 

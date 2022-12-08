@@ -17,7 +17,7 @@ class ViewControllersHelper{
         view.addSubview(discountsPopup)
         discountsPopup.moreInfoButtonTappedCallback = {
             () in
-            discountsPopup.animateOut()
+            discountsPopup.animationHelpers.animateOut()
             let discounts = ProductsViewController()
             let curentDiscount = Products.products.filter({$0.discount == discountsPercents[indexPath.row]})
             var filterNames: [String] = ["Все"]
@@ -163,10 +163,30 @@ class ViewControllersHelper{
         }
         navigationController?.pushViewController(productCard, animated: true)
     }
+    //MARK: - pushToCurrentOrder
+    static func pushToCurrentOrder(indexPath: IndexPath, navigationController: UINavigationController){
+        let curentOrder = CurentOrder()
+        let number = "№ \(Persons.ksenia.orders[indexPath.row].id)"
+        curentOrder.orderNumber.text = String(number.prefix(8))
+        if Persons.ksenia.orders[indexPath.row].deliveryStatus == false {
+            curentOrder.deliveryStatus.text = "Заказ выполяется"
+        }else{
+            curentOrder.deliveryStatus.text = "Заказ выполнен"
+        }
+        curentOrder.recipientName.text = "\(Persons.ksenia.name)"
+        curentOrder.deliveryMethod.text = "\(Persons.ksenia.orders[indexPath.row].deliveryMethod)"
+        curentOrder.deliveryAdress.text = "\(Persons.ksenia.orders[indexPath.row].deliveryAdress)"
+        curentOrder.deliveryDate.text = "\(Persons.ksenia.orders[indexPath.row].deliveryDate)"
+        curentOrder.deliveryTime.text = "\(Persons.ksenia.orders[indexPath.row].deliveryTime)"
+        if Persons.ksenia.orders[indexPath.row].paymentMethod == "Вид оплаты: Картой на сайте" {
+            curentOrder.orderAllSum.text = "Оплачено \(Persons.ksenia.orders[indexPath.row].inAllSumData[3])"
+        }else{
+            curentOrder.orderAllSum.text = "К оплате \(Persons.ksenia.orders[indexPath.row].inAllSumData[3])"
+        }
+        navigationController.pushViewController(curentOrder, animated: true)
+    }
     //MARK: - addToFavorite
     static func addToFavorite(products: [Product], indexPath: IndexPath) {
-        
-        
         
         if !Persons.ksenia.favoriteProducts.contains(where: { product in
             product.id == products[indexPath.row].id
@@ -249,7 +269,6 @@ class ViewControllersHelper{
             paymentMethod.layer.borderColor = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 0.9).cgColor
         }
     }
-    
     //MARK: - chekingBuyButtonTapped
     static func chekingBuyButtonTapped(bankCardNumber: DefaultUITextField, bankCardDate: DefaultUITextField, bankCardCVV: DefaultUITextField){
         if bankCardNumber.text == nil || bankCardNumber.text == "" {
@@ -275,6 +294,70 @@ class ViewControllersHelper{
         }else{
             bankCardCVV.borderStyle = .roundedRect
             bankCardCVV.layer.borderColor = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 0.9).cgColor
+        }
+    }
+    //MARK: - buyButtonTapLogic
+    static func buyButtonTapLogic(inAllSumData: [String], vc: ShoppingCart){
+        
+        if Persons.ksenia.productsInCart.count > 0{
+            let orderPopup = OrderPopup()
+            orderPopup.orderButtonTappedCallback = { () in
+                let newOrder = OrdersModel(deliveryStatus: false, deliveryDate: "\(orderPopup.deliveryDate.text!)", deliveryTime: "\(orderPopup.deliveryTime.text!)", recipientName: Persons.ksenia.name, recipientNumber: "+79146948930", deliveryMethod: "\(orderPopup.deliveryMethod.text!)", deliveryAdress: "\(orderPopup.deliveryAdress.text!)", paymentMethod: "\(orderPopup.paymentMethod.text!)", inAllSumData: inAllSumData, productsInOrder: Persons.ksenia.productsInCart)
+                Persons.ksenia.orders.append(newOrder)
+                
+                if orderPopup.paymentMethod.text == "Вид оплаты: Картой на сайте" {
+                    let payView = PayView()
+                    if let presentationController = payView.presentationController as? UISheetPresentationController {
+                        presentationController.prefersGrabberVisible = true
+                        presentationController.detents = [.medium()]
+                    }
+                    vc.present(payView, animated: true)
+                    payView.buyButtonTappedCallback = { () in
+                       orderPopup.alpha = 0
+                        orderPopup.animationHelpers.animateOut()
+                        vc.dismiss(animated: true)
+                        let addToOrder = NotificationPopup()
+                        addToOrder.label.text = "Добавлено"
+                        vc.view.addSubview(addToOrder)
+                        Persons.ksenia.productsInCart.removeAll()
+                        let tabBar = vc.tabBarController as! TabBar
+                        tabBar.changeBageValue()
+                        vc.tableView.reloadData()
+                        vc.newData()
+                    }
+                }else{
+                   orderPopup.alpha = 0
+                    orderPopup.animationHelpers.animateOut()
+                    vc.dismiss(animated: true)
+                    let addToOrder = NotificationPopup()
+                    addToOrder.label.text = "Добавлено"
+                    vc.view.addSubview(addToOrder)
+                    Persons.ksenia.productsInCart.removeAll()
+                    let tabBar = vc.tabBarController as! TabBar
+                    tabBar.changeBageValue()
+                    vc.tableView.reloadData()
+                    vc.newData()
+                }
+            }
+            vc.view.addSubview(orderPopup)
+            
+            orderPopup.deliveryAdressTappedCallback = { () in
+                
+                let childViewController = PointsOfIssue()
+                vc.addChild(childViewController)
+                vc.view.addSubview(childViewController.view)
+                childViewController.didMove(toParent: vc)
+                childViewController.view.translatesAutoresizingMaskIntoConstraints = false
+                childViewController.view.bottomAnchor.constraint(equalTo: vc.view.bottomAnchor, constant: 0).isActive = true
+                childViewController.view.heightAnchor.constraint(equalToConstant: 400).isActive = true
+                childViewController.view.widthAnchor.constraint(equalTo: vc.view.widthAnchor).isActive = true
+                childViewController.doneButtonTappedCallback = { () in
+                    vc.children.forEach({ $0.willMove(toParent: nil); $0.view.removeFromSuperview(); $0.removeFromParent() })
+                }
+                childViewController.deliveryAdressTappedCallback = { () in
+                    orderPopup.deliveryAdress.text = childViewController.saintPetersburg[childViewController.currentIndex.row]
+                }
+            }
         }
     }
 }

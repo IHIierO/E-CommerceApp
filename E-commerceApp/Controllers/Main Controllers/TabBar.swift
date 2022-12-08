@@ -24,7 +24,7 @@ class TabBar: UITabBarController{
             tag: 0
         )
         let shoppingCartViewController = createNavigationControllers(
-            viewControllers: ShoppingCartTV(),
+            viewControllers: ShoppingCart(),
             tabBarItemName: "Корзина",
             tabBarItemImage: "cart",
             tabBarItemBage: nil,
@@ -72,38 +72,8 @@ class TabBar: UITabBarController{
         customLayer.shadowColor = UIColor.black.withAlphaComponent(0.6).cgColor
         tabBar.tintColor = UIColor(hexString: "#324B3A")
         tabBar.unselectedItemTintColor = UIColor(hexString: "#393C39")
-        
     }
     
-//    private func createPath() -> CGPath {
-//        let cornerRad: CGFloat = 30.0
-//        let topLeftArc: CGPoint = CGPoint(x: self.tabBar.bounds.minX + cornerRad, y: self.tabBar.bounds.minY + cornerRad - 5)
-//        let topRightArc: CGPoint = CGPoint(x: self.tabBar.bounds.maxX - cornerRad, y: self.tabBar.bounds.minY + cornerRad - 5)
-//        let botRightArc: CGPoint = CGPoint(x: self.tabBar.bounds.maxX - cornerRad, y: self.tabBar.bounds.maxY - cornerRad + 20)
-//        let botLeftArc: CGPoint = CGPoint(x: self.tabBar.bounds.minX + cornerRad, y: self.tabBar.bounds.maxY - cornerRad + 20)
-//        
-//        let path = UIBezierPath()
-//        
-//        // start point
-//        path.move(to: CGPoint(x: self.tabBar.bounds.minX, y: self.tabBar.bounds.minY + cornerRad))
-//        
-//        // topLeftArc
-//        path.addArc(withCenter: topLeftArc, radius: cornerRad, startAngle: .pi * 1.0, endAngle: .pi * 1.5, clockwise: true)
-//        
-//        // topRightArc
-//        path.addArc(withCenter: topRightArc, radius: cornerRad, startAngle: -.pi * 0.5, endAngle: 0.0, clockwise: true)
-//        
-//        // botRightArc
-//        path.addArc(withCenter: botRightArc, radius: cornerRad, startAngle: 0.0, endAngle: .pi * 0.5, clockwise: true)
-//        
-//        // botLeftArc
-//        path.addArc(withCenter: botLeftArc, radius: cornerRad, startAngle: .pi * 0.5, endAngle: .pi * 1.0, clockwise: true)
-//        
-//        path.close()
-//        
-//        return path.cgPath
-//    }
-  
     func hideTabBar() {
         self.tabBar.isHidden = true
     }

@@ -37,8 +37,6 @@ class ImageScrollView: UIScrollView {
         alwaysBounceHorizontal = true
         alwaysBounceVertical = true
         delegate = self
-        
-        
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -46,7 +44,6 @@ class ImageScrollView: UIScrollView {
     }
 
     // MARK: - Helper methods
-
     func setZoomScale() {
         let widthScale = frame.size.width / imageView.bounds.width
         let heightScale = frame.size.height / imageView.bounds.height
@@ -97,5 +94,4 @@ extension ImageScrollView: UIScrollViewDelegate {
         let horizontalInset = imageViewSize.width < scrollViewSize.width ? (scrollViewSize.width - imageViewSize.width) / 2 : 0
         scrollView.contentInset = UIEdgeInsets(top: verticalInset, left: horizontalInset, bottom: verticalInset, right: horizontalInset)
     }
-
 }

@@ -12,8 +12,8 @@ class Home: UIViewController {
     var collectionView: UICollectionView! = nil
     let collectionViewManageData = HomeCollectionViewManageData()
     
-   lazy var curentTopRated = Products.products.filter({$0.rating >= 10})
-   lazy var curentNewest = Products.products.filter({$0.newest == true})
+    lazy var curentTopRated = Products.products.filter({$0.rating >= 10})
+    lazy var curentNewest = Products.products.filter({$0.newest == true})
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -25,19 +25,8 @@ class Home: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
-       //setupNavigationController()
     }
-    
-    private func setupNavigationController(){
-        
-//        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-//        self.navigationController?.navigationBar.shadowImage = UIImage()
-//        self.navigationController?.navigationBar.isTranslucent = true
-//        self.navigationController?.navigationBar.tintColor = UIColor(hexString: "#393C39")
-//        self.navigationController?.view.backgroundColor = .clear
-        #warning("transparent tab bar")
-    }
-
+   
     private func setupCollectionView(){
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]

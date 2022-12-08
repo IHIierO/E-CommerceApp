@@ -61,9 +61,9 @@ class ProductCard: UIViewController {
         return label
     }()
     let productDiscription: UITextView = {
-       let label = UITextView()
+        let label = UITextView()
         label.textContainerInset = .zero
-       label.backgroundColor = UIColor(hexString: "#FDFAF3")
+        label.backgroundColor = UIColor(hexString: "#FDFAF3")
         label.textColor = UIColor(hexString: "#324B3A")
         label.font = UIFont.systemFont(ofSize: 18)
         label.isScrollEnabled = false
@@ -73,7 +73,6 @@ class ProductCard: UIViewController {
     }()
     let pageControl: UIPageControl = {
        let pageControl = UIPageControl()
-        //pageControl.backgroundColor = .lightGray.withAlphaComponent(0.1)
         pageControl.pageIndicatorTintColor = .gray
         pageControl.currentPageIndicatorTintColor = UIColor(hexString: "#324B3A")
         pageControl.translatesAutoresizingMaskIntoConstraints = false
@@ -125,8 +124,6 @@ class ProductCard: UIViewController {
     
     func setupProductCard(){
         view.backgroundColor = UIColor(hexString: "#FDFAF3")
-        //let backButton = BackButton(vc: self)
-       // backButton.addBackButton()
         view.addSubview(scrollView)
         scrollView.addSubview(vStack)
         [imageScrollView, productName, productPrice, addToCartButton, descriptionHead, productDiscription, recentlyViewedHead, collectionView].forEach {vStack.addArrangedSubview($0)}
@@ -207,7 +204,6 @@ class ProductCard: UIViewController {
         if products[indexPath.row].productImage.count == 1{
             pageControl.numberOfPages = 0
         }else{pageControl.numberOfPages = products[indexPath.row].productImage.count}
-        
     }
     
     @objc func fullScreenTap(_ sender: UITapGestureRecognizer) {
@@ -271,7 +267,6 @@ extension ProductCard: UICollectionViewDelegateFlowLayout, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return Persons.ksenia.recentlyViewedProducts.count
     }
-    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductsCell.reuseId, for: indexPath) as! ProductsCell
         cell.configure(with: indexPath.row, indexPath: indexPath, products: Persons.ksenia.recentlyViewedProducts.reversed())
@@ -287,7 +282,6 @@ extension ProductCard: UICollectionViewDelegateFlowLayout, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.bounds.size.width / 3, height: collectionView.frame.height / 1.2 )
     }
-    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if Persons.ksenia.recentlyViewedProducts.reversed()[indexPath.row].id != products[self.indexPath.row].id {
             ViewControllersHelper.pushToProductCard(navigationController: navigationController, products: Persons.ksenia.recentlyViewedProducts.reversed(), indexPath: indexPath)

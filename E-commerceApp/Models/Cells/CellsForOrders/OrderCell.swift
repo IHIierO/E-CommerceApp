@@ -16,7 +16,7 @@ class OrderCell: UITableViewCell {
     let orderAllSum = DefaultUILabel(inputText: "", fontSize: 16, fontWeight: .regular)
     
     let hStack: UIStackView = {
-       let stackView = UIStackView()
+        let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .fill
         stackView.alignment = .fill
@@ -25,19 +25,19 @@ class OrderCell: UITableViewCell {
         return stackView
     }()
     
-        override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-            super.init(style: style, reuseIdentifier: reuseIdentifier)
-            [orderNumber, orderStatus, orderAllSum].forEach({
-                $0.textColor = UIColor(hexString: "#324B3A")
-            })
-            setConstraints()
-            self.selectionStyle = .none
-            self.backgroundColor = .clear
-        }
-        required init?(coder: NSCoder) {
-            fatalError("init(coder:) has not been implemented")
-        }
-
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        [orderNumber, orderStatus, orderAllSum].forEach({
+            $0.textColor = UIColor(hexString: "#324B3A")
+        })
+        setConstraints()
+        self.selectionStyle = .none
+        self.backgroundColor = .clear
+    }
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     
     func config(indexPath: IndexPath){
         let number = "№ \(Persons.ksenia.orders[indexPath.row].id)"
@@ -54,31 +54,27 @@ class OrderCell: UITableViewCell {
         }
         CellsHelpers.ordersProductsImage(hStack: hStack, indexPath: indexPath)
     }
-        
+    
     func setConstraints(){
-        self.addSubview(orderNumber)
+        [orderNumber, orderStatus, orderAllSum, hStack].forEach{
+            self.addSubview($0)
+        }
         NSLayoutConstraint.activate([
             orderNumber.topAnchor.constraint(equalTo: self.topAnchor, constant: 2),
             orderNumber.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
             orderNumber.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0),
-            orderNumber.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.2)
-        ])
-        self.addSubview(orderStatus)
-        NSLayoutConstraint.activate([
+            orderNumber.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.2),
+            
             orderStatus.topAnchor.constraint(equalTo: orderNumber.bottomAnchor, constant: 0),
             orderStatus.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
             orderStatus.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0),
-            orderStatus.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.2)
-        ])
-        self.addSubview(orderAllSum)
-        NSLayoutConstraint.activate([
+            orderStatus.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.2),
+            
             orderAllSum.topAnchor.constraint(equalTo: orderStatus.bottomAnchor, constant: 0),
             orderAllSum.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
             orderAllSum.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0),
-            orderAllSum.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.2)
-        ])
-        self.addSubview(hStack)
-        NSLayoutConstraint.activate([
+            orderAllSum.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.2),
+            
             hStack.topAnchor.constraint(equalTo: orderAllSum.bottomAnchor, constant: 0),
             hStack.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
             hStack.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -2)

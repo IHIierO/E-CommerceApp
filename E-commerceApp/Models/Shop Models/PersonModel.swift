@@ -20,7 +20,7 @@ struct PersonModel: Identifiable {
 }
 
 class Persons {
-    static var ksenia = PersonModel(name: "Ksenia Vorobeva", image: "topRated")
+    static var ksenia = PersonModel(name: "Ksenia Vorobeva", image: "")
     
     private init(){
         

@@ -10,10 +10,10 @@ import UIKit
 class DiscountsPopup: UIView {
     
     var moreInfoButtonTappedCallback: (()->())?
+    var animationHelpers: AnimationHelpers!
     
     private let discountPercent: UILabel = {
         let label = UILabel()
-        label.text = "Акция 30%"
         label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         label.textColor = UIColor(hexString: "#324B3A")
         label.textAlignment = .center
@@ -35,21 +35,9 @@ class DiscountsPopup: UIView {
     "20",
     "30",
     "50",
-    
     ]
     
-    private let container: UIView = {
-       let container = UIView()
-        container.backgroundColor = UIColor(hexString: "#FDFAF3")
-        container.layer.cornerRadius = 8
-        container.layer.shadowColor = UIColor(hexString: "#6A6F6A").cgColor
-        container.layer.shadowOpacity = 0.8
-        container.layer.shadowOffset = .zero
-        container.layer.shadowRadius = 5
-        
-        container.translatesAutoresizingMaskIntoConstraints = false
-        return container
-    }()
+    private let container = DefaultContainerView()
     private let closeButton: UIButton = {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
          var config = UIButton.Configuration.plain()
@@ -65,26 +53,6 @@ class DiscountsPopup: UIView {
     let blurEffect = UIBlurEffect(style: .regular)
     lazy var blurEffectView = UIVisualEffectView()
     
-    @objc func animateOut(){
-        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
-            self.container.transform = CGAffineTransform(translationX: 0, y: -self.frame.height)
-            self.alpha = 0
-        }) { (complite) in
-            if complite {
-                self.removeFromSuperview()
-            }
-        }
-    }
-    @objc private func animateIn(){
-        self.container.transform = CGAffineTransform(translationX: 0, y: -self.frame.height)
-        self.alpha = 0
-        
-        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
-            self.container.transform = .identity
-            self.alpha = 1
-        })
-    }
-    
     @objc private func moreInfoButtonTapped(){
         moreInfoButtonTappedCallback?()
     }
@@ -96,15 +64,15 @@ class DiscountsPopup: UIView {
         
         blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView.frame = UIScreen.main.bounds
-       // blurEffectView.alpha = 0.9
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.addSubview(blurEffectView)
         
         setConstraints()
-        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(animateOut)))
-        closeButton.addTarget(self, action: #selector(animateOut), for: .touchUpInside)
+        animationHelpers = AnimationHelpers(view: self, container: container)
+        self.addGestureRecognizer(UITapGestureRecognizer(target: animationHelpers, action: #selector(animationHelpers.animateOut)))
+        closeButton.addTarget(animationHelpers, action: #selector(animationHelpers.animateOut), for: .touchUpInside)
         moreInfoButton.addTarget(self, action: #selector(moreInfoButtonTapped), for: .touchUpInside)
-        animateIn()
+        animationHelpers.animateIn()
     }
     
     required init?(coder: NSCoder) {
@@ -118,46 +86,34 @@ class DiscountsPopup: UIView {
     
     private func setConstraints(){
         self.addSubview(container)
+        [closeButton, discountPercent, moreInfoButton, discountDescription].forEach{
+            container.addSubview($0)
+        }
         NSLayoutConstraint.activate([
             container.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             container.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             container.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.7),
-            container.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.45)
-        ])
-        
-        container.addSubview(closeButton)
-        NSLayoutConstraint.activate([
+            container.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.45),
+       
             closeButton.topAnchor.constraint(equalTo: container.topAnchor, constant: 15),
             closeButton.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -15),
             closeButton.widthAnchor.constraint(equalToConstant: 20),
-            closeButton.heightAnchor.constraint(equalToConstant: 20)
-        ])
-        
-        container.addSubview(discountPercent)
-        NSLayoutConstraint.activate([
+            closeButton.heightAnchor.constraint(equalToConstant: 20),
+            
             discountPercent.topAnchor.constraint(equalTo: container.topAnchor, constant: 0),
             discountPercent.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 0),
             discountPercent.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: 0),
-            discountPercent.heightAnchor.constraint(equalTo: container.heightAnchor, multiplier: 0.25)
-        ])
-        
-        container.addSubview(moreInfoButton)
-        NSLayoutConstraint.activate([
+            discountPercent.heightAnchor.constraint(equalTo: container.heightAnchor, multiplier: 0.25),
+            
             moreInfoButton.centerXAnchor.constraint(equalTo: container.centerXAnchor),
             moreInfoButton.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -10),
             moreInfoButton.widthAnchor.constraint(equalTo: container.widthAnchor, multiplier: 0.8),
             moreInfoButton.heightAnchor.constraint(equalTo: container.heightAnchor, multiplier: 0.1),
-        ])
-        
-        container.addSubview(discountDescription)
-        NSLayoutConstraint.activate([
+            
             discountDescription.topAnchor.constraint(equalTo: discountPercent.bottomAnchor, constant: 0),
             discountDescription.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 0),
             discountDescription.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: 0),
             discountDescription.bottomAnchor.constraint(equalTo: moreInfoButton.topAnchor, constant: 0)
         ])
-        
-        
     }
-    
 }

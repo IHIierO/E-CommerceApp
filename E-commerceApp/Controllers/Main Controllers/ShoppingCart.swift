@@ -1,5 +1,5 @@
 //
-//  ShoppingCartTV.swift
+//  ShoppingCart.swift
 //  E-commerceApp
 //
 //  Created by Artem Vorobev on 07.11.2022.
@@ -7,20 +7,11 @@
 
 import UIKit
 
-class ShoppingCartTV: UIViewController {
+class ShoppingCart: UIViewController {
     var inAllSumData: [String] = []
     
-    private let buyButton: UIButton = {
-        let button = UIButton()
-        button.configuration = .filled()
-        button.configuration?.title = "Перейти к оформлению"
-        button.configuration?.baseForegroundColor = UIColor(hexString: "#FDFAF3")
-        button.configuration?.baseBackgroundColor = UIColor(hexString: "#324B3A")
-        button.configuration?.titleAlignment = .center
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    private var tableView = UITableView()
+    let buyButton = DefaultButton(buttonTitle: "Перейти к оформлению")
+    var tableView = UITableView()
     
     override func viewWillAppear(_ animated: Bool) {
         tableView.reloadData()
@@ -59,7 +50,6 @@ class ShoppingCartTV: UIViewController {
         for product in Persons.ksenia.productsInCart  {
             let sum = product.price * product.count
             allSum.append(sum)
-            
         }
         
         let newSum = allSum.reduce(0, +)
@@ -86,13 +76,7 @@ class ShoppingCartTV: UIViewController {
     private func setupNavigationController(){
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(hexString: "#324B3A"), NSAttributedString.Key.font: UIFont.systemFont(ofSize: 24, weight: .semibold)]
         navigationItem.title = "Корзина"
-//        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-//        self.navigationController?.navigationBar.shadowImage = UIImage()
-//        self.navigationController?.navigationBar.isTranslucent = true
-//        self.navigationController?.navigationBar.tintColor = UIColor(hexString: "#393C39")
-//        self.navigationController?.view.backgroundColor = .clear
     }
-    
     private func setupTableView(){
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -100,9 +84,9 @@ class ShoppingCartTV: UIViewController {
         tableView.backgroundColor = .clear
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(CartCellTV.self, forCellReuseIdentifier: CartCellTV.reuseId)
+        tableView.register(CartCell.self, forCellReuseIdentifier: CartCell.reuseId)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "no products")
-        tableView.register(PriceCellTV.self, forCellReuseIdentifier: PriceCellTV.reuseId)
+        tableView.register(PriceCell.self, forCellReuseIdentifier: PriceCell.reuseId)
         
         buyButton.configuration?.subtitle = "\(inAllPrice())"
         buyButton.addTarget(self, action: #selector(buyButtonTap), for: .touchUpInside)
@@ -120,10 +104,8 @@ class ShoppingCartTV: UIViewController {
             buyButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
             buyButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
             buyButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
-            buyButton.heightAnchor.constraint(equalToConstant: 60)
-        ])
-        
-        NSLayoutConstraint.activate([
+            buyButton.heightAnchor.constraint(equalToConstant: 60),
+            
             tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
@@ -132,73 +114,12 @@ class ShoppingCartTV: UIViewController {
     }
     
     @objc func buyButtonTap(){
-        
-        if Persons.ksenia.productsInCart.count > 0{
-            let orderPopup = OrderPopup()
-            orderPopup.orderButtonTappedCallback = { [self] () in
-                let newOrder = OrdersModel(deliveryStatus: false, deliveryDate: "\(orderPopup.deliveryDate.text!)", deliveryTime: "\(orderPopup.deliveryTime.text!)", recipientName: Persons.ksenia.name, recipientNumber: "+79146948930", deliveryMethod: "\(orderPopup.deliveryMethod.text!)", deliveryAdress: "\(orderPopup.deliveryAdress.text!)", paymentMethod: "\(orderPopup.paymentMethod.text!)", inAllSumData: inAllSumData, productsInOrder: Persons.ksenia.productsInCart)
-                Persons.ksenia.orders.append(newOrder)
-                
-                if orderPopup.paymentMethod.text == "Вид оплаты: Картой на сайте" {
-                    let payView = PayView()
-                    if let presentationController = payView.presentationController as? UISheetPresentationController {
-                        presentationController.prefersGrabberVisible = true
-                        presentationController.detents = [.medium()]
-                    }
-                    self.present(payView, animated: true)
-                    payView.buyButtonTappedCallback = { [self] () in
-                        orderPopup.alpha = 0
-                        orderPopup.animateOut()
-                        dismiss(animated: true)
-                        let addToOrder = NotificationPopup()
-                        addToOrder.label.text = "Добавлено"
-                        self.view.addSubview(addToOrder)
-                        Persons.ksenia.productsInCart.removeAll()
-                        let tabBar = tabBarController as! TabBar
-                        tabBar.changeBageValue()
-                        tableView.reloadData()
-                        newData()
-                    }
-                }else{
-                    orderPopup.alpha = 0
-                    orderPopup.animateOut()
-                    dismiss(animated: true)
-                    let addToOrder = NotificationPopup()
-                    addToOrder.label.text = "Добавлено"
-                    self.view.addSubview(addToOrder)
-                    Persons.ksenia.productsInCart.removeAll()
-                    let tabBar = tabBarController as! TabBar
-                    tabBar.changeBageValue()
-                    tableView.reloadData()
-                    newData()
-                }
-            }
-            view.addSubview(orderPopup)
-#warning("Логика выбора самовывоза")
-            orderPopup.deliveryAdressTappedCallback = { [self] () in
-
-                let childViewController = PointsOfIssue()
-                addChild(childViewController)
-                view.addSubview(childViewController.view)
-                childViewController.didMove(toParent: self)
-                childViewController.view.translatesAutoresizingMaskIntoConstraints = false
-                childViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
-                childViewController.view.heightAnchor.constraint(equalToConstant: 400).isActive = true
-                childViewController.view.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-                childViewController.doneButtonTappedCallback = {() in
-                    self.children.forEach({ $0.willMove(toParent: nil); $0.view.removeFromSuperview(); $0.removeFromParent() })
-                    
-                }
-                childViewController.deliveryAdressTappedCallback = { () in
-                    orderPopup.deliveryAdress.text = childViewController.saintPetersburg[childViewController.currentIndex.row]
-                }
-            }
-        }
+        ViewControllersHelper.buyButtonTapLogic(inAllSumData: inAllSumData, vc: self)
     }
 }
 
 //MARK: - UITableViewDelegate, UITableViewDataSource
-extension ShoppingCartTV: UITableViewDelegate, UITableViewDataSource {
+extension ShoppingCart: UITableViewDelegate, UITableViewDataSource {
     
     //MARK: - Table View Data
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -224,7 +145,7 @@ extension ShoppingCartTV: UITableViewDelegate, UITableViewDataSource {
         switch indexPath.section{
         case 0 :
             if !Persons.ksenia.productsInCart.isEmpty{
-                let cell = tableView.dequeueReusableCell(withIdentifier: CartCellTV.reuseId, for: indexPath) as! CartCellTV
+                let cell = tableView.dequeueReusableCell(withIdentifier: CartCell.reuseId, for: indexPath) as! CartCell
                 cell.configure(indexPath: indexPath, products: Persons.ksenia.productsInCart )
                 cell.stepperLabel.text = "\(Persons.ksenia.productsInCart [indexPath.row].count)"
                 CellsHelpers.stepperHelper(cell: cell, indexPath: indexPath, tableView: tableView, vc: self)
@@ -234,14 +155,12 @@ extension ShoppingCartTV: UITableViewDelegate, UITableViewDataSource {
                 CellsHelpers.configurationCartCellWhenCartIsEmpty(cell: cell)
                 return cell
             }
-            
         case 1:
             tableView.separatorStyle = .singleLine
-            let cell = tableView.dequeueReusableCell(withIdentifier: PriceCellTV.reuseId, for: indexPath) as! PriceCellTV
+            let cell = tableView.dequeueReusableCell(withIdentifier: PriceCell.reuseId, for: indexPath) as! PriceCell
             cell.config(indexPath: indexPath)
             cell.inAllSum.text = inAllSumData[indexPath.row]
             return cell
-            
         default:
             let cell = tableView.dequeueReusableCell(withIdentifier: "no products", for: indexPath)
             cell.backgroundColor = .red
@@ -258,15 +177,12 @@ extension ShoppingCartTV: UITableViewDelegate, UITableViewDataSource {
             return CGFloat(20)
         }
     }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         ViewControllersHelper.pushToProductCard(navigationController: navigationController, products: Persons.ksenia.productsInCart, indexPath: indexPath)
     }
     
     //MARK: - Table View Swipe Actions
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool { return true }
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: "Удалить из корзины") { _, _, complitionHandler in
             

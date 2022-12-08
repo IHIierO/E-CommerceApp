@@ -6,17 +6,15 @@
 //
 
 extension String {
-
+    
     func containsOnlyDigits() -> Bool
     {
-
         let notDigits = NSCharacterSet.decimalDigits.inverted
-
+        
         if rangeOfCharacter(from: notDigits, options: String.CompareOptions.literal, range: nil) == nil
         {
             return true
         }
-
         return false
     }
 }

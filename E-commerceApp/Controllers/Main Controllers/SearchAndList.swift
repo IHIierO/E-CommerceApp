@@ -33,6 +33,7 @@ class SearchAndList: UIViewController, UISearchControllerDelegate {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(hexString: "#324B3A"), NSAttributedString.Key.font: UIFont.systemFont(ofSize: 28, weight: .semibold)]
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(hexString: "#324B3A"), NSAttributedString.Key.font: UIFont.systemFont(ofSize: 22, weight: .semibold)]
+        //MARK: - setup searchBar
         searchBar = UISearchController(searchResultsController: resultsTableViewController)
         searchBar.searchBar.placeholder = "Поиск"
         searchBar.delegate = self
@@ -91,31 +92,13 @@ extension SearchAndList: UISearchBarDelegate, UISearchResultsUpdating {
 
 //MARK: UITableViewDelegate, UITableViewDataSource
 extension SearchAndList: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        if search{
-//            let searchText = searchBar.searchBar.text!
-//            let filterMenuTextData = menuTextData.filter({ $0.lowercased().contains(searchText.lowercased()) })
-//            return filterMenuTextData.count
-//        }else{}
-            return menuTextData.count
-    }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {return menuTextData.count}
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SearchAndListMenuCell
-        
         cell.accessoryType = .disclosureIndicator
         cell.selectionStyle = .none
         cell.menuLabel.text = menuTextData[indexPath.row]
-        //        if search {
-        //            let searchText = searchBar.searchBar.text!
-        //            let filterMenuTextData = menuTextData.filter({ $0.lowercased().contains(searchText.lowercased()) })
-        //            var configure = cell.defaultContentConfiguration()
-        //            configure.text = "\(filterMenuTextData[indexPath.row])"
-        //            cell.contentConfiguration = configure
-        //        }else{ }
-        // cell.textLabel?.text = "\(menuTextData[indexPath.row])"
-        
-        
         return cell
     }
     
@@ -124,7 +107,6 @@ extension SearchAndList: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         switch indexPath {
         case [0,6]:
             let productsViewController = ProductsViewController()
@@ -133,11 +115,7 @@ extension SearchAndList: UITableViewDelegate, UITableViewDataSource {
         default:
             ViewControllersHelper.pushToProductsViewController(indexPath: indexPath, category: "", menuTextData: menuTextData, navigationController: self.navigationController, filters: nil, tableView: tableView, resultsTableViewController: resultsTableViewController)
         }
-        
-       
     }
-    
-    
 }
 
 // MARK: - SwiftUI

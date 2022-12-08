@@ -35,14 +35,17 @@ class DiscountsCell: UICollectionViewCell{
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setupCell()
+        setConstraints()
+    }
+    
+    private func setupCell(){
         self.layer.cornerRadius = 8
         self.layer.shadowColor = UIColor.black.withAlphaComponent(0.6).cgColor
         self.layer.shadowOpacity = 0.8
         self.layer.shadowOffset = .zero
         self.layer.shadowRadius = 5
         self.clipsToBounds = false
-        
-        setConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -58,5 +61,4 @@ class DiscountsCell: UICollectionViewCell{
             discontImage.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0)
         ])
     }
-    
 }

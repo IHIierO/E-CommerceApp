@@ -29,11 +29,6 @@ class ProductsViewController: UIViewController{
     
     private func setupNavigationController(){
         BackButton(vc: self).createBackButton()
-//        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-//        self.navigationController?.navigationBar.shadowImage = UIImage()
-//        self.navigationController?.navigationBar.isTranslucent = true
-//        self.navigationController?.navigationBar.tintColor = UIColor(hexString: "#393C39")
-//        self.navigationController?.view.backgroundColor = .clear
     }
     private func setupCollectionView(){
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
@@ -52,7 +47,6 @@ class ProductsViewController: UIViewController{
     // MARK: - createLayout
     private func createLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvirnment) -> NSCollectionLayoutSection? in
-            
             let section = ProductsSectionKind(rawValue: sectionIndex)!
             switch section {
             case .menu:
@@ -75,9 +69,6 @@ class ProductsViewController: UIViewController{
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuous
         section.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 4, bottom: 8, trailing: 4)
-//        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(44))
-//        let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
-//        section.boundarySupplementaryItems = [header]
         return section
     }
     private func createProductsSection() -> NSCollectionLayoutSection {
@@ -101,7 +92,6 @@ extension ProductsViewController: UICollectionViewDelegate{
         switch section {
         case .menu:
             ViewControllersHelper.didSelectCurentFilter(filters: filters, indexPath: indexPath, collectionViewManageData: collectionViewManageData, collectionView: collectionView, view: view, tabBarController: self.tabBarController!, curentProducts: curentProducts, vc: self)
-            
         case .products:
             ViewControllersHelper.pushToProductCard(navigationController: navigationController, products: filteredProducts, indexPath: indexPath)
         case .none:
@@ -111,10 +101,9 @@ extension ProductsViewController: UICollectionViewDelegate{
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? ProductsMenuCell else { return }
-                cell.isSelected = false
+        cell.isSelected = false
         cell.backgroundColor = .lightGray
     }
-    
 }
 
 // MARK: - SwiftUI
