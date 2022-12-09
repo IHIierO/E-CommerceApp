@@ -9,9 +9,18 @@ import UIKit
 
 class ResultsTableViewController: UITableViewController, UISearchResultsUpdating, UISearchBarDelegate {
     
-    let array = ["Крем", "Гель", "Мыло", "Скраб", "Масло", "Для лица","Для тела","Для рук","Для волос","Для дома","Наборы"]
+    let array = ["Крем", "Гель", "Мыло", "Скраб", "Масло", "Кондиционер", "Маска", "Сыворотка", "Шампунь", "Для лица","Для тела","Для рук","Для волос","Для дома","Наборы", "Крем для рук", "Крем для лица"]
     var arrayFilter = [String]()
-
+    
+    override init(style: UITableView.Style) {
+        super.init(style: style)
+        view.backgroundColor = UIColor(hexString: "#FDFAF3")
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -24,6 +33,7 @@ class ResultsTableViewController: UITableViewController, UISearchResultsUpdating
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "searchCell", for: indexPath)
         cell.textLabel?.text = arrayFilter[indexPath.row]
+        cell.backgroundColor = UIColor(hexString: "#FDFAF3")
         return cell
     }
     

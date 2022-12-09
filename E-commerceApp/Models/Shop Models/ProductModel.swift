@@ -470,6 +470,235 @@ class Products {
                     productSecondCategory: "Скраб",
                     price: 2781,
                     productImage: ["body_scrab_cadarwood_sandalwood_amber_patchouli_200ml"]),
+        //MARK: - for hair
+        // "conditioner"
+        .init(productName: "Кондиционер для волос Бергамот, Зеленый Чай, Сандал (300мл)",
+                    productDescription: """
+                                    Смягчает, питает и разглаживает волосы, восстанавливает их текстуру. Подходит для частого использования. Для всех типов волос.
+
+                                    Нанести немного кондиционера на чистые влажные волосы. Распределить по всей длине и оставить на несколько минут, смыть водой.
+
+                                    Хранить в сухом, защищенном от света и недоступном для детей месте при температуре от +5С до +25С. В случае попадания в глаза немедленно промыть их большим количеством воды, при необходимости обратиться к врачу. Для наружного применения.
+                                    """,
+                    productCategory: "Для волос",
+                    productSecondCategory: "Кондиционер",
+                    price: 2178,
+                    discount: 10,
+                    productImage: ["hair_conditioner_bergamot_green-tea_sandalwood_300ml"]),
+        .init(productName: "Кондиционер для волос Ванильный Бленд (300мл)",
+                    productDescription: """
+                                    Смягчает, питает и разглаживает волосы, восстанавливает их текстуру. Подходит для частого использования. Для всех типов волос.
+
+                                    Нанести немного кондиционера на чистые влажные волосы. Распределить по всей длине и оставить на несколько минут, смыть водой.
+
+                                    Хранить в сухом, защищенном от света и недоступном для детей месте при температуре от +5С до +25С. В случае попадания в глаза немедленно промыть их большим количеством воды, при необходимости обратиться к врачу. Для наружного применения.
+                                    """,
+                    productCategory: "Для волос",
+                    productSecondCategory: "Кондиционер",
+                    price: 2178,
+                    productImage: ["hair_conditioner_vanilla-blend_300ml"]),
+        .init(productName: "Кондиционер для волос Иланг-иланг, Ветивер, Мускус (300мл)",
+                    productDescription: """
+                                    Смягчает, питает и разглаживает волосы, восстанавливает их текстуру. Подходит для частого использования. Для всех типов волос.
+
+                                    Нанести немного кондиционера на чистые влажные волосы. Распределить по всей длине и оставить на несколько минут, смыть водой.
+
+                                    Хранить в сухом, защищенном от света и недоступном для детей месте при температуре от +5С до +25С. В случае попадания в глаза немедленно промыть их большим количеством воды, при необходимости обратиться к врачу. Для наружного применения.
+                                    """,
+                    productCategory: "Для волос",
+                    productSecondCategory: "Кондиционер",
+                    price: 2178,
+                    productImage: ["hair_conditioner_ilang-ilang&vetiver_musk_300ml"]),
+        .init(productName: "Кондиционер для волос Розмарин, Лимон, Нероли (300мл)",
+                    productDescription: """
+                                    Смягчает, питает и разглаживает волосы, восстанавливает их текстуру. Подходит для частого использования. Для всех типов волос.
+
+                                    Нанести немного кондиционера на чистые влажные волосы. Распределить по всей длине и оставить на несколько минут, смыть водой.
+
+                                    Хранить в сухом, защищенном от света и недоступном для детей месте при температуре от +5С до +25С. В случае попадания в глаза немедленно промыть их большим количеством воды, при необходимости обратиться к врачу. Для наружного применения.
+                                    """,
+                    productCategory: "Для волос",
+                    productSecondCategory: "Кондиционер",
+                    price: 2178,
+                    productImage: ["hair_conditioner_rosemary_lemon_neroli_300ml"]),
+        .init(productName: "Кондиционер для волос Fiction (300мл)",
+                    productDescription: """
+                                    Смягчает, питает и разглаживает волосы, восстанавливает их текстуру. Подходит для частого использования. Для всех типов волос.
+
+                                    Нанести немного кондиционера на чистые влажные волосы. Распределить по всей длине и оставить на несколько минут, смыть водой.
+
+                                    Хранить в сухом, защищенном от света и недоступном для детей месте при температуре от +5С до +25С. В случае попадания в глаза немедленно промыть их большим количеством воды, при необходимости обратиться к врачу. Для наружного применения.
+                                    """,
+                    productCategory: "Для волос",
+                    productSecondCategory: "Кондиционер",
+                    price: 2178,
+                    productImage: ["hair_conditioner_fiction_300ml_1", "hair_conditioner_fiction_300ml_2"]),
+        // "mask"
+        .init(productName: "Кератиновая маска для волос Розмарин, Лимон, Нероли (30мл)",
+                    productDescription: """
+                                    Обеспечивает долговременное увлажнение волос. Укрепляет их, делает идеально гладкими, устраняет сухость, запаивает секущиеся кончики и прекрасно смягчает. Рекомендуется использовать в сочетании с шампунем Zielinski&Rozen. Для всех типов волос.
+
+                                    Равномерно нанести на вымытые шампунем и подсушенные полотенцем волосы. Оставить на 5-10 минут, смыть теплой водой. Перейти к укладке.
+
+                                    Хранить в сухом, защищенном от света и недоступном для детей месте при температуре от +5С до +25С. В случае попадания в глаза немедленно промыть их большим количеством воды, при необходимости обратиться к врачу. Для наружного применения.
+
+                                    Ingredients (INCI): Water/Aqua, Cetyl Alcohol, Glycerin, Behentrimonium Chloride, Cetearyl Alcohol, Fragrance (Supplement), Dimethicone, Isopropyl Myristate, Cyclopentasiloxane, Centrimonium Chloride, Hydrolyzed Keratin, Prunus Amygdalus Dulcis (Sweet Almond) Oil, Xylitylglucoside, Anhydroxylitol, Panthenol (Pro Vitamin B5), Xylitol, Hydroxyethylcellulose, Glucose, Phenoxyethanol, Tocopheryl Acetate (Vitamin E), Sodium Benzoate, Ethylhexylglycerin, Citric Acid, Lilial, Lyral, D-Limonene, Hexil Cinnamaldegyde, Linallol, Gamma Methylionone, Citronellol, Geraniol, Hydroxycitronellal.
+                                    """,
+                    productCategory: "Для волос",
+                    productSecondCategory: "Маска",
+                    price: 765,
+                    productImage: ["keratin_hair_mask_rosemary&lemon_neroli_30ml_1", "keratin_hair_mask_rosemary&lemon_neroli_30ml_2", "keratin_hair_mask_rosemary&lemon_neroli_30ml_3"]),
+        .init(productName: "Кератиновая маска для волос Бергамот, Нероли, Апельсин (200мл)",
+                    productDescription: """
+                                    Обеспечивает долговременное увлажнение волос. Укрепляет их, делает идеально гладкими, устраняет сухость, запаивает секущиеся кончики и прекрасно смягчает. Рекомендуется использовать в сочетании с шампунем Zielinski&Rozen. Для всех типов волос.
+
+                                    Равномерно нанести на вымытые шампунем и подсушенные полотенцем волосы. Оставить на 5-10 минут, смыть теплой водой. Перейти к укладке.
+
+                                    Хранить в сухом, защищенном от света и недоступном для детей месте при температуре от +5С до +25С. В случае попадания в глаза немедленно промыть их большим количеством воды, при необходимости обратиться к врачу. Для наружного применения.
+
+                                    Ingredients (INCI): Water/Aqua, Cetyl Alcohol, Glycerin, Behentrimonium Chloride, Cetearyl Alcohol, Fragrance (Supplement), Dimethicone, Isopropyl Myristate, Cyclopentasiloxane, Centrimonium Chloride, Hydrolyzed Keratin, Prunus Amygdalus Dulcis (Sweet Almond) Oil, Xylitylglucoside, Anhydroxylitol, Panthenol (Pro Vitamin B5), Xylitol, Hydroxyethylcellulose, Glucose, Phenoxyethanol, Tocopheryl Acetate (Vitamin E), Sodium Benzoate, Ethylhexylglycerin, Citric Acid, Lilial, Lyral, D-Limonene, Hexil Cinnamaldegyde, Linallol, Gamma Methylionone, Citronellol, Geraniol, Hydroxycitronellal.
+                                    """,
+                    productCategory: "Для волос",
+                    productSecondCategory: "Маска",
+                    price: 2673,
+                    productImage: ["keratin_hair_mask_bergamot_neroli_orange_200ml"]),
+        .init(productName: "Кератиновая маска для волос Иланг-иланг, Ветивер, Мускус (200мл)",
+                    productDescription: """
+                                    Обеспечивает долговременное увлажнение волос. Укрепляет их, делает идеально гладкими, устраняет сухость, запаивает секущиеся кончики и прекрасно смягчает. Рекомендуется использовать в сочетании с шампунем Zielinski&Rozen. Для всех типов волос.
+
+                                    Равномерно нанести на вымытые шампунем и подсушенные полотенцем волосы. Оставить на 5-10 минут, смыть теплой водой. Перейти к укладке.
+
+                                    Хранить в сухом, защищенном от света и недоступном для детей месте при температуре от +5С до +25С. В случае попадания в глаза немедленно промыть их большим количеством воды, при необходимости обратиться к врачу. Для наружного применения.
+
+                                    Ingredients (INCI): Water/Aqua, Cetyl Alcohol, Glycerin, Behentrimonium Chloride, Cetearyl Alcohol, Fragrance (Supplement), Dimethicone, Isopropyl Myristate, Cyclopentasiloxane, Centrimonium Chloride, Hydrolyzed Keratin, Prunus Amygdalus Dulcis (Sweet Almond) Oil, Xylitylglucoside, Anhydroxylitol, Panthenol (Pro Vitamin B5), Xylitol, Hydroxyethylcellulose, Glucose, Phenoxyethanol, Tocopheryl Acetate (Vitamin E), Sodium Benzoate, Ethylhexylglycerin, Citric Acid, Lilial, Lyral, D-Limonene, Hexil Cinnamaldegyde, Linallol, Gamma Methylionone, Citronellol, Geraniol, Hydroxycitronellal.
+                                    """,
+                    productCategory: "Для волос",
+                    productSecondCategory: "Маска",
+                    price: 2673,
+                    productImage: ["keratin_hair_mask_ilang-ilang&vetiver_musk_200ml"]),
+        .init(productName: "Кератиновая маска для волос Розмарин, Лимон, Нероли (200мл)",
+                    productDescription: """
+                                    Обеспечивает долговременное увлажнение волос. Укрепляет их, делает идеально гладкими, устраняет сухость, запаивает секущиеся кончики и прекрасно смягчает. Рекомендуется использовать в сочетании с шампунем Zielinski&Rozen. Для всех типов волос.
+
+                                    Равномерно нанести на вымытые шампунем и подсушенные полотенцем волосы. Оставить на 5-10 минут, смыть теплой водой. Перейти к укладке.
+
+                                    Хранить в сухом, защищенном от света и недоступном для детей месте при температуре от +5С до +25С. В случае попадания в глаза немедленно промыть их большим количеством воды, при необходимости обратиться к врачу. Для наружного применения.
+
+                                    Ingredients (INCI): Water/Aqua, Cetyl Alcohol, Glycerin, Behentrimonium Chloride, Cetearyl Alcohol, Fragrance (Supplement), Dimethicone, Isopropyl Myristate, Cyclopentasiloxane, Centrimonium Chloride, Hydrolyzed Keratin, Prunus Amygdalus Dulcis (Sweet Almond) Oil, Xylitylglucoside, Anhydroxylitol, Panthenol (Pro Vitamin B5), Xylitol, Hydroxyethylcellulose, Glucose, Phenoxyethanol, Tocopheryl Acetate (Vitamin E), Sodium Benzoate, Ethylhexylglycerin, Citric Acid, Lilial, Lyral, D-Limonene, Hexil Cinnamaldegyde, Linallol, Gamma Methylionone, Citronellol, Geraniol, Hydroxycitronellal.
+                                    """,
+                    productCategory: "Для волос",
+                    productSecondCategory: "Маска",
+                    price: 2673,
+                    discount: 20,
+                    productImage: ["keratin_hair_mask_rosemary_lemon_neroli_200ml_1", "keratin_hair_mask_rosemary_lemon_neroli_200ml_2", "keratin_hair_mask_rosemary_lemon_neroli_200ml_3"]),
+        .init(productName: "Кератиновая маска для волос Кожа, Сандал, Амбра (200мл)",
+                    productDescription: """
+                                    Обеспечивает долговременное увлажнение волос. Укрепляет их, делает идеально гладкими, устраняет сухость, запаивает секущиеся кончики и прекрасно смягчает. Рекомендуется использовать в сочетании с шампунем Zielinski&Rozen. Для всех типов волос.
+
+                                    Равномерно нанести на вымытые шампунем и подсушенные полотенцем волосы. Оставить на 5-10 минут, смыть теплой водой. Перейти к укладке.
+
+                                    Хранить в сухом, защищенном от света и недоступном для детей месте при температуре от +5С до +25С. В случае попадания в глаза немедленно промыть их большим количеством воды, при необходимости обратиться к врачу. Для наружного применения.
+
+                                    Ingredients (INCI): Water/Aqua, Cetyl Alcohol, Glycerin, Behentrimonium Chloride, Cetearyl Alcohol, Fragrance (Supplement), Dimethicone, Isopropyl Myristate, Cyclopentasiloxane, Centrimonium Chloride, Hydrolyzed Keratin, Prunus Amygdalus Dulcis (Sweet Almond) Oil, Xylitylglucoside, Anhydroxylitol, Panthenol (Pro Vitamin B5), Xylitol, Hydroxyethylcellulose, Glucose, Phenoxyethanol, Tocopheryl Acetate (Vitamin E), Sodium Benzoate, Ethylhexylglycerin, Citric Acid, Lilial, Lyral, D-Limonene, Hexil Cinnamaldegyde, Linallol, Gamma Methylionone, Citronellol, Geraniol, Hydroxycitronellal.
+                                    """,
+                    productCategory: "Для волос",
+                    productSecondCategory: "Маска",
+                    price: 2673,
+                    productImage: ["keratin_hair_mask_leather_sandalwood_amber_200ml"]),
+        // "serum"
+        .init(productName: "Сыворотка для волос Розмарин, Лимон, Нероли (50мл)",
+                    productDescription: """
+                                    Сыворотка защищает волосы от солнечных лучей и предотвращает появление секущихся кончиков. Подходит для всех типов волос.
+
+                                    Способ применения: равномерно нанесите на чистые подсушенные полотенцем волосы, не смывать. Подходит для ежедневного использования. Особенно благоприятно после пребывания на солнце.
+                                    """,
+                    productCategory: "Для волос",
+                    productSecondCategory: "Сыворотка",
+                    price: 1656,
+                    productImage: ["hair_serum_rosemary&lemon_neroli_50ml"]),
+        .init(productName: "Сыворотка для волос Ветивер, Лимон, Бергамот (50мл)",
+                    productDescription: """
+                                    Сыворотка защищает волосы от солнечных лучей и предотвращает появление секущихся кончиков. Подходит для всех типов волос.
+
+                                    Способ применения: равномерно нанесите на чистые подсушенные полотенцем волосы, не смывать. Подходит для ежедневного использования. Особенно благоприятно после пребывания на солнце.
+                                    """,
+                    productCategory: "Для волос",
+                    productSecondCategory: "Сыворотка",
+                    price: 1656,
+                    productImage: ["hair_serum_vetiver_lemon_bergamot_50ml"]),
+        .init(productName: "Сыворотка для волос Черный перец, Амбра, Нероли (50мл)",
+                    productDescription: """
+                                    Сыворотка защищает волосы от солнечных лучей и предотвращает появление секущихся кончиков. Подходит для всех типов волос.
+
+                                    Способ применения: равномерно нанесите на чистые подсушенные полотенцем волосы, не смывать. Подходит для ежедневного использования. Особенно благоприятно после пребывания на солнце.
+                                    """,
+                    productCategory: "Для волос",
+                    productSecondCategory: "Сыворотка",
+                    price: 1656,
+                    productImage: ["hair_serum_black-paper_amber_neroli_50ml"]),
+        // "shampoo"
+        .init(productName: "Шампунь Ванильный Бленд (300мл)",
+                    productDescription: """
+                                    Шампунь Zielinski&Rozen подходит для всех типов волос. Эфирные масла в составе придают волосам эластичность и гладкость. Благотворно влияет на кожу головы. Подходит для ежедневного применения. Рекомендуется использовать с кондиционером для волос Zielinski&Rozen. Любимый аромат надолго остается на волосах.
+
+                                    Вспенить немного шампуня в ладонях, распределить по всей длине волос, смыть водой.
+                                    """,
+                    productCategory: "Для волос",
+                    productSecondCategory: "Шампунь",
+                    price: 2223,
+                    productImage: ["shampoo_vanilla-blend_300ml_1", "shampoo_vanilla-blend_300ml_2"]),
+        .init(productName: "Шампунь Черный перец, Ветивер, Нероли, Амбра (300мл)",
+                    productDescription: """
+                                    Шампунь Zielinski&Rozen подходит для всех типов волос. Эфирные масла в составе придают волосам эластичность и гладкость. Благотворно влияет на кожу головы. Подходит для ежедневного применения. Рекомендуется использовать с кондиционером для волос Zielinski&Rozen. Любимый аромат надолго остается на волосах.
+
+                                    Вспенить немного шампуня в ладонях, распределить по всей длине волос, смыть водой.
+                                    """,
+                    productCategory: "Для волос",
+                    productSecondCategory: "Шампунь",
+                    price: 2223,
+                    discount: 20,
+                    productImage: ["shampoo_black-paper_vetiver_neroli_amber_300ml_1", "shampoo_black-paper_vetiver_neroli_amber_300ml_2"]),
+        .init(productName: "Шампунь Пудра (300мл)",
+                    productDescription: """
+                                    Шампунь Zielinski&Rozen подходит для всех типов волос. Эфирные масла в составе придают волосам эластичность и гладкость. Благотворно влияет на кожу головы. Подходит для ежедневного применения. Рекомендуется использовать с кондиционером для волос Zielinski&Rozen. Любимый аромат надолго остается на волосах.
+
+                                    Вспенить немного шампуня в ладонях, распределить по всей длине волос, смыть водой.
+                                    """,
+                    productCategory: "Для волос",
+                    productSecondCategory: "Шампунь",
+                    price: 2223,
+                    productImage: ["shampoo_powder_300ml_2"]),
+        .init(productName: "Шампунь Ветивер, Лимон, Бергамот (50мл)",
+                    productDescription: """
+                                    Шампунь Zielinski&Rozen подходит для всех типов волос. Эфирные масла в составе придают волосам эластичность и гладкость. Благотворно влияет на кожу головы. Подходит для ежедневного применения. Рекомендуется использовать с кондиционером для волос Zielinski&Rozen. Любимый аромат надолго остается на волосах.
+
+                                    Вспенить немного шампуня в ладонях, распределить по всей длине волос, смыть водой.
+                                    """,
+                    productCategory: "Для волос",
+                    productSecondCategory: "Шампунь",
+                    price: 585,
+                    productImage: ["shampoo_vetiver&lemon_bergamot_50ml"]),
+        .init(productName: "Шампунь Розмарин, Лимон, Нероли (50мл)",
+                    productDescription: """
+                                    Шампунь Zielinski&Rozen подходит для всех типов волос. Эфирные масла в составе придают волосам эластичность и гладкость. Благотворно влияет на кожу головы. Подходит для ежедневного применения. Рекомендуется использовать с кондиционером для волос Zielinski&Rozen. Любимый аромат надолго остается на волосах.
+
+                                    Вспенить немного шампуня в ладонях, распределить по всей длине волос, смыть водой.
+                                    """,
+                    productCategory: "Для волос",
+                    productSecondCategory: "Шампунь",
+                    price: 585,
+                    productImage: ["shampoo_rosemary&lemon_neroli_50ml_1", "shampoo_rosemary&lemon_neroli_50ml_2"]),
+        .init(productName: "Шампунь Грейпфрут, Алойзия, Жасмин (300мл)",
+                    productDescription: """
+                                    Шампунь Zielinski&Rozen подходит для всех типов волос. Эфирные масла в составе придают волосам эластичность и гладкость. Благотворно влияет на кожу головы. Подходит для ежедневного применения. Рекомендуется использовать с кондиционером для волос Zielinski&Rozen. Любимый аромат надолго остается на волосах.
+
+                                    Вспенить немного шампуня в ладонях, распределить по всей длине волос, смыть водой.
+                                    """,
+                    productCategory: "Для волос",
+                    productSecondCategory: "Шампунь",
+                    price: 2223,
+                    productImage: ["shampoo_grapefruit_aloysiajasmine_300ml"]),
+        
     ]
     
     private init(){

@@ -37,7 +37,9 @@ class ViewControllersHelper{
         
         if tableView == resultsTableViewController.tableView {
             let productCategory = ["Для лица","Для тела","Для рук","Для волос","Для дома","Наборы"]
-            let productSecondCategory = ["Крем", "Гель", "Мыло", "Масло", "Скраб"]
+            let productSecondCategory = ["Крем", "Гель", "Мыло", "Масло", "Скраб", "Кондиционер", "Маска", "Сыворотка", "Шампунь"]
+            let productCategories = ["Крем для рук", "Крем для лица"]
+            
             if productCategory.contains(resultsTableViewController.arrayFilter[indexPath.row]){
                 let curentCategory = Products.products.filter({$0.productCategory == resultsTableViewController.arrayFilter[indexPath.row]})
                 var filterNames: [String] = ["Все"]
@@ -68,10 +70,28 @@ class ViewControllersHelper{
                 productsViewController.filters = filters
                 navigationController?.pushViewController(productsViewController, animated: true)
             }
+            if productCategories.contains(resultsTableViewController.arrayFilter[indexPath.row]){
+                #warning("сделать логику разбивки фильтров")
+                let curentproductCategories = Products.products.filter({
+                    $0.productCategory.contains(resultsTableViewController.arrayFilter[indexPath.row]) && $0.productSecondCategory.contains(resultsTableViewController.arrayFilter[indexPath.row])
+                })
+                var filterNames: [String] = ["Все"]
+                for filterForProducts in curentproductCategories {
+                    if !filterNames.contains(filterForProducts.productCategory){
+                        filterNames.append(filterForProducts.productCategory)
+                    }
+                }
+                let filters = Filter(names: filterNames)
+                let productsViewController = ProductsViewController()
+                productsViewController.title = "\(resultsTableViewController.arrayFilter[indexPath.row])"
+                productsViewController.curentProducts = curentproductCategories
+                productsViewController.filters = filters
+                navigationController?.pushViewController(productsViewController, animated: true)
+            }
             
             if Products.products.contains(where: {$0.productName == resultsTableViewController.arrayFilter[indexPath.row]}){
-                let products11 = Products.products.filter({$0.productName == resultsTableViewController.arrayFilter[indexPath.row]})
-                self.pushToProductCard(navigationController: navigationController, products: products11, indexPath: [0,0])
+                let products = Products.products.filter({$0.productName == resultsTableViewController.arrayFilter[indexPath.row]})
+                self.pushToProductCard(navigationController: navigationController, products: products, indexPath: [0,0])
             }
         } else {
             let curentCategory = Products.products.filter({$0.productCategory == menuTextData[indexPath.row]})
@@ -99,7 +119,7 @@ class ViewControllersHelper{
         }
         
         let filterForCategory = ["Для лица", "Для тела", "Для рук", "Для волос", "Для дома", "Наборы"]
-        let filterForSecondCategory = ["Крем", "Гель", "Мыло", "Масло", "Скраб"]
+        let filterForSecondCategory = ["Крем", "Гель", "Мыло", "Масло", "Скраб", "Кондиционер", "Маска", "Сыворотка", "Шампунь"]
         
         if filterForSecondCategory.contains(filters.names[indexPath.row]){
             

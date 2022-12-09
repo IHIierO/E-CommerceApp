@@ -10,7 +10,7 @@ import UIKit
 
 class SearchAndList: UIViewController, UISearchControllerDelegate {
     
-    var resultsTableViewController = ResultsTableViewController()
+    var resultsTableViewController = ResultsTableViewController(style: .grouped)
     
     var searchBar: UISearchController!
     private let tableView = UITableView()
@@ -59,8 +59,7 @@ class SearchAndList: UIViewController, UISearchControllerDelegate {
         "Для рук",
         "Для волос",
         "Для дома",
-        "Наборы",
-        "all"
+        "Наборы"
         ]
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -107,14 +106,7 @@ extension SearchAndList: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch indexPath {
-        case [0,6]:
-            let productsViewController = ProductsViewController()
-            productsViewController.curentProducts = Products.products
-            navigationController?.pushViewController(productsViewController, animated: true)
-        default:
-            ViewControllersHelper.pushToProductsViewController(indexPath: indexPath, category: "", menuTextData: menuTextData, navigationController: self.navigationController, filters: nil, tableView: tableView, resultsTableViewController: resultsTableViewController)
-        }
+        ViewControllersHelper.pushToProductsViewController(indexPath: indexPath, category: "", menuTextData: menuTextData, navigationController: self.navigationController, filters: nil, tableView: tableView, resultsTableViewController: resultsTableViewController)
     }
 }
 

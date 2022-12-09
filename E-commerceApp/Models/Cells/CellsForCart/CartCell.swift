@@ -149,8 +149,8 @@ class CartCell: UITableViewCell {
             
             stepperStackView.topAnchor.constraint(equalTo: priceLabel.bottomAnchor, constant: 8),
             stepperStackView.leadingAnchor.constraint(equalTo: productImage.trailingAnchor, constant: 8),
-            stepperStackView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.3)
-        ])
+            stepperStackView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.3),
+            ])
         
         [stepperMinusButton, stepperLabel, stepperPlusButton].forEach{
             stepperStackView.addSubview($0)
