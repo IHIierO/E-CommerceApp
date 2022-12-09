@@ -8,6 +8,10 @@
    <img src="https://img.shields.io/badge/App-Version%201.0-informational" alt="App Version">
 </p>
 
+<p align="center">
+<img src="https://komarev.com/ghpvc/?username=IHIierO&style=flat-square&color=blue" alt=""/>
+</p>
+
 ## About
 
 This application was created for training purposes.
